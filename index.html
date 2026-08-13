@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f6f7f9">
+<title>Quantum Portfolio</title>
+<meta name="description" content="Quantum technologies portfolio — navigate by measuring a basis on the Bloch sphere.">
+
+<!-- Apply saved theme + reading settings BEFORE first paint (no flash) -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('qp-theme');
+      if (t) document.documentElement.setAttribute('data-theme', t);
+      var r = JSON.parse(localStorage.getItem('qp-reading') || '{}');
+      var MAP = {
+        font:{default:'var(--stack-default)',inter:'var(--stack-inter)',atkinson:'var(--stack-atkinson)',dyslexic:'var(--stack-dyslexic)'},
+        size:{small:'15px',medium:'16px',large:'18px',xl:'20px'},
+        tracking:{normal:'0em',wide:'0.02em',wider:'0.04em'},
+        leading:{tight:'1.4',normal:'1.6',relaxed:'1.8',loose:'2.0'},
+        measure:{narrow:'55ch',default:'66ch',wide:'80ch',full:'none'}
+      };
+      var V = {font:'--font-body',size:'--size',tracking:'--tracking-body',leading:'--leading-body',measure:'--measure'};
+      for (var k in V) if (r[k] && MAP[k][r[k]]) document.documentElement.style.setProperty(V[k], MAP[k][r[k]]);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+
+<link rel="stylesheet" href="css/global.css?v=4">
+<link rel="stylesheet" href="css/home.css?v=4">
+</head>
+<body>
+
+  <!-- No brand here: on the front page the sphere is the page, and the name is the <h1>.
+       The sphere flies up into this bar's left edge when you navigate away. -->
+  <div class="topbar">
+    <div class="bar-actions">
+      <button id="spin" class="spin" role="switch" aria-checked="false" aria-label="Toggle theme by rotating the polarizing filter" title="Rotate the filter to block the photon">
+        <svg viewBox="0 0 66 38" aria-hidden="true">
+          <line class="beam-in" x1="3" y1="19" x2="22" y2="19"></line>
+          <line class="beam-out" x1="44" y1="19" x2="63" y2="19"></line>
+          <g class="filter">
+            <circle class="rim" cx="33" cy="19" r="11"></circle>
+            <g class="grating">
+              <line x1="33" y1="9" x2="33" y2="29"></line>
+              <line x1="28.5" y1="10.5" x2="28.5" y2="27.5"></line>
+              <line x1="37.5" y1="10.5" x2="37.5" y2="27.5"></line>
+            </g>
+          </g>
+          <circle class="photon" cx="6" cy="19" r="2.8"></circle>
+        </svg>
+      </button>
+      <button id="aaToggle" class="aa-btn" aria-label="Reading settings" aria-expanded="false" aria-controls="aaPanel" aria-haspopup="dialog">Aa</button>
+    </div>
+  </div>
+
+  <main>
+    <!-- identity cluster -->
+    <section class="cluster">
+      <!-- Above the fold, so deliberately NOT lazy: this is the first thing worth
+           painting. width/height are the file's real pixels — the CSS sizes it to
+           the 120px circle, these only stop the layout jumping before it lands. -->
+      <div class="photo"><img src="./assets/images/Profile.png" alt="Shravar G Tanawde"
+                              width="1118" height="1118" fetchpriority="high" decoding="async"></div>
+      <div class="about">
+        <h1>Shravar G Tanawde</h1>
+        <p class="role">Masters Student · Quantum Technologies · Electrical and Electronics Engineering · IIT Jodhpur</p>
+        <p>Hi! I’m Shravar, a quantum technology student with a background in electrical and electronics engineering. I enjoy brainstorming quantum solutions to real-world problems, experimenting with new ideas, and turning them into something useful. I’m always open to research collaborations, technical projects, and opportunities to work on something interesting. Currently looking for internships and research opportunities.</p>
+      </div>
+      <div class="actions">
+        <a class="cv" href="assets/docs/cv.pdf" target="_blank" rel="noopener">View CV
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        </a>
+        <div class="socials">
+          <a id="emailLink" href="#" aria-label="Send a message" title="Send a message">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+          </a>
+          <!-- Fill in the href for each: -->
+          <a href="https://www.linkedin.com/in/shravargtanawde/" aria-label="LinkedIn" title="LinkedIn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.75-2.05C20.3 8.65 21 10.9 21 14v7h-4v-6.2c0-1.5 0-3.4-2.07-3.4S12.7 12.9 12.7 14.7V21H9z"/></svg>
+          </a>
+          <a href="https://github.com/ShravarTanawde" aria-label="GitHub" title="GitHub" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>
+          </a>
+          <a href="https://orcid.org/0000-0001-6596-7771" aria-label="ORCiD" title="ORCiD" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zM7.37 18.16H5.62V7.66h1.75v10.5zM6.5 6.39a1.02 1.02 0 1 1 0-2.04 1.02 1.02 0 0 1 0 2.04zm11.9 11.77H14.9c-3.3 0-4.55-2.52-4.55-5.25 0-3.06 1.95-5.25 4.95-5.25h3.1v10.5zm-1.75-8.94H15c-2.14 0-3.05 1.42-3.05 3.69 0 2.08 1.06 3.69 3.15 3.69h1.55V9.22z"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- sphere navigator -->
+    <div class="nav-intro">
+      <span class="eyebrow">Bloch Sphere Navigation</span>
+      <h2>Measure in a basis to navigate</h2>
+    </div>
+
+    <div class="sphere-wrap" id="sphereWrap">
+      <canvas id="bloch" aria-hidden="true"></canvas>
+
+      <div class="readout" id="readout">
+        <span class="obs" id="ro-obs"></span>
+        <!-- Written as a real fraction: the superposition sits over the 1/√2 norm,
+             so the parentheses and the slash are no longer needed and the line
+             stops wrapping. Only the numerator changes per basis. -->
+        <span class="formula">
+          <span class="frac">
+            <span class="num" id="ro-num"></span>
+            <span class="den">√2</span>
+          </span>
+        </span>
+        <span class="dest" id="ro-dest"></span>
+      </div>
+
+      <div class="ket-grid">
+        <!-- Z axis · Projects & Experience -->
+        <a class="ket-label" data-axis="z" data-dest="projects.html" data-pole="top"    href="projects.html">|<span>Project</span>⟩</a>
+        <a class="ket-label" data-axis="z" data-dest="projects.html" data-pole="bottom" href="projects.html">|<span>Experience</span>⟩</a>
+        <!-- X axis · Simulations & Learn -->
+        <a class="ket-label" data-axis="x" data-dest="learn.html" data-pole="right" href="learn.html">|<span>Simulations</span>⟩</a>
+        <a class="ket-label" data-axis="x" data-dest="learn.html" data-pole="left"  href="learn.html">|<span>Learn</span>⟩</a>
+        <!-- Y axis · Tools & Software -->
+        <a class="ket-label" data-axis="y" data-dest="tools.html" data-pole="front" href="tools.html">|<span>Tools</span>⟩</a>
+        <a class="ket-label" data-axis="y" data-dest="tools.html" data-pole="back"  href="tools.html">|<span>Software</span>⟩</a>
+      </div>
+      <p class="fallback-note">3D view unavailable — the labels above are your navigation.</p>
+    </div>
+  </main>
+
+  <footer>
+    <span class="kbd">drag to rotate · hover a basis, then measure</span>
+  </footer>
+
+  <!-- Reading settings popover -->
+  <div id="aaPanel" class="panel" role="dialog" aria-label="Reading settings" hidden>
+    <div class="panel-title">Reading settings <span class="hint">applies live</span></div>
+    <div class="grid">
+      <div class="field wide"><label for="c-style">Style</label>
+        <select id="c-style" data-var="font"><option value="default">Default (Sans)</option><option value="inter">Inter</option><option value="atkinson">Atkinson Hyperlegible</option><option value="dyslexic">OpenDyslexic</option></select></div>
+      <div class="field"><label for="c-size">Size</label>
+        <select id="c-size" data-var="size"><option value="small">Small</option><option value="medium">Medium</option><option value="large">Large</option><option value="xl">Extra Large</option></select></div>
+      <div class="field"><label for="c-tracking">Letter spacing</label>
+        <select id="c-tracking" data-var="tracking"><option value="normal">Normal</option><option value="wide">Wide</option><option value="wider">Wider</option></select></div>
+      <div class="field"><label for="c-leading">Line spacing</label>
+        <select id="c-leading" data-var="leading"><option value="tight">Tight</option><option value="normal">Normal</option><option value="relaxed">Relaxed</option><option value="loose">Loose</option></select></div>
+      <div class="field"><label for="c-measure">Paragraph width</label>
+        <select id="c-measure" data-var="measure"><option value="narrow">Narrow</option><option value="default">Default</option><option value="wide">Wide</option><option value="full">Full</option></select></div>
+      <div class="preview"><span class="cap">Preview</span>A qubit measured in the wrong basis gives a random result.</div>
+    </div>
+    <div class="panel-foot"><button id="aaReset" class="reset" type="button">Reset to defaults</button><span class="saved-note">Saved on this device</span></div>
+  </div>
+
+  <!-- Contact modal -->
+  <div id="contactScrim" class="modal-scrim" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+      <h3 id="contactTitle">Send a message</h3>
+      <p class="sub">Goes straight to my inbox — no address to copy.</p>
+      <form id="contactForm">
+        <!-- Web3Forms: paste your access key below (get one free at web3forms.com) -->
+        <input type="hidden" name="access_key" value="54205afb-a306-4e9b-a13e-757613490c97">
+        <input type="hidden" name="subject" value="New message from your portfolio">
+        <input type="text" name="botcheck" class="hp" tabindex="-1" autocomplete="off">
+        <label for="cf-name">Name</label>
+        <input id="cf-name" type="text" name="name" required>
+        <label for="cf-email">Email</label>
+        <input id="cf-email" type="email" name="email" required>
+        <label for="cf-msg">Message</label>
+        <textarea id="cf-msg" name="message" required></textarea>
+        <p class="status" id="cf-status" role="status"></p>
+        <div class="row">
+          <button type="button" class="cancel" id="cf-cancel">Cancel</button>
+          <button type="submit" class="send" id="cf-send">Send message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Three.js (global build, no bundler needed) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/theme.js?v=4"></script>
+  <script src="js/accessibility.js?v=4"></script>
+  <script src="js/navigation.js?v=4"></script>
+  <script src="js/bloch.js?v=4"></script>
+</body>
+</html>

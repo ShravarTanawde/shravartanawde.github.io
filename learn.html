@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-axis="x">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f6f7f9">
+<title>Simulations & Learn · Quantum Portfolio</title>
+
+<!-- Apply saved theme + reading settings BEFORE first paint (no flash).
+     Also seeds the topbar sphere with the PREVIOUS page's axis, so js/axis.js has
+     something to animate away from. Keep AXIS in sync with js/axis.js. -->
+<script>
+  (function () {
+    var d = document.documentElement;
+    try {
+      var t = localStorage.getItem('qp-theme');
+      if (t) d.setAttribute('data-theme', t);
+      var r = JSON.parse(localStorage.getItem('qp-reading') || '{}');
+      var MAP = {font:{default:'var(--stack-default)',inter:'var(--stack-inter)',atkinson:'var(--stack-atkinson)',dyslexic:'var(--stack-dyslexic)'},size:{small:'15px',medium:'16px',large:'18px',xl:'20px'},tracking:{normal:'0em',wide:'0.02em',wider:'0.04em'},leading:{tight:'1.4',normal:'1.6',relaxed:'1.8',loose:'2.0'},measure:{narrow:'55ch',default:'66ch',wide:'80ch',full:'none'}};
+      var V = {font:'--font-body',size:'--size',tracking:'--tracking-body',leading:'--leading-body',measure:'--measure'};
+      for (var k in V) if (r[k] && MAP[k][r[k]]) d.style.setProperty(V[k], MAP[k][r[k]]);
+    } catch (e) {}
+    try {
+      var AXIS = {z:['0deg','1'], x:['-78.5deg','0.882'], y:['78.5deg','0.882']};
+      var from = sessionStorage.getItem('qp-axis');
+      if (!AXIS[from]) from = d.getAttribute('data-axis');
+      if (AXIS[from]) { d.style.setProperty('--axis-angle', AXIS[from][0]); d.style.setProperty('--axis-scale', AXIS[from][1]); }
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+
+<link rel="stylesheet" href="css/global.css?v=4">
+<link rel="stylesheet" href="css/page.css?v=4">
+</head>
+<body>
+
+  <div class="topbar">
+    <a class="brand" href="index.html" aria-label="Back to the sphere (home)" title="Back to the sphere">
+      <span class="brand-sphere">
+        <svg viewBox="0 0 40 40" aria-hidden="true">
+          <circle class="bs-rim" cx="20" cy="20" r="17"></circle>
+          <ellipse class="bs-eq" cx="20" cy="20" rx="17" ry="6"></ellipse>
+          <line class="bs-guide" x1="20" y1="3" x2="20" y2="37"></line>
+          <line class="bs-guide" x1="5.3" y1="17" x2="34.7" y2="23"></line>
+          <line class="bs-guide" x1="5.3" y1="23" x2="34.7" y2="17"></line>
+          <g class="bs-active">
+            <line x1="20" y1="37" x2="20" y2="3"></line>
+            <circle cx="20" cy="3" r="2.6"></circle>
+          </g>
+        </svg>
+      </span>
+      <span class="name">Shravar G Tanawde</span>
+    </a>
+    <div class="bar-actions">
+      <button id="spin" class="spin" role="switch" aria-checked="false" aria-label="Toggle theme by rotating the polarizing filter" title="Rotate the filter to block the photon">
+        <svg viewBox="0 0 66 38" aria-hidden="true">
+          <line class="beam-in" x1="3" y1="19" x2="22" y2="19"></line>
+          <line class="beam-out" x1="44" y1="19" x2="63" y2="19"></line>
+          <g class="filter">
+            <circle class="rim" cx="33" cy="19" r="11"></circle>
+            <g class="grating">
+              <line x1="33" y1="9" x2="33" y2="29"></line>
+              <line x1="28.5" y1="10.5" x2="28.5" y2="27.5"></line>
+              <line x1="37.5" y1="10.5" x2="37.5" y2="27.5"></line>
+            </g>
+          </g>
+          <circle class="photon" cx="6" cy="19" r="2.8"></circle>
+        </svg>
+      </button>
+      <button id="aaToggle" class="aa-btn" aria-label="Reading settings" aria-expanded="false" aria-controls="aaPanel" aria-haspopup="dialog">Aa</button>
+    </div>
+  </div>
+
+  <nav class="nav" aria-label="Sections">
+      <a class="navlink" href="index.html">Home</a>
+      <a class="navlink" href="projects.html">Projects & Experience</a>
+      <a class="navlink on" href="learn.html" aria-current="page">Simulations & Learn</a>
+      <a class="navlink" href="tools.html">Tools & Software</a>
+  </nav>
+
+  <main>
+    <p class="obs-eyebrow">X basis · measured</p>
+    <h1>Simulations & Learn</h1>
+    <p class="kets">|<b>Simulations</b>⟩ &nbsp;·&nbsp; |<b>Learn</b>⟩</p>
+    <p class="lead">This section is being written. Measuring this basis will bring you here — the content lands soon.</p>
+  </main>
+
+  <!-- Reading settings popover -->
+  <div id="aaPanel" class="panel" role="dialog" aria-label="Reading settings" hidden>
+    <div class="panel-title">Reading settings <span class="hint">applies live</span></div>
+    <div class="grid">
+      <div class="field wide"><label for="c-style">Style</label>
+        <select id="c-style" data-var="font"><option value="default">Default (Sans)</option><option value="inter">Inter</option><option value="atkinson">Atkinson Hyperlegible</option><option value="dyslexic">OpenDyslexic</option></select></div>
+      <div class="field"><label for="c-size">Size</label>
+        <select id="c-size" data-var="size"><option value="small">Small</option><option value="medium">Medium</option><option value="large">Large</option><option value="xl">Extra Large</option></select></div>
+      <div class="field"><label for="c-tracking">Letter spacing</label>
+        <select id="c-tracking" data-var="tracking"><option value="normal">Normal</option><option value="wide">Wide</option><option value="wider">Wider</option></select></div>
+      <div class="field"><label for="c-leading">Line spacing</label>
+        <select id="c-leading" data-var="leading"><option value="tight">Tight</option><option value="normal">Normal</option><option value="relaxed">Relaxed</option><option value="loose">Loose</option></select></div>
+      <div class="field"><label for="c-measure">Paragraph width</label>
+        <select id="c-measure" data-var="measure"><option value="narrow">Narrow</option><option value="default">Default</option><option value="wide">Wide</option><option value="full">Full</option></select></div>
+      <div class="preview"><span class="cap">Preview</span>A qubit measured in the wrong basis gives a random result.</div>
+    </div>
+    <div class="panel-foot"><button id="aaReset" class="reset" type="button">Reset to defaults</button><span class="saved-note">Saved on this device</span></div>
+  </div>
+
+  <script src="js/theme.js?v=4"></script>
+  <script src="js/accessibility.js?v=4"></script>
+  <script src="js/axis.js?v=4"></script>
+</body>
+</html>

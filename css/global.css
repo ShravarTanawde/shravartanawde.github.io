@@ -1,0 +1,261 @@
+/* ============================================================
+   global.css — design tokens + shared chrome
+   Loaded by every page. Must come before home.css / page.css.
+   ============================================================ */
+
+:root {
+  /* reader-controlled variables */
+  --font-body: var(--stack-default);
+  --size: 16px;
+  --leading-body: 1.6;
+  --tracking-body: 0em;
+  --measure: 66ch;
+
+  --stack-default: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --stack-inter: "Inter", var(--stack-default);
+  --stack-atkinson: "Atkinson Hyperlegible", var(--stack-default);
+  --stack-dyslexic: "OpenDyslexic", var(--stack-default);
+  --font-display: "Space Grotesk", var(--stack-default);
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---- LIGHT: clean lab-paper (the classical, professional face) ---- */
+  --bg: #f6f7f9;
+  --bg-grid: rgba(16,24,40,0.035);
+  --card: #ffffff;
+  --ink: #101828;
+  --body: #344054;
+  --muted: #667085;
+  --line: #e4e7ec;
+  --line-strong: #cfd4dc;
+  --accent: #4338ca;
+  --accent-weak: #eef0fe;
+
+  /* three observables, three hues */
+  --ax-z: #4338ca;   /* Z · Projects & Experience */
+  --ax-x: #0e9384;   /* X · Simulations & Learn */
+  --ax-y: #9333ea;   /* Y · Tools & Software */
+  --ax-z-glow: rgba(67,56,202,0);
+  --ax-x-glow: rgba(14,147,132,0);
+  --ax-y-glow: rgba(147,51,234,0);
+
+  --sphere-line: rgba(16,24,40,0.18);
+  --sphere-fill: rgba(67,56,202,0.03);
+  --vector: #101828;
+  --shadow: 0 18px 40px -18px rgba(16,24,40,.22), 0 4px 12px -8px rgba(16,24,40,.16);
+
+  /* the measured basis of the current page; inner pages override via [data-axis] */
+  --ax: var(--accent);
+  --axis-angle: 0deg;
+  --axis-scale: 1;
+}
+
+/* Which observable this page is. Set on <html> so the pre-paint script can read it
+   before <body> exists, and so both --ax and the topbar sphere pick it up. */
+html[data-axis="z"] { --ax: var(--ax-z); }
+html[data-axis="x"] { --ax: var(--ax-x); }
+html[data-axis="y"] { --ax: var(--ax-y); }
+
+html[data-theme="dark"] {
+  /* ---- DARK: phosphor-on-vacuum (the quantum, show-off face) ---- */
+  --bg: #070a13;
+  --bg-grid: rgba(160,180,255,0.05);
+  --card: #0d1220;
+  --ink: #f0f4fc;
+  --body: #c3cbe0;
+  --muted: #7c88a8;
+  --line: #1c2437;
+  --line-strong: #2a3550;
+  --accent: #8b7bff;
+  --accent-weak: rgba(139,123,255,0.14);
+
+  --ax-z: #a78bfa;
+  --ax-x: #22d3ee;
+  --ax-y: #f472d0;
+  --ax-z-glow: rgba(167,139,250,0.55);
+  --ax-x-glow: rgba(34,211,238,0.55);
+  --ax-y-glow: rgba(244,114,208,0.55);
+
+  --sphere-line: rgba(180,200,255,0.16);
+  --sphere-fill: rgba(139,123,255,0.05);
+  --vector: #eaf0ff;
+  --shadow: 0 24px 60px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(140,160,255,.04);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background:
+    radial-gradient(circle at 1px 1px, var(--bg-grid) 1px, transparent 0) 0 0 / 26px 26px,
+    var(--bg);
+  color: var(--body);
+  font-family: var(--font-body);
+  font-size: var(--size);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  /* Backstop, not a fix: js/bloch.js keeps the ket labels inside the sphere's
+     box on its own. `clip` rather than `hidden` because hidden would make the
+     viewport a scroll container and break the sticky top bar. */
+  overflow-x: clip;
+  transition: background-color .4s ease, color .4s ease;
+}
+a { color: inherit; }
+.ket, .mono, .formula, .eyebrow { font-family: var(--font-mono); letter-spacing: normal; }
+
+/* ---------- top bar ---------- */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px clamp(16px, 4vw, 40px);
+  position: sticky; top: 0; z-index: 40;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+/* The brand is the home link, and only exists on the inner pages — on the front page
+   the sphere itself is in the document, so the top bar carries just the controls. */
+.brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+.brand .name { font-family: var(--font-display); font-weight: 600; color: var(--ink); font-size: 15.5px; letter-spacing: .01em; }
+.brand:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 4px; border-radius: 8px; }
+/* margin-left keeps the controls right-aligned on the front page, where .brand is absent */
+.bar-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+
+/* ---------- parked sphere in the top bar (inner pages) ----------
+   The front page's .sphere-wrap and this element share view-transition-name: bloch,
+   so navigating between them morphs the big sphere down into the bar and back out. */
+.brand-sphere { width: 34px; height: 34px; flex: none; display: block; transition: transform .2s; view-transition-name: bloch; }
+.brand-sphere svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.brand:hover .brand-sphere { transform: scale(1.08); }
+.bs-rim { fill: color-mix(in srgb, var(--accent) 10%, transparent); stroke: var(--line-strong); stroke-width: 1.2; }
+.bs-eq { fill: none; stroke: var(--sphere-line); stroke-width: 1; }
+.bs-guide { stroke: var(--sphere-line); stroke-width: 1; stroke-linecap: round; }
+/* The highlighted axis. Base geometry is Z (vertical); each page rotates and scales it
+   into the X or Y direction, and the transition makes that reorientation visible. */
+.bs-active {
+  transform-box: view-box; transform-origin: 20px 20px;
+  transform: rotate(var(--axis-angle)) scale(var(--axis-scale));
+  transition: transform .6s cubic-bezier(.65,.05,.36,1);
+}
+.bs-active line { stroke: var(--ax); stroke-width: 2.2; stroke-linecap: round; }
+.bs-active circle { fill: var(--ax); }
+
+/* polarization toggle: a photon through a filter. Aligned filter = light passes (light theme);
+   rotate the filter 90deg and the photon is absorbed -> dark. */
+.spin {
+  width: 66px; height: 38px; border-radius: 10px; position: relative; cursor: pointer;
+  border: 1.5px solid var(--line-strong); background: var(--card); padding: 0; overflow: hidden;
+  display: inline-flex; align-items: center; justify-content: center; transition: border-color .25s, background .4s;
+}
+.spin:hover { border-color: var(--accent); }
+.spin:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+html[data-theme="dark"] .spin { background: #0a0e18; }
+.spin svg { width: 100%; height: 100%; display: block; }
+.spin line, .spin circle { vector-effect: non-scaling-stroke; }
+
+/* beams */
+.spin .beam-in { stroke: var(--accent); stroke-width: 2; stroke-linecap: round; opacity: .5; }
+.spin .beam-out { stroke: var(--accent); stroke-width: 2; stroke-linecap: round; opacity: .6; transition: opacity .4s; }
+html[data-theme="dark"] .spin .beam-out { opacity: 0; }
+
+/* photon */
+.spin .photon { fill: var(--accent); transform-box: fill-box; transform-origin: center;
+  filter: drop-shadow(0 0 3px var(--accent)); animation: photon-pass 2s linear infinite; }
+html[data-theme="dark"] .spin .photon { animation-name: photon-block; }
+@keyframes photon-pass {
+  0%{ transform: translateX(0); opacity:0; } 8%{ opacity:1; }
+  90%{ opacity:1; } 100%{ transform: translateX(52px); opacity:0; }
+}
+@keyframes photon-block {
+  0%{ transform: translateX(0); opacity:0; } 12%{ opacity:1; }
+  55%{ transform: translateX(22px); opacity:1; } 70%{ transform: translateX(22px); opacity:0; }
+  100%{ transform: translateX(22px); opacity:0; }
+}
+
+/* polarizer */
+.spin .rim { fill: color-mix(in srgb, var(--accent) 9%, transparent); stroke: var(--line-strong); stroke-width: 1.5; transition: stroke .4s; }
+html[data-theme="dark"] .spin .rim { stroke: var(--accent); }
+.spin .grating { transform-box: view-box; transform-origin: 33px 19px; transform: rotate(0deg);
+  transition: transform .55s cubic-bezier(.68,-0.35,.32,1.35); }
+html[data-theme="dark"] .spin .grating { transform: rotate(90deg); }
+.spin .grating line { stroke: var(--muted); stroke-width: 1.4; stroke-linecap: round; transition: stroke .4s; }
+html[data-theme="dark"] .spin .grating line { stroke: var(--accent); }
+@media (prefers-reduced-motion: reduce) { .spin .photon { animation: none; opacity: 1; } }
+
+.aa-btn {
+  font-family: var(--font-mono); font-size: 18px; font-weight: 500; color: var(--ink);
+  width: 44px; height: 40px; border: 1.5px solid var(--line-strong); border-radius: 10px;
+  background: var(--card); cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+}
+.aa-btn:hover { border-color: var(--accent); color: var(--accent); }
+.aa-btn:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+
+/* ---------- reading panel (from the learning-module mockup, preview folded in) ---------- */
+.panel {
+  position: fixed; top: 70px; right: 16px; width: 320px; max-width: calc(100vw - 32px);
+  background: var(--card); border: 1px solid var(--line-strong); border-radius: 14px;
+  box-shadow: var(--shadow); padding: 16px; z-index: 60;
+  /* A phone held sideways is shorter than this panel is tall. Without these it
+     simply runs off the bottom of the screen and "Reset to defaults" cannot be
+     reached at all. dvh over vh so the browser's collapsing toolbar counts. */
+  max-height: calc(100vh - 86px);
+  max-height: calc(100dvh - 86px);
+  overflow-y: auto; overscroll-behavior: contain;
+}
+.panel[hidden] { display: none; }
+.panel-title { font-family: var(--font-display); font-weight: 600; color: var(--ink); font-size: 14px; margin-bottom: 12px; }
+.panel-title .hint { font-family: var(--font-body); font-weight: 400; color: var(--muted); font-size: 12px; margin-left: 6px; }
+.panel .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field.wide { grid-column: 1 / -1; }
+.field label { font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.field select {
+  appearance: none; -webkit-appearance: none; font: inherit; font-size: 14px; color: var(--ink);
+  background: var(--card); border: 1.5px solid var(--line-strong); border-radius: 8px; padding: 8px 30px 8px 10px; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23667085' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+}
+.field select:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 1px; border-color: var(--accent); }
+.preview {
+  grid-column: 1 / -1; margin-top: 2px; padding: 10px 12px; border: 1px dashed var(--line-strong);
+  border-radius: 8px; background: var(--bg); font-family: var(--font-body);
+  line-height: var(--leading-body); letter-spacing: var(--tracking-body); color: var(--body); font-size: 14px;
+}
+.preview .cap { display: block; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.panel-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+.reset { font: inherit; font-size: 12.5px; font-weight: 500; color: var(--accent); background: none; border: none; cursor: pointer; padding: 4px 2px; }
+.reset:hover { text-decoration: underline; }
+.reset:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+.saved-note { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+/* ---------- page transition ----------
+   Opting in to cross-document view transitions is what actually morphs the sphere
+   between pages: the browser matches the two elements named `bloch` (.sphere-wrap on
+   the front page, .brand-sphere in the top bar) and interpolates position and size.
+   Browsers without support simply navigate; js/bloch.js supplies a fallback there. */
+@view-transition { navigation: auto; }
+
+::view-transition-group(bloch) {
+  animation-duration: .55s;
+  animation-timing-function: cubic-bezier(.6,.05,.3,1);
+}
+::view-transition-old(bloch), ::view-transition-new(bloch) { animation-duration: .55s; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .32s; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+  @view-transition { navigation: none; }
+}
+
+/* ---------- touch ----------
+   A finger is not a cursor. Controls sized for a pointer are grown to the 44px
+   target the guidelines ask for, but only where the pointer is actually coarse,
+   so the desktop chrome keeps its proportions. The toggle's SVG has a viewBox
+   and preserveAspectRatio, so a taller box letterboxes it rather than
+   stretching it. */
+@media (pointer: coarse) {
+  .spin { height: 44px; }
+  .aa-btn { height: 44px; }
+  .socials a { width: 44px; height: 44px; }
+  .navlink { display: inline-flex; align-items: center; min-height: 44px; }
+  .ket-label { padding: 7px 12px; }
+}

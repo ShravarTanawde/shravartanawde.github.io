@@ -1,0 +1,325 @@
+/* ============================================================
+   projects.css — projects.html only
+   The circuit (SVG, drawn by js/circuit.js) and the <details> stack
+   underneath it. Load after global.css and page.css.
+
+   Two encodings, and only two:
+     wire  = domain   -> colour, via --wire below
+     type  = project vs role -> outlined box vs filled box + a "role" tag
+   Filled-vs-outlined is the cue that survives greyscale; colour never
+   carries a meaning on its own.
+   ============================================================ */
+
+/* ---------- page column ----------
+   page.css centres a --measure-wide column; the circuit needs to be wider
+   than a paragraph, so the column widens here and the prose inside each
+   write-up keeps --measure for itself (the reading panel still governs it). */
+main.proj-page { max-width: min(1140px, 100%); text-align: left; }
+.page-head { text-align: center; max-width: 64ch; margin: 0 auto clamp(28px, 5vw, 46px); }
+.vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+/* ---------- the domain palette ----------
+   Set once, read by the SVG wires and gates and by the stack cards — all of
+   which carry the same data-wire attribute.
+   --wire-fill pushes the colour away from the card and towards the ink, so a
+   filled gate has readable --card-coloured text in BOTH themes without a
+   second set of tokens. */
+.proj-page [data-wire="q1"]        { --wire: var(--ax-x); --glow: var(--ax-x-glow); }
+.proj-page [data-wire="q2"]        { --wire: var(--ax-y); --glow: var(--ax-y-glow); }
+.proj-page [data-wire="classical"] { --wire: var(--muted); --glow: transparent; }
+.proj-page [data-wire]             { --wire-fill: color-mix(in srgb, var(--wire) 72%, var(--ink)); }
+
+/* the controlled gate's dot belongs to the CONTROLLING register, not its own */
+.proj-page [data-control="q1"]        { --ctrl: var(--ax-x); }
+.proj-page [data-control="q2"]        { --ctrl: var(--ax-y); }
+.proj-page [data-control="classical"] { --ctrl: var(--muted); }
+
+/* ============================================================
+   circuit shell
+   ============================================================ */
+.circuit {
+  margin: 0 0 clamp(30px, 5vw, 46px);
+  border: 1px solid var(--line); border-radius: 18px;
+  background: var(--card); box-shadow: var(--shadow); overflow: hidden;
+}
+.circuit[hidden] { display: none; }
+/* clears the sticky top bar when .to-circuit scrolls the diagram back into view */
+.circuit { scroll-margin-top: 84px; }
+.circuit:focus { outline: none; }
+.circuit:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 3px; }
+
+.circuit-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px 18px; flex-wrap: wrap;
+  padding: 12px 16px; border-bottom: 1px solid var(--line);
+}
+.circuit-title { font-family: var(--font-display); font-size: .95rem; font-weight: 600; color: var(--ink); margin: 0; }
+.circuit-status { margin: 2px 0 0; font-family: var(--font-mono); font-size: .72rem; color: var(--muted); }
+.measure-again {
+  font: inherit; font-family: var(--font-mono); font-size: .74rem; letter-spacing: .03em;
+  padding: 8px 14px; border-radius: 999px; border: 1.5px solid var(--line-strong);
+  background: var(--bg); color: var(--ink); cursor: pointer; white-space: nowrap;
+  transition: border-color .15s, color .15s, opacity .2s;
+}
+.measure-again:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.measure-again:disabled { opacity: .42; cursor: default; }
+.measure-again:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+
+/* Every future project adds width. The circuit scrolls; it never shrinks — nine
+   gates already come to about 1080px, so on a phone roughly a third of the
+   diagram is on screen at a time and nothing but these shadows says so.
+
+   Four background layers, no script: the two `local` covers are painted in the
+   content's coordinates and so travel with it, sitting on top of the two fixed
+   shadows. Scrolled to an end, that end's cover is parked over its shadow and
+   hides it; scroll away and the shadow appears. A shadow therefore means
+   exactly "there is more diagram this way". */
+.circuit-scroll {
+  overflow-x: auto; overflow-y: hidden; padding: 8px 0 4px;
+  background:
+    linear-gradient(to right, var(--card), transparent) 0 0 / 34px 100% no-repeat local,
+    linear-gradient(to left,  var(--card), transparent) 100% 0 / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%,
+      color-mix(in srgb, var(--ink) 15%, transparent), transparent) 0 0 / 14px 100% no-repeat,
+    radial-gradient(farthest-side at 100% 50%,
+      color-mix(in srgb, var(--ink) 15%, transparent), transparent) 100% 0 / 14px 100% no-repeat;
+}
+.circuit-stage { position: relative; margin: 0 auto; }
+.circuit-stage svg { display: block; }
+
+/* ---------- wires ---------- */
+.wire-group { transition: opacity .35s ease; }
+.wire-line { stroke: var(--wire); stroke-width: 1.7; stroke-linecap: round; }
+.wire-reg { font-family: var(--font-mono); font-size: 12px; font-weight: 500; fill: var(--wire); }
+
+/* ---------- gates ---------- */
+.gate { transition: opacity .35s ease, filter .35s ease; }
+.gate-box { fill: var(--card); stroke: var(--wire); stroke-width: 2; }
+.gate-label { font-family: var(--font-mono); font-size: 12px; font-weight: 500; fill: var(--wire); text-anchor: middle; }
+.gate-year { font-family: var(--font-mono); font-size: 10.5px; fill: var(--muted); text-anchor: middle; }
+
+/* a job is a different KIND of gate, not a differently-coloured one */
+.gate[data-type="role"] .gate-box { fill: var(--wire-fill); stroke: var(--wire-fill); }
+.gate[data-type="role"] .gate-label { fill: var(--card); }
+/* The strip above a gate names any extra kind it belongs to — ROLE, PUBLISHED.
+   It reads in greyscale on its own, so the accent below is a second cue and
+   never the only one. */
+.gate-tag { font-family: var(--font-mono); font-size: 9px; font-weight: 500; letter-spacing: .16em; fill: var(--wire); text-anchor: middle; }
+.gate[data-pub]:not([data-type="role"]) .gate-tag { fill: var(--accent); }
+
+/* the one controlled gate */
+.ctrl-link { stroke: var(--ctrl); stroke-width: 1.8; }
+.ctrl-dot { fill: var(--ctrl); }
+
+/* dark theme glows the way the sphere does; --glow is fully transparent in
+   light, so the same rule is a no-op there and the light face stays clean */
+html[data-theme="dark"] .wire-line,
+html[data-theme="dark"] .gate-box,
+html[data-theme="dark"] .ctrl-dot { filter: drop-shadow(0 0 5px var(--glow)); }
+
+/* ---------- the overlaid control layer ----------
+   Real <button>s sitting exactly over each gate: keyboard, screen readers and
+   focus rings all come for free, which they do not for a bare <g>. */
+.gate-hit {
+  position: absolute; padding: 0; margin: 0; border: 0; background: none;
+  cursor: pointer; border-radius: 12px; -webkit-tap-highlight-color: transparent;
+}
+.gate-hit:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- measurement collapse ---------- */
+.proj-page[data-selected] .gate:not(.is-selected) { opacity: .16; filter: blur(1.4px); }
+.proj-page[data-selected] .wire-group:not(.is-live) { opacity: .18; }
+.gate.is-selected .gate-box { stroke-width: 2.6; }
+.proj-page[data-selected] .gate.is-selected { filter: drop-shadow(0 0 9px var(--glow)); }
+
+/* the excitation, where it is honest: the measured gate takes on energy */
+@keyframes gate-pulse { 0% { transform: scale(1); } 45% { transform: scale(1.06); } 100% { transform: scale(1); } }
+.gate.is-selected .gate-box {
+  transform-box: fill-box; transform-origin: center;
+  animation: gate-pulse .5s cubic-bezier(.3,.8,.4,1);
+}
+
+/* ---------- legend ----------
+   The registers are not in here any more; #registers holds them for the script
+   and is never rendered, so it needs no styles. What is left is the key to the
+   drawing's own vocabulary. */
+.legend {
+  list-style: none; display: flex; flex-wrap: wrap; gap: 9px 24px;
+  margin: 0; padding: 12px 16px 14px; border-top: 1px solid var(--line);
+  font-size: .78rem; color: var(--body);
+}
+.legend li { display: flex; align-items: center; gap: 9px; }
+.leg-gate { width: 26px; height: 15px; flex: none; border-radius: 4px; border: 2px solid var(--line-strong); }
+.leg-gate.is-filled { background: var(--muted); border-color: var(--muted); }
+.leg-type b { font-family: var(--font-mono); font-weight: 500; font-size: .74rem; letter-spacing: .06em; color: var(--ink); }
+/* the same strip the diagram draws above a published gate */
+.leg-tag { font-family: var(--font-mono); font-weight: 500; font-size: .62rem; letter-spacing: .16em; color: var(--accent); }
+
+/* ============================================================
+   the stack — the legible spine, and the whole page without JS
+   ============================================================ */
+.stack-group { margin: 0 0 clamp(26px, 4vw, 38px); transition: margin .42s cubic-bezier(.4,0,.2,1); }
+.stack-group:last-child { margin-bottom: 0; }
+.stack-head {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px;
+  font-family: var(--font-display); font-size: .82rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .11em; color: var(--ink);
+  margin: 0 0 12px; padding-bottom: 9px; border-bottom: 1px solid var(--line);
+  overflow: hidden; max-height: 8em;   /* a height it cannot reach, so only the collapse to 0 is visible */
+  transition: max-height .42s cubic-bezier(.4,0,.2,1), opacity .3s ease, margin .42s, padding .42s;
+}
+.stack-note { font-family: var(--font-body); font-size: .76rem; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted); }
+.stack-count { font-family: var(--font-mono); font-size: .72rem; font-weight: 400; letter-spacing: 0; color: var(--muted); margin-left: auto; }
+
+/* measuring one project empties the other two groups — their headings go too */
+.stack-group.is-off { margin-bottom: 0; }
+.stack-group.is-off > .stack-head { max-height: 0; opacity: 0; margin: 0; padding: 0; border-bottom-color: transparent; }
+
+.stack { list-style: none; margin: 0; padding: 0; }
+
+/* 1fr -> 0fr is what makes the collapse animate; a height cannot, because the
+   open height is unknown. The <details> needs min-height:0 to be squeezable. */
+.proj-item {
+  display: grid; grid-template-rows: 1fr; margin-block: 10px; visibility: visible;
+  transition: grid-template-rows .42s cubic-bezier(.4,0,.2,1), opacity .3s ease, margin-block .42s cubic-bezier(.4,0,.2,1), visibility 0s;
+}
+.proj-item > .proj { overflow: hidden; min-height: 0; }
+.proj-item.is-off {
+  grid-template-rows: 0fr; opacity: 0; margin-block: 0; pointer-events: none; visibility: hidden;
+  transition: grid-template-rows .42s cubic-bezier(.4,0,.2,1), opacity .3s ease, margin-block .42s cubic-bezier(.4,0,.2,1), visibility 0s linear .42s;
+}
+
+.proj {
+  border: 1px solid var(--line); border-left: 3px solid var(--wire);
+  border-radius: 12px; background: var(--card);
+  transition: border-color .2s, box-shadow .3s;
+}
+.proj:hover { border-color: var(--line-strong); border-left-color: var(--wire); }
+
+.proj > summary { list-style: none; cursor: pointer; display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; }
+.proj > summary::-webkit-details-marker { display: none; }
+.proj > summary::marker { content: ""; }
+.proj > summary:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: -3px; border-radius: 9px; }
+
+/* the same outlined/filled encoding the circuit uses, so a gate and its card
+   are recognisably the same object */
+.p-short {
+  font-family: var(--font-mono); font-size: .72rem; flex: none; margin-top: 1px;
+  color: var(--wire); border: 1.5px solid var(--wire); border-radius: 6px; padding: 3px 8px;
+}
+.proj[data-type="role"] .p-short { background: var(--wire-fill); border-color: var(--wire-fill); color: var(--card); }
+
+.p-head { flex: 1 1 auto; min-width: 0; }
+.p-title { display: block; font-family: var(--font-display); font-weight: 600; font-size: 1rem; color: var(--ink); line-height: 1.35; }
+.p-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 12px; margin-top: 5px; font-family: var(--font-mono); font-size: .7rem; color: var(--muted); }
+.p-meta .p-wire { color: var(--wire); }
+.p-type { border: 1.5px solid var(--line-strong); border-radius: 999px; padding: 1px 9px; letter-spacing: .04em; }
+.proj[data-type="role"] .p-type { background: var(--wire-fill); border-color: var(--wire-fill); color: var(--card); }
+/* a second kind alongside the first: the work is a project AND a paper */
+.p-meta .p-pub { border-color: var(--accent); color: var(--accent); background: none; }
+
+.p-chev {
+  flex: none; margin-top: 6px; width: 10px; height: 10px;
+  border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg); transition: transform .25s ease;
+}
+.proj[open] .p-chev { transform: rotate(-135deg); }
+
+.p-body { padding: 0 16px 18px; max-width: var(--measure); }
+.p-body > p { margin: 0 0 11px; color: var(--body); }
+.p-body > p:last-child { margin-bottom: 0; }
+.p-note { font-size: .84rem; color: var(--muted); }
+.p-note b { font-family: var(--font-mono); font-weight: 500; color: var(--wire); }
+/* ---------- photo slot ----------
+   Every write-up carries one. Until an image is dropped in, the empty frame
+   holds its own space (so nothing jumps when the photo arrives) and shows the
+   path to save the file to. Swap the div for the <img> in the comment above it. */
+.p-fig { margin: 16px 0 0; }
+/* The real figures, once the slots below are gone.
+
+   max-width and max-height with BOTH dimensions left auto is the one
+   combination that bounds a figure on each axis while keeping its aspect ratio
+   — the replaced-element sizing rules re-solve for the ratio rather than
+   squashing. So a portrait plot cannot take over the page, and nothing is ever
+   cropped: object-fit: cover would happily eat an axis label.
+
+   The white ground is for plots exported with a transparent background, whose
+   black axes and text would otherwise disappear into the dark theme. */
+.p-fig img {
+  display: block; margin: 0 auto;
+  max-width: 100%; height: auto;
+  max-height: 72vh;
+  max-height: 72svh;
+  border-radius: 10px; border: 1px solid var(--line); background: #fff;
+}
+.p-fig-slot {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  aspect-ratio: 16 / 9; padding: 12px; border-radius: 10px;
+  border: 1.5px dashed var(--line-strong); background: var(--bg);
+}
+.p-fig-path { font-family: var(--font-mono); font-size: .72rem; color: var(--muted); word-break: break-all; }
+.p-fig-path::before { content: "photo → "; color: var(--wire); }
+.p-fig figcaption { font-size: .76rem; color: var(--muted); margin-top: 8px; }
+.p-links { display: flex; flex-wrap: wrap; gap: 8px 16px; list-style: none; padding: 0; margin: 14px 0 0; }
+.p-links a { font-family: var(--font-mono); font-size: .74rem; text-decoration: none; color: var(--accent); border-bottom: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); }
+.p-links a:hover { border-bottom-color: currentColor; }
+.p-links a:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 3px; border-radius: 3px; }
+
+/* the measured card rises into view */
+@keyframes card-excite { from { transform: translateY(12px); opacity: .2; } to { transform: none; opacity: 1; } }
+.proj-item.is-selected > .proj {
+  animation: card-excite .45s cubic-bezier(.2,.75,.3,1);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent), var(--shadow);
+}
+
+/* ============================================================
+   back to the circuit
+   Fixed to the side, and deliberately quiet: it fades in only once the circuit
+   has left the viewport. Hidden with visibility rather than opacity alone, so
+   while it is out of sight it is also out of the tab order and off the
+   accessibility tree — no JS attribute juggling needed.
+   ============================================================ */
+.to-circuit {
+  position: fixed; z-index: 50;
+  right: clamp(14px, 2.4vw, 30px); bottom: clamp(16px, 3vw, 32px);
+  display: inline-flex; align-items: center; gap: 8px;
+  font: inherit; font-family: var(--font-mono); font-size: .74rem; letter-spacing: .03em;
+  padding: 10px 15px; border-radius: 999px;
+  border: 1.5px solid var(--line-strong); background: var(--card); color: var(--ink);
+  box-shadow: var(--shadow); cursor: pointer;
+  opacity: 0; visibility: hidden; transform: translateY(10px);
+  transition: opacity .25s ease, transform .25s cubic-bezier(.2,.75,.3,1),
+              border-color .15s, color .15s, visibility 0s linear .25s;
+}
+.to-circuit.is-on { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.to-circuit:hover { border-color: var(--accent); color: var(--accent); }
+.to-circuit:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 3px; }
+.to-circuit svg {
+  width: 15px; height: 15px; flex: none; fill: none;
+  stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* ============================================================
+   motion & narrow screens
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .to-circuit { transition: border-color .15s, color .15s; transform: none; }
+  /* no dimming-and-collapsing choreography — just show and hide */
+  .proj-item, .proj-item.is-off, .stack-group, .stack-head { transition: none !important; }
+  .proj-item.is-off, .stack-group.is-off { display: none; }
+  .gate.is-selected .gate-box, .proj-item.is-selected > .proj { animation: none !important; }
+  .proj-page[data-selected] .gate:not(.is-selected) { filter: none; }
+}
+
+@media (max-width: 620px) {
+  main.proj-page { padding-left: 16px; padding-right: 16px; }
+  .circuit { border-radius: 14px; }
+  .circuit-bar { padding: 12px 14px; }
+  .measure-again { width: 100%; }
+  .legend { gap: 8px 16px; font-size: .74rem; }
+  .proj > summary { flex-wrap: wrap; gap: 8px 12px; padding: 13px 14px; }
+  .p-head { flex-basis: 100%; order: 3; }
+  .p-chev { margin-left: auto; }
+  .p-body { padding: 0 14px 16px; }
+  .to-circuit { padding: 9px 13px; font-size: .7rem; }
+}

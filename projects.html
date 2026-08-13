@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-axis="z">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f6f7f9">
+<title>Projects & Experience · Quantum Portfolio</title>
+
+<!-- Apply saved theme + reading settings BEFORE first paint (no flash).
+     Also seeds the topbar sphere with the PREVIOUS page's axis, so js/axis.js has
+     something to animate away from. Keep AXIS in sync with js/axis.js. -->
+<script>
+  (function () {
+    var d = document.documentElement;
+    try {
+      var t = localStorage.getItem('qp-theme');
+      if (t) d.setAttribute('data-theme', t);
+      var r = JSON.parse(localStorage.getItem('qp-reading') || '{}');
+      var MAP = {font:{default:'var(--stack-default)',inter:'var(--stack-inter)',atkinson:'var(--stack-atkinson)',dyslexic:'var(--stack-dyslexic)'},size:{small:'15px',medium:'16px',large:'18px',xl:'20px'},tracking:{normal:'0em',wide:'0.02em',wider:'0.04em'},leading:{tight:'1.4',normal:'1.6',relaxed:'1.8',loose:'2.0'},measure:{narrow:'55ch',default:'66ch',wide:'80ch',full:'none'}};
+      var V = {font:'--font-body',size:'--size',tracking:'--tracking-body',leading:'--leading-body',measure:'--measure'};
+      for (var k in V) if (r[k] && MAP[k][r[k]]) d.style.setProperty(V[k], MAP[k][r[k]]);
+    } catch (e) {}
+    try {
+      var AXIS = {z:['0deg','1'], x:['-78.5deg','0.882'], y:['78.5deg','0.882']};
+      var from = sessionStorage.getItem('qp-axis');
+      if (!AXIS[from]) from = d.getAttribute('data-axis');
+      if (AXIS[from]) { d.style.setProperty('--axis-angle', AXIS[from][0]); d.style.setProperty('--axis-scale', AXIS[from][1]); }
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+
+<link rel="stylesheet" href="css/global.css?v=4">
+<link rel="stylesheet" href="css/page.css?v=4">
+<link rel="stylesheet" href="css/projects.css?v=7">
+</head>
+<body>
+
+  <div class="topbar">
+    <a class="brand" href="index.html" aria-label="Back to the sphere (home)" title="Back to the sphere">
+      <span class="brand-sphere">
+        <svg viewBox="0 0 40 40" aria-hidden="true">
+          <circle class="bs-rim" cx="20" cy="20" r="17"></circle>
+          <ellipse class="bs-eq" cx="20" cy="20" rx="17" ry="6"></ellipse>
+          <line class="bs-guide" x1="20" y1="3" x2="20" y2="37"></line>
+          <line class="bs-guide" x1="5.3" y1="17" x2="34.7" y2="23"></line>
+          <line class="bs-guide" x1="5.3" y1="23" x2="34.7" y2="17"></line>
+          <g class="bs-active">
+            <line x1="20" y1="37" x2="20" y2="3"></line>
+            <circle cx="20" cy="3" r="2.6"></circle>
+          </g>
+        </svg>
+      </span>
+      <span class="name">Shravar G Tanawde</span>
+    </a>
+    <div class="bar-actions">
+      <button id="spin" class="spin" role="switch" aria-checked="false" aria-label="Toggle theme by rotating the polarizing filter" title="Rotate the filter to block the photon">
+        <svg viewBox="0 0 66 38" aria-hidden="true">
+          <line class="beam-in" x1="3" y1="19" x2="22" y2="19"></line>
+          <line class="beam-out" x1="44" y1="19" x2="63" y2="19"></line>
+          <g class="filter">
+            <circle class="rim" cx="33" cy="19" r="11"></circle>
+            <g class="grating">
+              <line x1="33" y1="9" x2="33" y2="29"></line>
+              <line x1="28.5" y1="10.5" x2="28.5" y2="27.5"></line>
+              <line x1="37.5" y1="10.5" x2="37.5" y2="27.5"></line>
+            </g>
+          </g>
+          <circle class="photon" cx="6" cy="19" r="2.8"></circle>
+        </svg>
+      </button>
+      <button id="aaToggle" class="aa-btn" aria-label="Reading settings" aria-expanded="false" aria-controls="aaPanel" aria-haspopup="dialog">Aa</button>
+    </div>
+  </div>
+
+  <nav class="nav" aria-label="Sections">
+      <a class="navlink" href="index.html">Home</a>
+      <a class="navlink on" href="projects.html" aria-current="page">Projects & Experience</a>
+      <a class="navlink" href="learn.html">Simulations & Learn</a>
+      <a class="navlink" href="tools.html">Tools & Software</a>
+  </nav>
+
+  <!-- ============================================================
+       The work, twice: a circuit you can measure, and the stack that
+       carries the words. The <details> stack below is the SINGLE SOURCE
+       OF TRUTH — js/circuit.js reads its data-* attributes to draw the
+       SVG and to wire selection, so the two views cannot desync and the
+       page still works with JavaScript off. To add a project, add one
+       <li class="proj-item"> to whichever group it belongs to, and give it
+       a data-order — the stack is grouped by kind, the circuit is ordered
+       by data-order (left to right by year). Nothing else to touch.
+       ============================================================ -->
+  <main class="proj-page" id="projMain">
+
+    <header class="page-head">
+      <p class="obs-eyebrow">Z basis · measured</p>
+      <h1>Projects & Experience</h1>
+      <p class="kets">|<b>Project</b>⟩ &nbsp;·&nbsp; |<b>Experience</b>⟩</p>
+      <p class="lead">Nine gates on three registers, read left to right by year. Measure one — click a gate — and
+        the rest of the circuit collapses out of the way, leaving that project alone and open below.</p>
+    </header>
+
+    <!-- Circuit view. Starts hidden and is revealed by js/circuit.js only once the SVG
+         has actually been built, so a script or SVG failure leaves the stack alone. -->
+    <section class="circuit" id="circuit" aria-labelledby="circuitTitle" tabindex="-1" hidden>
+      <div class="circuit-bar">
+        <div class="circuit-bar-left">
+          <h2 class="circuit-title" id="circuitTitle">The circuit</h2>
+          <p class="circuit-status" id="circuitStatus" role="status">Superposition — all nine on screen.</p>
+        </div>
+        <button type="button" class="measure-again" id="measureAgain" disabled>Reset · measure again</button>
+      </div>
+
+      <div class="circuit-scroll" id="circuitScroll">
+        <div class="circuit-stage" id="circuitStage"></div>
+      </div>
+
+      <!-- ============================================================
+           The registers. Nothing here is drawn on the page — the wires label
+           themselves in the diagram's left gutter, so spelling them out again
+           underneath was only repetition. The list stays in the markup because
+           js/circuit.js reads it, and only it, for how many wires there are,
+           what order they run in, and what each one is called. Add, rename or
+           reorder a register HERE; the diagram follows.
+
+           Each id also has to exist as a colour rule in css/projects.css
+           (.proj-page [data-wire="…"]), and it is what a project's data-wire
+           attribute points at down in the stack.
+           ============================================================ -->
+      <ul id="registers" hidden>
+        <li class="reg" data-wire="q1"><b class="reg-id">q1</b> Algorithms · Optimization · Information</li>
+        <li class="reg" data-wire="q2"><b class="reg-id">q2</b> Physics: Transport · Sensing</li>
+        <li class="reg" data-wire="classical"><b class="reg-id">c</b> Engineering foundation (classical register)</li>
+      </ul>
+
+      <!-- What the drawing itself cannot say: what an outline, a fill and a
+           strip above the box each mean. -->
+      <ul class="legend" id="legend">
+        <li class="leg-type"><span class="leg-gate" aria-hidden="true"></span> outlined = project</li>
+        <li class="leg-type"><span class="leg-gate is-filled" aria-hidden="true"></span> filled + <b>role</b> = job or internship</li>
+        <li class="leg-type"><span class="leg-tag">PUBLISHED</span> = also appeared as a paper</li>
+      </ul>
+    </section>
+
+    <div class="stacks" id="stack">
+
+      <section class="stack-group">
+        <h2 class="stack-head">Projects<span class="stack-note">Research and build work, newest last.</span><span class="stack-count">5</span></h2>
+        <ol class="stack">
+
+        <li class="proj-item">
+          <details class="proj" id="p-qaoa"
+                   data-id="qaoa-pd" data-order="4" data-short="QAOA-PD" data-year="2025"
+                   data-wire="q1" data-type="project">
+            <summary>
+              <span class="p-short" aria-hidden="true">QAOA-PD</span>
+              <span class="p-head">
+                <span class="p-title">Quantum Portfolio Diversification via QAOA</span>
+                <span class="p-meta">
+                  <span class="p-year">2025</span>
+                  <span class="p-wire">q1 · Algorithms &amp; Optimization</span>
+                  <span class="p-type">project</span>
+                </span>
+              </span>
+              <span class="p-chev" aria-hidden="true"></span>
+            </summary>
+            <div class="p-body">
+              <p>This project is a literature review and reproduction of <em>Portfolio Asset Identification using Graph 
+                Algorithms on a Quantum Annealer</em> by Angad Kalra, Faisal Qureshi, and Michael Tisi. The original work 
+                formulates portfolio asset selection as a <strong>Maximum Clique Problem (MCP)</strong> and solves it 
+                using a D-Wave quantum annealer. I reproduced the MCP formulation and implemented it using 
+                <strong>QAOA</strong> on a gate-based quantum simulator, including its QUBO and Ising Hamiltonian representations.</p>
+              <p>To address the scalability of solving larger correlation graphs directly, I used <strong>Louvain community detection</strong> 
+                to divide the graph into smaller communities before applying the optimization. The resulting approach 
+                was used to identify maximum cliques within the larger asset-correlation network while studying how 
+                graph decomposition affects the QAOA-based solution.</p>
+              <p><strong>Tools / Concepts:</strong> PennyLane · QAOA · QUBO · Ising Hamiltonian · Maximum Clique Problem · Louvain Community Detection · NetworkX · yFinance · NumPy · Matplotlib</p>
+              <figure class="p-fig">
+                <img src="assets/images/projects/qaoa-lc.png" alt="A 50 node asset-correlation graph, with different nodes community colored by Louvain community detection based on their dependencies."
+                     width="794" height="658" loading="lazy" decoding="async">
+                <figcaption>The asset-correlation graph after Louvain clustering.</figcaption>
+              </figure>
+              <figure class="p-fig">
+                <img src="assets/images/projects/qaoa-pd.png" alt="A 50 node asset-correlation graph, with max cliques highlighted."
+                     width="794" height="659" loading="lazy" decoding="async">
+                <figcaption>The asset-correlation graph with maximum cliques highlighted.</figcaption>
+              </figure>
+              <ul class="p-links">
+                <li><a href="https://github.com/ShravarTanawde/Portfolio-Asset-Identification-using-Graph-Algorithms-on-a-QAOA">Code ↗</a></li>
+              </ul>
+            </div>
+          </details>
+        </li>
+
+        <li class="proj-item">
+          <details class="proj" id="p-qrng"
+                   data-id="qrng-chi2" data-order="5" data-short="QRNG-χ²" data-year="2025"
+                   data-wire="q1" data-type="project">
+            <summary>
+              <span class="p-short" aria-hidden="true">QRNG-χ²</span>
+              <span class="p-head">
+                <span class="p-title">Specious Random Number Generator &amp; Tester</span>
+                <span class="p-meta">
+                  <span class="p-year">2025</span>
+                  <span class="p-wire">q1 · Algorithms &amp; Information</span>
+                  <span class="p-type">project</span>
+                </span>
+              </span>
+              <span class="p-chev" aria-hidden="true"></span>
+            </summary>
+            <div class="p-body">
+              <p>This project studies the limitations of conventional randomness testing for <strong>Quantum Random 
+                Number Generators (QRNGs)</strong> through a review of existing and newer testing methods. I examined 
+                classical suites such as <strong>NIST SP 800-22</strong> and <strong>Dieharder</strong>, along with 
+                newer approaches including specious-randomness detection, Transformer-based classifiers, TuRiNG, 
+                PractRand, and TestU01. A key limitation is that many classical tests focus on statistical uniformity 
+                and independence, allowing deliberately structured sequences to pass even when they are predictable 
+                or highly compressible. QRNGs also introduce practical issues such as non-IID behaviour, hardware drift, 
+                and extractor-level effects that are not fully captured by output-only statistical tests. </p>
+              <p>As a practical reproduction, I implemented a <strong>specious random number generator</strong> by 
+                constructing and shuffling all possible <em>N</em>-bit patterns, then concatenating them into a test 
+                stream. I then implemented the corresponding <strong>double-sided χ² test</strong>, which detects both 
+                unusually uneven distributions and the suspiciously low χ² values produced by artificially uniform 
+                n-gram frequencies. The generated sequence passed the NIST tests while being detected by the modified 
+                test across <em>N = 1–16</em>, demonstrating the blind spot that motivated the newer testing approach. </p>
+              <p><strong>Tools / Concepts:</strong> Python · SciPy · NumPy · Jupyter · χ² Testing · n-Gram Analysis · 
+                Statistical Randomness Testing · QRNG · NIST SP 800-22 · Dieharder · Specious Randomness</p>
+
+              <figure class="p-fig">
+                <img src="assets/images/projects/qrng-chi2.png" alt="The χ² statistic against both critical bounds."
+                     width="1399" height="603" loading="lazy" decoding="async">
+                <figcaption>The χ² statistic against both critical bounds.</figcaption>
+              </figure>
+              <ul class="p-links">
+                <li><a href="https://github.com/ShravarTanawde/Specious-Random-Number-Generator-and-Tester">Code ↗</a></li>
+              </ul>
+            </div>
+          </details>
+        </li>
+
+        <li class="proj-item">
+          <details class="proj" id="p-enaqt"
+                   data-id="enaqt" data-order="7" data-short="ENAQT" data-year="2026"
+                   data-wire="q2" data-type="project">
+            <summary>
+              <span class="p-short" aria-hidden="true">ENAQT</span>
+              <span class="p-head">
+                <span class="p-title">Decoherence-Assisted Quantum Transport (ENAQT)</span>
+                <span class="p-meta">
+                  <span class="p-year">2026</span>
+                  <span class="p-wire">q2 · Transport &amp; Sensing</span>
+                  <span class="p-type">project</span>
+                </span>
+              </span>
+              <span class="p-chev" aria-hidden="true"></span>
+            </summary>
+            <div class="p-body">
+              <p>This project studies <strong>Environment-Assisted Quantum Transport (ENAQT)</strong>, a counterintuitive 
+                phenomenon in which a controlled amount of environmental noise can improve the transport of quantum 
+                excitations. Inspired by transport mechanisms observed in biological light-harvesting systems, the project 
+                investigates how static disorder and quantum interference can localize an excitation, while moderate 
+                dephasing can suppress destructive interference and improve the probability of reaching a target site. 
+                The goal is to understand how a process usually treated as a source of decoherence can instead be used 
+                as a resource for quantum transport.</p>
+              <p>A realistic open-system simulation models excitation transport on <strong>FMO-inspired networks</strong> 
+                while including static energetic disorder, site-to-site coupling variations, dephasing, relaxation, radiative 
+                loss, and trapping at the target site. By sweeping the environmental parameters and averaging over disorder 
+                realizations, the simulation evaluates transfer efficiency, transfer time, survival probability, and transport 
+                robustness, allowing the ENAQT regime to be identified rather than assuming idealized dynamics. The study 
+                compares coherent, weakly dephased, and strongly dephased regimes to determine when noise improves transport 
+                and when it becomes detrimental.</p>
+              <p><strong>Tools / Concepts:</strong> Python · QuTiP · NumPy · SciPy · Open Quantum Systems · Lindblad Master 
+                Equation · ENAQT · FMO Networks · Dephasing · Static Disorder · Quantum Transport</p>
+
+              <figure class="p-fig">
+                <img src="assets/images/projects/enaqt.png" alt="Graph showing improved channel capacity with dephasing noise"
+                          width="572" height="415" loading="lazy" decoding="async">
+                <figcaption>Improved channel capacity compared to no noise</figcaption>
+              </figure>
+              <ul class="p-links">
+                <li><a href="https://github.com/ShravarTanawde/Using-Decoherence-Noise-to-Improve-Quantum-Transport">Code ↗</a></li>
+              </ul>
+            </div>
+          </details>
+        </li>
+
+        <li class="proj-item">
+          <details class="proj" id="p-squeezed"
+                   data-id="sq-imaging" data-order="8" data-short="Sq-Imaging" data-year="2026"
+                   data-wire="q2" data-type="project">
+            <summary>
+              <span class="p-short" aria-hidden="true">Sq-Imaging</span>
+              <span class="p-head">
+                <span class="p-title">Biological Imaging using Squeezed Light</span>
+                <span class="p-meta">
+                  <span class="p-year">2026</span>
+                  <span class="p-wire">q2 · Transport &amp; Sensing</span>
+                  <span class="p-type">project</span>
+                </span>
+              </span>
+              <span class="p-chev" aria-hidden="true"></span>
+            </summary>
+            <div class="p-body">
+              <p>This project investigates how <strong>squeezed light</strong> can be used to improve optical measurements 
+                in biological imaging, where increasing illumination is often limited by photodamage and sample viability. 
+                The project examines quantum-enhanced sensing through the reduction of measurement noise below the standard 
+                <strong>shot-noise limit</strong>, allowing improved sensitivity without relying solely on higher optical 
+                power. The study focuses on how non-classical light can provide an advantage when the available photon 
+                budget is constrained.</p>
+              <p>The work explores squeezed-light implementations for several imaging and spectroscopy techniques, including 
+                a <strong>Mach–Zehnder interferometer</strong>, <strong>stimulated Raman scattering (SRS)</strong>, 
+                and <strong>photothermal spectroscopy</strong>. The analysis compares squeezed and conventional coherent 
+                illumination in terms of measurement noise and sensitivity, with particular attention to the trade-off 
+                between quantum-noise reduction, optical power, and biological sample constraints.</p>
+              <p><strong>Tools / Concepts:</strong> Python · QuTiP · NumPy · Quantum Sensing · Squeezed States · 
+                Shot-Noise Limit · Mach–Zehnder Interferometry · Stimulated Raman Scattering · Photothermal Spectroscopy</p>
+
+              <figure class="p-fig">
+                <img src="assets/images/projects/sq-imaging.png" alt="4 graphs comparing improved noise variance and phase sensitivity between classical and squeezed light in MZI"
+                          width="1506" height="1174" loading="lazy" decoding="async">
+                <figcaption>Squeezed-input Mach–Zehnder, noise pushed below the shot-noise limit.</figcaption>
+              </figure>
+              <ul class="p-links">
+                <li><a href="https://github.com/ShravarTanawde/Biological-Imging-using-Squeezed-Light">Code ↗</a></li>
+              </ul>
+            </div>
+          </details>
+        </li>
+
+        <li class="proj-item">
+          <details class="proj" id="p-tfet"
+                   data-id="2d-tfet" data-order="9" data-short="2D-TFET" data-year="Ongoing"
+                   data-wire="q2" data-control="q1" data-type="project">
+            <summary>
+              <span class="p-short" aria-hidden="true">2D-TFET</span>
+              <span class="p-head">
+                <span class="p-title">Quantum-Assisted Inverse Design of 2D Tunnel Transistors</span>
+                <span class="p-meta">
+                  <span class="p-year">Ongoing</span>
+                  <span class="p-wire">q2 · Transport, controlled from q1</span>
+                  <span class="p-type">project</span>
+                </span>
+              </span>
+              <span class="p-chev" aria-hidden="true"></span>
+            </summary>
+            <div class="p-body">
+              <p>This ongoing project investigates the use of the <strong>Variational Quantum Linear Solver (VQLS)</strong> 
+                within a <strong>Non-Equilibrium Green's Function (NEGF)</strong> framework for nanoscale transistor 
+                simulation, with a focus on <strong>Tunnel Field-Effect Transistors (TFETs)</strong>. In the NEGF method, 
+                calculating the retarded Green's function requires solving a large linear system involving the device 
+                Hamiltonian and self-energy terms. The project explores how this linear solve can be reformulated for a 
+                variational quantum algorithm and integrated into the wider quantum-transport workflow.</p>
+              <p>The work focuses on the practical challenges of applying VQLS to the <strong>retarded Green's function</strong>, 
+                including matrix construction, quantum state preparation, circuit depth, variational optimization, numerical 
+                accuracy, and the effect of noise on the obtained solution. The eventual goal is to evaluate whether a quantum 
+                linear-solver approach can be useful within NEGF-based TFET modelling, while comparing its accuracy and 
+                computational requirements with conventional numerical solvers.</p>
+              <p><strong>Tools / Concepts:</strong> Python · VQLS · NEGF · Retarded Green's Function · Quantum Linear 
+                Solvers · Quantum Transport · TFETs · Hamiltonian Matrices · Self-Energies · Variational Quantum Algorithms</p>
+              <figure class="p-fig">
+                <img src="assets/images/projects/2d-tfet.png" alt="Proposed model of a standard TFET"
+                          width="1547" height="781" loading="lazy" decoding="async">
+                <figcaption>Standard TFET model design</figcaption>
+              </figure>
+              <!-- <ul class="p-links">
+                <li><a href="#">Code ↗</a></li>
+              </ul> -->
+            </div>
+          </details>
+        </li>
+        </ol>
+      </section>
+
+      <section class="stack-group">
+        <h2 class="stack-head">Role experience<span class="stack-note">Jobs and internships.</span><span class="stack-count">2</span></h2>
+        <ol class="stack">
+
+        <li class="proj-item">
+          <details class="proj" id="p-thermon"
+                   data-id="thermon" data-order="3" data-short="Thermon" data-year="2024–25"
+                   data-wire="classical" data-type="role">
+            <summary>
+              <span class="p-short" aria-hidden="true">Thermon</span>
+              <span class="p-head">
+                <span class="p-title">Electrical Design Engineer — Thermon Pvt Inc</span>
+                <span class="p-meta">
+                  <span class="p-year">Oct 2024 – Jul 2025</span>
+                  <span class="p-wire">c · Engineering foundation</span>
+                  <span class="p-type">role</span>
+                </span>
+              </span>
+              <span class="p-chev" aria-hidden="true"></span>
+            </summary>
+            <div class="p-body">
+              <p>Worked as an <strong>Electrical Design Engineer</strong> on industrial heat-tracing projects, 
+                preparing and updating engineering design packages based on project requirements and design 
+                changes. Managed a high-volume workflow of <strong>40+ engineering packages per month</strong> 
+                while maintaining approximately 90% accuracy and on-time delivery.</p>
+              <p>Coordinated technical execution for international projects involving clients and teams across 
+                <strong>Canada and Houston</strong>, ensuring that design updates and project requirements were 
+                incorporated correctly into the engineering deliverables. The role provided practical experience 
+                in electrical design, engineering documentation, quality control, and working within structured 
+                project workflows.</p>
+              <p><strong>Tools / Concepts:</strong> Electrical Design · Heat Tracing · Engineering Documentation 
+                · Design Updates · Quality Control · Technical Coordination · Industrial Projects</p>
+
+              <figure class="p-fig">
+                <img src="assets/images/roles/thermon.png" alt="A heat traced pipe"
+                          width="500" height="165" loading="lazy" decoding="async">
+                <figcaption>A heat-tracing design package.</figcaption>
+              </figure>
+              <figure class="p-fig">
+                <img src="assets/images/roles/thermon_real.jpg" alt="A realsitic example of heat traced pipe"
+                          width="500" height="223" loading="lazy" decoding="async">
+                <figcaption>A heat traced pipe.</figcaption>
+              </figure>
+            </div>
+          </details>
+        </li>
+
+        <li class="proj-item">
+          <details class="proj" id="p-qkd"
+                   data-id="qkd-net" data-order="6" data-short="QKD-Net" data-year="2026"
+                   data-wire="q1" data-type="role">
+            <summary>
+              <span class="p-short" aria-hidden="true">QKD-Net</span>
+              <span class="p-head">
+                <span class="p-title">Quantum Research Intern — Quantum AI Global</span>
+                <span class="p-meta">
+                  <span class="p-year">Jun – Aug 2026</span>
+                  <span class="p-wire">q1 · Algorithms &amp; Information</span>
+                  <span class="p-type">role</span>
+                </span>
+              </span>
+              <span class="p-chev" aria-hidden="true"></span>
+            </summary>
+            <div class="p-body">
+              <p>Worked on <strong>quantum networking simulation and the development of QNTSim</strong>, with a 
+                focus on making quantum communication models both realistic and understandable. Contributed to 
+                the associated learning module by rebuilding simulation-based chapters and developing interactive 
+                tools for <strong>QKD and quantum teleportation</strong>. Implemented and analysed BB84-based 
+                simulations with eavesdropping scenarios, and studied a broader attack landscape including 
+                intercept-resend, Breidbart, photon-number-splitting, detector blinding, and Trojan-horse attacks.</p>
+              <p>Developed realistic quantum-network simulations using a <strong>discrete-event simulator</strong>, 
+                including channel noise, source and detector imperfections, and configurable eavesdropper behaviour. 
+                Built analysis workflows using metrics such as <strong>QBER, per-basis error rates, mutual information, 
+                and secure key rate</strong>, and contributed to interactive simulators with parameter sweeps and 
+                result explanations. The internship also involved testing simulator behaviour, identifying 
+                implementation issues, and improving the learning experience through structured content, accessibility 
+                features, and interactive documentation.</p>
+              <p><strong>Tools / Concepts:</strong> Python · Discrete-Event Simulation · QNTSim · QKD · Quantum Networking · 
+                BB84 · Quantum Teleportation · QBER · Mutual Information · Secret Key Rate · Eavesdropping · Channel Noise · 
+                Device Imperfections</p>
+              <p class="p-note">Detailed methods and internal tooling are confidential under NDA.</p>
+            </div>
+          </details>
+        </li>
+        </ol>
+      </section>
+
+      <section class="stack-group">
+        <h2 class="stack-head">Misc<span class="stack-note">Earlier engineering, before the pivot.</span><span class="stack-count">2</span></h2>
+        <ol class="stack">
+
+        <li class="proj-item">
+          <details class="proj" id="p-suntracker"
+                   data-id="suntracker" data-order="1" data-short="Suntracker" data-year="2020"
+                   data-wire="classical" data-type="project" data-pub>
+            <summary>
+              <span class="p-short" aria-hidden="true">Suntracker</span>
+              <span class="p-head">
+                <span class="p-title">Suntracker on Rocker-Bogie Mechanism</span>
+                <span class="p-meta">
+                  <span class="p-year">2020</span>
+                  <span class="p-wire">c · Engineering foundation</span>
+                  <span class="p-type">project</span>
+                  <span class="p-type p-pub">publication</span>
+                </span>
+              </span>
+              <span class="p-chev" aria-hidden="true"></span>
+            </summary>
+            <div class="p-body">
+              <p>Designed and built a <strong>mobile solar-powered all-terrain robot</strong> using a rocker-bogie suspension 
+                and a dual-axis sun-tracking system. The rocker-bogie mechanism was designed through geometric calculations 
+                and CAD modelling to maintain stability while traversing uneven terrain and climbing obstacles, while a 
+                three-gear differential mechanism was added to reduce platform tilt during rocker movement. The completed 
+                prototype was tested on rough terrain and demonstrated slope climbing up to 45° and obstacle traversal over 
+                steps up to 15 cm. </p>
+              <p>The solar subsystem uses <strong>light-dependent resistors (LDRs)</strong> and two perpendicular servo 
+                motors to continuously orient the panel toward the direction of maximum light intensity. The robot was 
+                controlled through an Android Bluetooth joystick, with the control system mapping joystick coordinates to 
+                individual wheel speeds. Testing showed that the dual-axis tracker produced <strong>38.96% higher average 
+                power</strong> than a stationary panel, demonstrating the benefit of combining mobile robotics with active 
+                solar tracking. </p>
+              <p><em>Project was presented at the International Conference on Advances in Mechanical Engineering (ICAME 2020) 
+                and published in the Advances in Mechanical Engineering journal by Springer.</em></p>
+              <p><strong>Tools / Concepts:</strong> CAD Modelling · Mechanical Design · Rocker-Bogie Mechanism · Differential 
+                Gear Mechanism · Dual-Axis Sun Tracking · LDR Sensors · Servo Motors · Bluetooth Control · Mobile Robotics · 
+                Solar Energy</p>
+
+              <figure class="p-fig">
+                <img src="assets/images/projects/suntracker.jpg" alt="The rocker-bogie chassis with the tracking panel mounted"
+                          width="685" height="781" loading="lazy" decoding="async">
+                <figcaption>The rocker-bogie chassis with the tracking panel mounted.</figcaption>
+              </figure>
+              <figure class="p-fig">
+                <img src="assets/images/projects/suntracker_working.jpg" alt="The rocker-bogie chassis moving over a rough terrain"
+                          width="685" height="516" loading="lazy" decoding="async">
+                <figcaption>The rocker-bogie chassis moving over a rough terrain.</figcaption>
+              </figure>
+              <ul class="p-links">
+                <li><a href="https://link.springer.com/chapter/10.1007/978-981-15-3639-7_86">Springer publication ↗</a></li>
+                <li><a href="https://ivlabs.in/sun-tracker-on-mobile-robot/">Code ↗</a></li>
+              </ul>
+            </div>
+          </details>
+        </li>
+
+        <li class="proj-item">
+          <details class="proj" id="p-absa"
+                   data-id="absa" data-order="2" data-short="ABSA" data-year="2022"
+                   data-wire="classical" data-type="project">
+            <summary>
+              <span class="p-short" aria-hidden="true">ABSA</span>
+              <span class="p-head">
+                <span class="p-title">Auto Customer-Review Categorization</span>
+                <span class="p-meta">
+                  <span class="p-year">2022</span>
+                  <span class="p-wire">c · Engineering foundation</span>
+                  <span class="p-type">project</span>
+                </span>
+              </span>
+              <span class="p-chev" aria-hidden="true"></span>
+            </summary>
+            <div class="p-body">
+              <p>Developed an <strong>Aspect-Based Sentiment Analysis (ABSA)</strong> system for analysing restaurant customer 
+                reviews by identifying what customers are talking about and the sentiment associated with each aspect. Rather 
+                than assigning a single sentiment to an entire review, the system identifies entity–aspect pairs such as 
+                <em>Food#Quality</em> or <em>Service#General</em> and classifies the corresponding sentiment. As part of the 
+                project, multiple approaches were studied and compared for aspect detection and sentiment classification, 
+                including spaCy, Bi-LSTM, BERT, and Logistic Regression. </p>
+              <p>The final pipeline combined <strong>BERT for aspect category detection</strong> with a <strong>Bi-directional 
+                LSTM for sentiment classification</strong>, reaching 92.02% accuracy for the sentiment classifier. Constituency 
+                parsing using Stanford CoreNLP's Stanza library was added to separate sentences containing multiple aspects, 
+                while a speech-to-text component allowed spoken feedback to be processed by the same ABSA pipeline. The project 
+                also analysed the limitations of the different models, including class imbalance, contextual ambiguity, and 
+                the effect of preprocessing on sentiment interpretation. </p>
+              <p><strong>Tools / Concepts:</strong> Python · NLP · BERT · Bi-LSTM · spaCy · Logistic Regression · Stanza · 
+                Word2Vec · GloVe · Aspect-Based Sentiment Analysis · Named Entity Recognition · Constituency Parsing · 
+                Speech-to-Text</p>
+              <ul class="p-links">
+                <li><a href="https://github.com/ShravarTanawde/ABSA-for-Customer-Review">Code ↗</a></li>
+              </ul>
+            </div>
+          </details>
+        </li>
+        </ol>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- The way back up, and the way back out of a measurement: it returns the
+       page to the diagram and the stack to all nine at once. js/circuit.js shows
+       it only once the circuit has actually scrolled out of view, and leaves it
+       hidden entirely if the circuit was never built. -->
+  <button type="button" class="to-circuit" id="toCircuit"
+          aria-label="Back to the circuit" title="Back to the circuit — clears the measurement">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 20V7"></path>
+      <path d="M6 12.5L12 6.5l6 6"></path>
+      <path d="M4 4h16"></path>
+    </svg>
+    <span>Circuit</span>
+  </button>
+
+  <!-- Reading settings popover -->
+  <div id="aaPanel" class="panel" role="dialog" aria-label="Reading settings" hidden>
+    <div class="panel-title">Reading settings <span class="hint">applies live</span></div>
+    <div class="grid">
+      <div class="field wide"><label for="c-style">Style</label>
+        <select id="c-style" data-var="font"><option value="default">Default (Sans)</option><option value="inter">Inter</option><option value="atkinson">Atkinson Hyperlegible</option><option value="dyslexic">OpenDyslexic</option></select></div>
+      <div class="field"><label for="c-size">Size</label>
+        <select id="c-size" data-var="size"><option value="small">Small</option><option value="medium">Medium</option><option value="large">Large</option><option value="xl">Extra Large</option></select></div>
+      <div class="field"><label for="c-tracking">Letter spacing</label>
+        <select id="c-tracking" data-var="tracking"><option value="normal">Normal</option><option value="wide">Wide</option><option value="wider">Wider</option></select></div>
+      <div class="field"><label for="c-leading">Line spacing</label>
+        <select id="c-leading" data-var="leading"><option value="tight">Tight</option><option value="normal">Normal</option><option value="relaxed">Relaxed</option><option value="loose">Loose</option></select></div>
+      <div class="field"><label for="c-measure">Paragraph width</label>
+        <select id="c-measure" data-var="measure"><option value="narrow">Narrow</option><option value="default">Default</option><option value="wide">Wide</option><option value="full">Full</option></select></div>
+      <div class="preview"><span class="cap">Preview</span>A qubit measured in the wrong basis gives a random result.</div>
+    </div>
+    <div class="panel-foot"><button id="aaReset" class="reset" type="button">Reset to defaults</button><span class="saved-note">Saved on this device</span></div>
+  </div>
+
+  <script src="js/theme.js?v=4"></script>
+  <script src="js/accessibility.js?v=4"></script>
+  <script src="js/axis.js?v=4"></script>
+  <script src="js/circuit.js?v=8"></script>
+</body>
+</html>

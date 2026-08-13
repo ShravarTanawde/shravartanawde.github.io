@@ -1,0 +1,23 @@
+/* ============================================================
+   page.css — inner pages only (projects / learn / tools)
+   Nav row + centered content column.
+   Load after global.css. Each page sets data-axis on <html>, which
+   drives --ax; the home-anchor sphere now lives in the top bar
+   (.brand-sphere in global.css), not in a fixed bottom-left corner.
+   ============================================================ */
+
+/* ---------- nav row ---------- */
+.nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 22px 16px 4px; }
+.navlink { font-family: var(--font-display); font-size: .86rem; font-weight: 500; text-decoration: none; color: var(--muted); padding: 8px 14px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--card); transition: color .15s, border-color .15s; }
+.navlink:hover { color: var(--accent); border-color: var(--accent); }
+.navlink.on { color: #fff; background: var(--accent); border-color: var(--accent); }
+html[data-theme="dark"] .navlink.on { color: #0a0e18; }
+.navlink:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+
+/* ---------- content ---------- */
+main { max-width: var(--measure); margin: 0 auto; padding: clamp(40px,9vw,90px) clamp(16px,4vw,40px) 60px; text-align: center; }
+.obs-eyebrow { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ax); }
+main h1 { font-family: var(--font-display); font-size: clamp(1.8rem,5vw,2.6rem); color: var(--ink); margin: .3em 0 .2em; letter-spacing: -0.02em; }
+main .kets { font-family: var(--font-mono); color: var(--muted); font-size: 1rem; margin-bottom: 1.4em; }
+main .kets b { color: var(--ax); font-weight: 500; }
+main p.lead { max-width: 52ch; margin: 0 auto; color: var(--body); }
