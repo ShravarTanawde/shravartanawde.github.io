@@ -246,6 +246,16 @@ html[data-theme="dark"] .spin .grating line { stroke: var(--accent); }
   @view-transition { navigation: none; }
 }
 
+/* A backdrop-filter on a sticky bar is re-blurred on every scrolled frame, and
+   the cost scales with area times radius — it is one of the reliable ways to
+   lose a smooth scroll. Kept on desktop, where it is affordable and the effect
+   reads; dropped on phones, where the GPU budget is smallest, the bar is a
+   sliver, and nobody will miss it. The background is opaque enough to stand on
+   its own without it. */
+@media (pointer: coarse) {
+  .topbar { backdrop-filter: none; background: color-mix(in srgb, var(--bg) 94%, transparent); }
+}
+
 /* ---------- touch ----------
    A finger is not a cursor. Controls sized for a pointer are grown to the 44px
    target the guidelines ask for, but only where the pointer is actually coarse,

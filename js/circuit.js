@@ -17,7 +17,7 @@
    superposition.
 
    Nothing scrolls without a reason the reader gave, and where they gave it
-   decides what happens (see follow()). Act from the stack and the card they
+   decides what happens (see reshape()). Act from the stack and the card they
    touched is pinned, so the collapse cannot move the page out from under them.
    Act from the circuit — a question asked of the diagram — and the page travels
    down to the write-up that answers it. #toCircuit is the way back, and drops
@@ -185,13 +185,12 @@
          the diagram the reader is looking at holds still instead. */
       b.addEventListener('click', function () {
         if (it.id === selected) { apply(null, section); return; }
-        apply(it.id);
-        // the write-up is where the reader is headed, so send the keyboard too —
-        // before the travel, so that a browser without preventScroll support
-        // does its jump first and gets corrected on the way down
+        // the write-up is where the reader is headed, so send the keyboard too.
+        // The travel itself waits for the stack to settle — apply() runs it once
+        // the shape is final, when there is a fixed number to scroll to.
+        apply(it.id, null, it.li);
         var sum = it.d.querySelector('summary');
         if (sum) { try { sum.focus({ preventScroll: true }); } catch (e) {} }
-        travelTo(it.li);
       });
       it.btn = b;
     });
@@ -281,8 +280,10 @@
        above the whole stack, so the cards reopening below cannot move it, and
        the browser's own smooth scroll is left to do the travelling. */
     btn.addEventListener('click', function () {
-      stopAnchor();               // this scroll is the reader's, let it through
-      if (selected) apply(null);
+      // held on the card they were reading, so the stack reassembling underneath
+      // does not shove the page around before the trip up even starts
+      var hold = currentItem();
+      if (selected) apply(null, hold);
       try {
         section.scrollIntoView({ block: 'start', behavior: reduced() ? 'auto' : 'smooth' });
       } catch (e) {
@@ -303,73 +304,88 @@
     return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   }
 
-  /* ---- following an element ----
-     Every scroll on this page is the same job: keep one element at one offset
-     in the viewport while the cards around it are still animating open or shut.
-     Holding a card where it already was and travelling down to a card that was
-     off screen differ only in the offset asked for and how hard each frame
-     chases it, so both go through follow().
+  /* ---- reshaping the stack ----
+     Two beats, and the whole reason the animation can hold 60fps is which beat
+     does what.
 
-     It has to be a per-frame loop rather than one computed jump. A measurement
-     collapses eight of the nine cards, taking thousands of pixels out of the
-     document over .42s; anything worked out up front is wrong by the next
-     frame. Measuring the real gap every frame also means the browser's own
-     scroll anchoring can help without the two fighting — if it already got the
-     element where it belongs, the gap is zero and we do nothing.
+     Beat one is the fade: cards on their way out go transparent where they
+     stand, and the layout is not touched at all. Only opacity moves, so the
+     compositor can run it without a single layout pass.
 
-     The first real scroll input hands control straight back to the reader. */
-  var HOLD_MS   = 520;    // the .42s collapse, plus a frame or two of slack
-  var TRAVEL_MS = 900;    // the collapse, plus the easing's long tail
-  var LEAD      = 88;     // where a card is asked to land: clear of the sticky top bar
+     Beat two is the shape change, and it happens when the cards that are
+     leaving have already faded to nothing. They come out of the flow, the ones
+     arriving go back into it (still transparent), and the page is left in its
+     final shape — all inside one frame on which nothing visible moves, because
+     everything that moved is invisible. Then the arrivals fade up.
 
-  var anchorGen = 0, anchorRAF = 0, anchorOff = null;
+     That is what makes the scroll correction a single jump. The old version
+     chased the reader's card for 520ms because the layout was still changing
+     under it every frame; here the layout is final the instant it changes, so
+     one measurement before and one after is exact — and the page is not being
+     scrolled (and therefore fully repainted) sixty times a second while eight
+     cards animate. */
+  var FADE_MS = 240;      // must match .proj-item's opacity transition in projects.css
+  var LEAD    = 88;       // where a card is asked to land: clear of the sticky top bar
+  var fadeTimer = 0;
 
-  function stopAnchor() {
-    anchorGen++;
-    if (anchorRAF) cancelAnimationFrame(anchorRAF);
-    anchorRAF = 0;
-    if (anchorOff) { anchorOff(); anchorOff = null; }
-  }
+  function reshape(anchor, travel) {
+    clearTimeout(fadeTimer);
 
-  /* Keep el's top edge at `top` px down the viewport, closing `ease` of the
-     remaining gap each frame — 1 is a lock, less than 1 is a glide. */
-  function follow(el, top, ease, ms) {
-    stopAnchor();
-    if (!el || !window.requestAnimationFrame) return;
-    var gen = anchorGen, until = Date.now() + ms;
-
-    /* Listeners go on a frame late, so the very keypress that triggered this
-       (Escape) is not itself read as the reader taking the scroll back. */
-    requestAnimationFrame(function () {
-      if (gen !== anchorGen) return;
-      var evs = ['wheel', 'touchstart', 'keydown'], opts = { passive: true };
-      evs.forEach(function (t) { window.addEventListener(t, stopAnchor, opts); });
-      anchorOff = function () {
-        evs.forEach(function (t) { window.removeEventListener(t, stopAnchor, opts); });
-      };
+    /* Everything that can come and go, with the state it should now be in. The
+       classes on the elements are the only record of where they are now, so
+       this is self-correcting if a click lands mid-fade. */
+    var units = [];
+    gates.forEach(function (it) {
+      units.push({ el: it.li, off: !!selected && it.id !== selected });
+    });
+    groups.forEach(function (sec) {
+      units.push({ el: sec, off: !!selected && !sec.querySelector('.proj-item.is-selected') });
     });
 
-    (function step() {
-      if (gen !== anchorGen) return;
-      var gap = el.getBoundingClientRect().top - top;
-      if (Math.abs(gap) > 0.5) window.scrollBy(0, gap * ease);
-      if (Date.now() < until) anchorRAF = requestAnimationFrame(step);
-      else stopAnchor();
-    })();
+    var out = [], back = [];
+    units.forEach(function (u) {
+      var isOff = u.el.classList.contains('is-off');
+      if (u.off && !isOff) { u.el.classList.add('is-fading'); out.push(u.el); }
+      else if (!u.off && isOff) { back.push(u.el); }
+      else if (!u.off) { u.el.classList.remove('is-fading'); }
+    });
+
+    function settle() {
+      var top = anchor ? anchor.getBoundingClientRect().top : 0;
+
+      out.forEach(function (el) { el.classList.add('is-off'); });
+      back.forEach(function (el) { el.classList.add('is-fading'); el.classList.remove('is-off'); });
+
+      // layout is final here, so one reading is the whole correction
+      if (anchor) {
+        var drift = anchor.getBoundingClientRect().top - top;
+        if (Math.abs(drift) > 0.5) window.scrollBy(0, drift);
+      }
+      if (travel) travelTo(travel);
+
+      if (!back.length) return;
+      if (reduced()) { back.forEach(function (el) { el.classList.remove('is-fading'); }); return; }
+      // a frame in the flow at zero opacity, so there is a value to fade from
+      requestAnimationFrame(function () {
+        back.forEach(function (el) { el.classList.remove('is-fading'); });
+      });
+    }
+
+    /* Only a departure needs the first beat — there is nothing to wait for if
+       nothing is fading out, and a travel still has to be honoured either way. */
+    if (out.length && !reduced()) fadeTimer = setTimeout(settle, FADE_MS);
+    else settle();
   }
 
-  // run() makes the change; el comes out of it sitting where it went in
-  function anchored(el, run) {
-    stopAnchor();
-    if (!el || !window.requestAnimationFrame) { run(); return; }
-    var top = el.getBoundingClientRect().top;
-    run();
-    follow(el, top, 1, HOLD_MS);
-  }
-
-  // and the other direction: bring el up to the reading position
+  /* Bring el up to the reading position. The browser's own smooth scroll can
+     do this now: by the time it is called the layout is settled, so the target
+     is a fixed number rather than something that has to be chased — and the
+     browser runs it off the main thread, and lets the reader interrupt it. */
   function travelTo(el) {
-    follow(el, LEAD, reduced() ? 1 : 0.18, reduced() ? 120 : TRAVEL_MS);
+    var top = el.getBoundingClientRect().top + (window.pageYOffset || 0) - LEAD;
+    top = Math.max(0, top);
+    try { window.scrollTo({ top: top, behavior: reduced() ? 'auto' : 'smooth' }); }
+    catch (e) { window.scrollTo(0, top); }
   }
 
   /* Re-runnable: it only moves existing nodes, so calling it again after the
@@ -449,13 +465,18 @@
 
   /* ---- selection ----
      `anchor` is the element that must not appear to move across the change;
-     omit it (the first call, before anything is on screen) and the page is
-     left exactly as the browser puts it. */
+     `travel` is one the page should scroll to once the shape has settled. Both
+     are optional, and the first call (before anything is on screen) passes
+     neither, so the page is left exactly as the browser puts it.
+
+     The split matters: commit() is the state — instant, so the circuit answers
+     the click on the same frame — while reshape() is the choreography, which
+     takes its time. */
   function select(id, anchor) { apply(id === selected ? null : id, anchor); }
 
-  function apply(id, anchor) {
-    if (anchor) anchored(anchor, function () { commit(id); });
-    else commit(id);
+  function apply(id, anchor, travel) {
+    commit(id);
+    reshape(anchor, travel);
   }
 
   function commit(id) {
@@ -472,8 +493,7 @@
       var on = it.id === selected;
       it.g.classList.toggle('is-selected', on);
       it.btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      it.li.classList.toggle('is-off', !!selected && !on);
-      it.li.classList.toggle('is-selected', on);
+      it.li.classList.toggle('is-selected', on);   // is-off is reshape()'s to give and take
       it.d.open = selected ? on : (priorOpen ? priorOpen[i] : it.d.open);
       if (on) {
         chosen = it;
@@ -484,10 +504,8 @@
     wires.forEach(function (w) {
       w.g.classList.toggle('is-live', !selected || !!live[w.id]);
     });
-    // a group whose entries have all collapsed takes its heading with it
-    groups.forEach(function (sec) {
-      sec.classList.toggle('is-off', !!selected && !sec.querySelector('.proj-item.is-selected'));
-    });
+    // a group whose entries have all collapsed goes with them — reshape() reads
+    // the is-selected flags this loop just set to work out which ones those are
 
     resetBtn.disabled = !selected;
     if (chosen) {

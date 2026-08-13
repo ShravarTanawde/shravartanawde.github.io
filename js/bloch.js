@@ -37,6 +37,23 @@
   var rim = new THREE.Line(rimGeo, new THREE.LineBasicMaterial({ color: colr('--sphere-line'), transparent: true, opacity: 0.85 }));
   scene.add(rim);
 
+  /* A sphere's silhouette under perspective is NOT a circle of the sphere's own
+     radius drawn through its centre. The horizon the camera actually sees is
+     the tangent circle: smaller (R·√(d²−R²)/d) but nearer (by R²/d), and the
+     nearness wins — the true outline projects LARGER than the naive circle, by
+     2.7% at this camera distance.
+
+     Drawn the naive way the rim under-reports the sphere, and the equator gives
+     it away: a great circle lies ON the surface, so when it swings edge-on its
+     widest point touches the silhouette exactly — and so appeared to bulge
+     outside the rim. Scaling the rim to the real horizon puts the equator back
+     inside it, touching at the edge-on extreme, which is the honest picture.
+
+     Derived from the camera rather than written down, so moving the camera
+     cannot quietly reintroduce the gap. */
+  var camDist = camera.position.length();
+  rim.scale.setScalar(camDist / Math.sqrt(camDist * camDist - 1));
+
   // equator great circle — subtle depth cue that tilts as you drag
   var ringGeo = new THREE.BufferGeometry(); var rpts = [];
   for (var a2 = 0; a2 <= 96; a2++) { var t2 = a2 / 96 * Math.PI * 2; rpts.push(Math.cos(t2), 0, Math.sin(t2)); }

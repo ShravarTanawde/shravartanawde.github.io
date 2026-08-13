@@ -91,8 +91,12 @@ main.proj-page { max-width: min(1140px, 100%); text-align: left; }
 .wire-line { stroke: var(--wire); stroke-width: 1.7; stroke-linecap: round; }
 .wire-reg { font-family: var(--font-mono); font-size: 12px; font-weight: 500; fill: var(--wire); }
 
-/* ---------- gates ---------- */
-.gate { transition: opacity .35s ease, filter .35s ease; }
+/* ---------- gates ----------
+   Opacity only. This used to transition `filter` as well, which meant eight SVG
+   groups being re-rasterised through a blur on every frame of the collapse —
+   easily the most expensive thing on the page, and for a blur riding on top of
+   16% opacity, which nobody could see anyway. */
+.gate { transition: opacity .35s ease; }
 .gate-box { fill: var(--card); stroke: var(--wire); stroke-width: 2; }
 .gate-label { font-family: var(--font-mono); font-size: 12px; font-weight: 500; fill: var(--wire); text-anchor: middle; }
 .gate-year { font-family: var(--font-mono); font-size: 10.5px; fill: var(--muted); text-anchor: middle; }
@@ -126,7 +130,7 @@ html[data-theme="dark"] .ctrl-dot { filter: drop-shadow(0 0 5px var(--glow)); }
 .gate-hit:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
 /* ---------- measurement collapse ---------- */
-.proj-page[data-selected] .gate:not(.is-selected) { opacity: .16; filter: blur(1.4px); }
+.proj-page[data-selected] .gate:not(.is-selected) { opacity: .16; }
 .proj-page[data-selected] .wire-group:not(.is-live) { opacity: .18; }
 .gate.is-selected .gate-box { stroke-width: 2.6; }
 .proj-page[data-selected] .gate.is-selected { filter: drop-shadow(0 0 9px var(--glow)); }
@@ -157,36 +161,47 @@ html[data-theme="dark"] .ctrl-dot { filter: drop-shadow(0 0 5px var(--glow)); }
 /* ============================================================
    the stack — the legible spine, and the whole page without JS
    ============================================================ */
-.stack-group { margin: 0 0 clamp(26px, 4vw, 38px); transition: margin .42s cubic-bezier(.4,0,.2,1); }
+/* ---------- how the stack changes shape ----------
+   Opacity and transform only. Those are the two things a browser can animate on
+   the compositor without re-running layout, and they are therefore the only two
+   that can hold 60fps while eight cards move at once.
+
+   What used to be here animated grid-template-rows from 1fr to 0fr. It read
+   well on paper — a size you cannot know in advance, animated anyway — but it
+   meant a full layout pass for every card on every frame, and js/circuit.js was
+   re-measuring and re-scrolling the page on those same frames to keep the
+   reader's card still. Two layout passes and a scroll per frame is not a 16ms
+   budget, so frames were dropped and a 420ms animation arrived in about four
+   steps. That is the jumpiness.
+
+   The trick that replaces it: cards leaving fade where they stand, with the
+   layout untouched, and are taken out of the flow only once they are already
+   invisible. The single frame where layout actually changes is a frame on which
+   nothing visible moves — so it costs one layout pass, total, and the scroll
+   correction that goes with it can be one jump instead of a 500ms chase. */
+.stack-group { margin: 0 0 clamp(26px, 4vw, 38px); transition: opacity .24s ease; }
 .stack-group:last-child { margin-bottom: 0; }
 .stack-head {
   display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px;
   font-family: var(--font-display); font-size: .82rem; font-weight: 600;
   text-transform: uppercase; letter-spacing: .11em; color: var(--ink);
   margin: 0 0 12px; padding-bottom: 9px; border-bottom: 1px solid var(--line);
-  overflow: hidden; max-height: 8em;   /* a height it cannot reach, so only the collapse to 0 is visible */
-  transition: max-height .42s cubic-bezier(.4,0,.2,1), opacity .3s ease, margin .42s, padding .42s;
 }
 .stack-note { font-family: var(--font-body); font-size: .76rem; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--muted); }
 .stack-count { font-family: var(--font-mono); font-size: .72rem; font-weight: 400; letter-spacing: 0; color: var(--muted); margin-left: auto; }
 
-/* measuring one project empties the other two groups — their headings go too */
-.stack-group.is-off { margin-bottom: 0; }
-.stack-group.is-off > .stack-head { max-height: 0; opacity: 0; margin: 0; padding: 0; border-bottom-color: transparent; }
-
 .stack { list-style: none; margin: 0; padding: 0; }
 
-/* 1fr -> 0fr is what makes the collapse animate; a height cannot, because the
-   open height is unknown. The <details> needs min-height:0 to be squeezable. */
-.proj-item {
-  display: grid; grid-template-rows: 1fr; margin-block: 10px; visibility: visible;
-  transition: grid-template-rows .42s cubic-bezier(.4,0,.2,1), opacity .3s ease, margin-block .42s cubic-bezier(.4,0,.2,1), visibility 0s;
-}
-.proj-item > .proj { overflow: hidden; min-height: 0; }
-.proj-item.is-off {
-  grid-template-rows: 0fr; opacity: 0; margin-block: 0; pointer-events: none; visibility: hidden;
-  transition: grid-template-rows .42s cubic-bezier(.4,0,.2,1), opacity .3s ease, margin-block .42s cubic-bezier(.4,0,.2,1), visibility 0s linear .42s;
-}
+.proj-item { margin-block: 10px; transition: opacity .24s ease, transform .24s cubic-bezier(.4,0,.2,1); }
+.proj-item > .proj { overflow: hidden; }
+
+/* mid-fade: still in the flow, on its way to or from nothing */
+.proj-item.is-fading, .stack-group.is-fading { opacity: 0; pointer-events: none; }
+.proj-item.is-fading { transform: translateY(-6px); }
+
+/* out of the flow. Only ever set on something already faded out, or cleared on
+   something about to be faded in, so this never animates and never needs to. */
+.proj-item.is-off, .stack-group.is-off { display: none; }
 
 .proj {
   border: 1px solid var(--line); border-left: 3px solid var(--wire);
@@ -304,9 +319,9 @@ html[data-theme="dark"] .ctrl-dot { filter: drop-shadow(0 0 5px var(--glow)); }
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   .to-circuit { transition: border-color .15s, color .15s; transform: none; }
-  /* no dimming-and-collapsing choreography — just show and hide */
-  .proj-item, .proj-item.is-off, .stack-group, .stack-head { transition: none !important; }
-  .proj-item.is-off, .stack-group.is-off { display: none; }
+  /* no cross-fade: circuit.js skips the fade beat too, so the change is one step */
+  .proj-item, .stack-group { transition: none !important; }
+  .proj-item.is-fading { transform: none; }
   .gate.is-selected .gate-box, .proj-item.is-selected > .proj { animation: none !important; }
   .proj-page[data-selected] .gate:not(.is-selected) { filter: none; }
 }
