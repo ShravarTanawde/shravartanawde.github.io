@@ -332,8 +332,48 @@
         </li>
 
         <li class="proj-item">
+          <details class="proj" id="Qflux"
+                   data-id="Q-Flux" data-order="9" data-short="Q-Flux" data-year="2026"
+                   data-wire="q1" data-type="project">
+            <summary>
+              <span class="p-short" aria-hidden="true">Q-Flux</span>
+              <span class="p-head">
+                <span class="p-title">Quantum solution for Optimized Transport Logistics with Impact Analysis</span>
+                <span class="p-meta">
+                  <span class="p-year">2026</span>
+                  <span class="p-wire">q1 · Transport &amp; Sensing</span>
+                  <span class="p-type">project</span>
+                </span>
+              </span>
+              <span class="p-chev" aria-hidden="true"></span>
+            </summary>
+            <div class="p-body">
+              <p>Q-FLUX is a fleet-logistics system built around a server-side digital twin. The core optimization decision 
+                is <strong>which truck should carry which order</strong>. That decision is formulated as a QUBO and solved with an annealer. 
+                The rest of the pipeline is classical: graph routing, eligibility filtering, feasibility repair, stop sequencing, 
+                fuel planning, disruption analysis, and benchmarking.</p>
+              <p>The system does not build one giant QUBO for the full fleet. Orders are split into zones, each zone gets a small candidate-truck 
+                pool, impossible truck-order pairs are removed, and the remaining assignment problem is solved independently.</p>
+              <p>When a disruption occurs, Q-FLUX does not automatically throw away the whole plan. It propagates the consequences through the 
+                road graph, identifies the affected orders, builds an isolated zone, and runs the same optimization pipeline again only for that zone.</p>
+              <p><strong>Tools / Concepts:</strong> Python · NetworkX · QUBO · Quantum Annealing · Simulated Annealing · D-Wave Ocean · FastAPI · Digital Twin · 
+                Vehicle Routing · Constraint Optimization · OR-Tools · 2-opt</p>
+
+              <figure class="p-fig">
+                <img src="assets/images/projects/qflux.png" alt="Image showing front page of the software with digital twin in middle and other informations beside it"
+                          width="1904" height="1004" loading="lazy" decoding="async">
+                <figcaption>Qflux software with digital twin simulation and options to optimize and create disruptions</figcaption>
+              </figure>
+              <ul class="p-links">
+                <li><a href="https://github.com/ShravarTanawde/QFlux">Code ↗</a></li>
+              </ul>
+            </div>
+          </details>
+        </li>
+
+        <li class="proj-item">
           <details class="proj" id="p-tfet"
-                   data-id="2d-tfet" data-order="9" data-short="2D-TFET" data-year="Ongoing"
+                   data-id="2d-tfet" data-order="10" data-short="2D-TFET" data-year="Ongoing"
                    data-wire="q2" data-control="q1" data-type="project">
             <summary>
               <span class="p-short" aria-hidden="true">2D-TFET</span>
