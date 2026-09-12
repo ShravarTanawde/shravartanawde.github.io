@@ -104,6 +104,10 @@ main.proj-page { max-width: min(1140px, 100%); text-align: left; }
 /* a job is a different KIND of gate, not a differently-coloured one */
 .gate[data-type="role"] .gate-box { fill: var(--wire-fill); stroke: var(--wire-fill); }
 .gate[data-type="role"] .gate-label { fill: var(--card); }
+/* ...and a certificate is a third kind again: the seal shape is drawn by
+   js/circuit.js as a path, so all that is left here is to let a thinner stroke
+   sit inside the cut corners without the chamfers looking blunt. */
+.gate[data-type="credential"] .gate-box { stroke-width: 1.8; stroke-linejoin: miter; }
 /* The strip above a gate names any extra kind it belongs to — ROLE, PUBLISHED.
    It reads in greyscale on its own, so the accent below is a second cue and
    never the only one. */
@@ -154,6 +158,11 @@ html[data-theme="dark"] .ctrl-dot { filter: drop-shadow(0 0 5px var(--glow)); }
 .legend li { display: flex; align-items: center; gap: 9px; }
 .leg-gate { width: 26px; height: 15px; flex: none; border-radius: 4px; border: 2px solid var(--line-strong); }
 .leg-gate.is-filled { background: var(--muted); border-color: var(--muted); }
+/* The same cut corners the diagram draws. It has to be a drawn outline rather
+   than a clip-path on the bordered span the other two swatches use: clipping
+   cuts the border away along the diagonals instead of following it, which left
+   the seal reading as a broken pill. */
+svg.leg-gate.is-cert { border: 0; fill: none; stroke: var(--line-strong); stroke-width: 2; }
 .leg-type b { font-family: var(--font-mono); font-weight: 500; font-size: .74rem; letter-spacing: .06em; color: var(--ink); }
 /* the same strip the diagram draws above a published gate */
 .leg-tag { font-family: var(--font-mono); font-weight: 500; font-size: .62rem; letter-spacing: .16em; color: var(--accent); }

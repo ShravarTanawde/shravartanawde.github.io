@@ -91,6 +91,7 @@
       year: d.getAttribute('data-year') || '',
       title: title ? title.textContent.trim() : '',
       role: d.getAttribute('data-type') === 'role',
+      cert: d.getAttribute('data-type') === 'credential',   // a record of work, not the work
       pub: d.hasAttribute('data-pub'),          // published work; orthogonal to project/role
       wire: w,
       ctrl: wireById[d.getAttribute('data-control')] || null
@@ -137,7 +138,7 @@
       it.g = mk('g', {
         'class': 'gate',
         'data-wire': it.wire.id,
-        'data-type': it.role ? 'role' : 'project'
+        'data-type': it.cert ? 'credential' : (it.role ? 'role' : 'project')
       }, gatesG);
       if (it.pub) it.g.setAttribute('data-pub', '');
 
@@ -148,7 +149,14 @@
         it.dot  = mk('circle', { 'class': 'ctrl-dot', r: 5 }, it.g);
       }
 
-      it.box = mk('rect', { 'class': 'gate-box', rx: 9, height: BOX_H }, it.g);
+      /* A certificate is not an operation applied to the register — nothing about
+         the state changes when you earn one — so it is not drawn as a gate box.
+         It gets a chamfered seal instead: a silhouette that reads as different
+         at a glance and in greyscale, where outlined-vs-filled could only have
+         said "some third thing". A <path>, because a rect cannot cut corners. */
+      it.box = it.cert
+        ? mk('path', { 'class': 'gate-box' }, it.g)
+        : mk('rect', { 'class': 'gate-box', rx: 9, height: BOX_H }, it.g);
       it.label = mk('text', { 'class': 'gate-label' }, it.g);
       it.label.textContent = it.short;
       it.yearT = mk('text', { 'class': 'gate-year' }, it.g);
@@ -157,6 +165,7 @@
          box is the open channel for any further kind a gate belongs to, and it
          takes more than one — a published job would read "ROLE · PUBLISHED". */
       var tags = [];
+      if (it.cert) tags.push('CERTIFICATE');
       if (it.role) tags.push('ROLE');
       if (it.pub) tags.push('PUBLISHED');
       if (tags.length) {
@@ -175,7 +184,7 @@
       var sr = document.createElement('span');
       sr.className = 'vh';
       sr.textContent = it.short + ' — ' + it.title + '. ' + it.year + '. ' +
-        (it.role ? 'Role' : 'Project') + (it.pub ? ', published' : '') +
+        (it.cert ? 'Certificate' : it.role ? 'Role' : 'Project') + (it.pub ? ', published' : '') +
         ' on register ' + it.wire.reg +
         (it.ctrl ? ', controlled from register ' + it.ctrl.reg : '') + '.';
       b.appendChild(sr);
@@ -426,9 +435,19 @@
     gates.forEach(function (it) {
       var y = it.wire.y, half = it.w / 2, top = y;
 
-      it.box.setAttribute('x', it.cx - half);
-      it.box.setAttribute('y', y - BOX_H / 2);
-      it.box.setAttribute('width', it.w);
+      if (it.cert) {
+        /* the same box with its four corners cut, so the seal keeps the label
+           centred and the year and tag placed exactly as every other gate */
+        var x0 = it.cx - half, y0 = y - BOX_H / 2, x1 = x0 + it.w, y1 = y0 + BOX_H, c = 9;
+        it.box.setAttribute('d',
+          'M' + (x0 + c) + ' ' + y0 + 'H' + (x1 - c) + 'L' + x1 + ' ' + (y0 + c) +
+          'V' + (y1 - c) + 'L' + (x1 - c) + ' ' + y1 + 'H' + (x0 + c) +
+          'L' + x0 + ' ' + (y1 - c) + 'V' + (y0 + c) + 'Z');
+      } else {
+        it.box.setAttribute('x', it.cx - half);
+        it.box.setAttribute('y', y - BOX_H / 2);
+        it.box.setAttribute('width', it.w);
+      }
       it.label.setAttribute('x', it.cx);
       it.label.setAttribute('y', y + 4.3);
       it.yearT.setAttribute('x', it.cx);

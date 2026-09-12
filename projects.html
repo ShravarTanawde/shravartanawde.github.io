@@ -36,7 +36,7 @@
 
 <link rel="stylesheet" href="css/global.css?v=5">
 <link rel="stylesheet" href="css/page.css?v=4">
-<link rel="stylesheet" href="css/projects.css?v=8">
+<link rel="stylesheet" href="css/projects.css?v=10">
 </head>
 <body>
 
@@ -142,6 +142,7 @@
       <ul class="legend" id="legend">
         <li class="leg-type"><span class="leg-gate" aria-hidden="true"></span> outlined = project</li>
         <li class="leg-type"><span class="leg-gate is-filled" aria-hidden="true"></span> filled + <b>role</b> = job or internship</li>
+        <li class="leg-type"><svg class="leg-gate is-cert" viewBox="0 0 26 15" aria-hidden="true"><path d="M5 1H21L25 5V10L21 14H5L1 10V5Z"/></svg> cut corners = certificate</li>
         <li class="leg-type"><span class="leg-tag">PUBLISHED</span> = also appeared as a paper</li>
       </ul>
     </section>
@@ -244,7 +245,7 @@
 
         <li class="proj-item">
           <details class="proj" id="p-enaqt"
-                   data-id="enaqt" data-order="7" data-short="ENAQT" data-year="2026"
+                   data-id="enaqt" data-order="8" data-short="ENAQT" data-year="2026"
                    data-wire="q2" data-type="project">
             <summary>
               <span class="p-short" aria-hidden="true">ENAQT</span>
@@ -290,7 +291,7 @@
 
         <li class="proj-item">
           <details class="proj" id="p-squeezed"
-                   data-id="sq-imaging" data-order="8" data-short="Sq-Imaging" data-year="2026"
+                   data-id="sq-imaging" data-order="9" data-short="Sq-Imaging" data-year="2026"
                    data-wire="q2" data-type="project">
             <summary>
               <span class="p-short" aria-hidden="true">Sq-Imaging</span>
@@ -333,7 +334,7 @@
 
         <li class="proj-item">
           <details class="proj" id="Qflux"
-                   data-id="Q-Flux" data-order="9" data-short="Q-Flux" data-year="2026"
+                   data-id="Q-Flux" data-order="10" data-short="Q-Flux" data-year="2026"
                    data-wire="q1" data-type="project">
             <summary>
               <span class="p-short" aria-hidden="true">Q-Flux</span>
@@ -373,7 +374,7 @@
 
         <li class="proj-item">
           <details class="proj" id="p-tfet"
-                   data-id="2d-tfet" data-order="10" data-short="2D-TFET" data-year="Ongoing"
+                   data-id="2d-tfet" data-order="11" data-short="2D-TFET" data-year="Ongoing"
                    data-wire="q2" data-control="q1" data-type="project">
             <summary>
               <span class="p-short" aria-hidden="true">2D-TFET</span>
@@ -503,6 +504,46 @@
       </section>
 
       <section class="stack-group">
+        <h2 class="stack-head">Certificates<span class="stack-note">Programmes completed, and what they certify.</span><span class="stack-count">1</span></h2>
+        <ol class="stack">
+
+        <li class="proj-item">
+          <details class="proj" id="p-qgss"
+                   data-id="qgss-2026" data-order="7" data-short="QGSS" data-year="2026"
+                   data-wire="q1" data-type="credential">
+            <summary>
+              <span class="p-short" aria-hidden="true">QGSS</span>
+              <span class="p-head">
+                <span class="p-title">Qiskit Global Summer School 2026 — Quantum Excellence</span>
+                <span class="p-meta">
+                  <span class="p-year">Aug 2026</span>
+                  <span class="p-wire">q1 &middot; Algorithms &amp; Information</span>
+                  <span class="p-type">certificate</span>
+                </span>
+              </span>
+              <span class="p-chev" aria-hidden="true"></span>
+            </summary>
+            <div class="p-body">
+              <p>Completed the <strong>Qiskit Global Summer School 2026</strong> and was awarded the
+                <strong>Quantum Excellence</strong> badge on the advanced track, which is issued for
+                completing the lecture series together with the graded lab work rather than for
+                attendance alone. The programme sits on the <strong>q1</strong> register: its material is
+                quantum algorithms and quantum information rather than device physics.</p>
+              <figure class="p-fig">
+                <img src="assets/images/certs/qgss-2026.png" alt="Certificate: Qiskit Global Summer School 2026, Quantum Excellence, advanced track, issued to Shravar Tanawde by IBM on 21 August 2026"
+                          width="1251" height="960" loading="lazy" decoding="async">
+                <figcaption>Issued by IBM, 21 August 2026 &middot; verifiable on Credly.</figcaption>
+              </figure>
+              <ul class="p-links">
+                <li><a href="https://www.credly.com/badges/ead56291-ce74-4705-86d8-c5e1227baa9b/public_url">Verify on Credly ↗</a></li>
+              </ul>
+            </div>
+          </details>
+        </li>
+        </ol>
+      </section>
+
+      <section class="stack-group">
         <h2 class="stack-head">Misc<span class="stack-note">Earlier engineering, before the pivot.</span><span class="stack-count">2</span></h2>
         <ol class="stack">
 
@@ -598,6 +639,7 @@
             </div>
           </details>
         </li>
+
         </ol>
       </section>
 
@@ -640,6 +682,6 @@
   <script src="js/theme.js?v=4"></script>
   <script src="js/accessibility.js?v=4"></script>
   <script src="js/axis.js?v=4"></script>
-  <script src="js/circuit.js?v=9"></script>
+  <script src="js/circuit.js?v=11"></script>
 </body>
 </html>
