@@ -1,0 +1,33 @@
+# ============================================================================
+# The repo root IS the published site: GitHub Pages serves these files as-is,
+# and .nojekyll means nothing is filtered. So anything committed here is
+# reachable over the web, whether or not a page links to it.
+#
+# These two are deliberately NOT part of the site, so they stay out of the repo.
+# ============================================================================
+
+# Working notes and build constraints for the QUBO/QAOA workbench. Guidance for
+# whoever edits the tool next, not content for anyone visiting it.
+CLAUDE.md
+
+# The test harnesses. "Not shipped" is one of the tool's own constraints, and on
+# a Pages repo the only way to honour that is to not commit them.
+#   - JS suites (node validation/run_all.sh)
+#   - templates_check.py, which executes generated PennyLane
+#   - benchmarks/, including third-party DIMACS instance files
+validation/
+
+# ---------------------------------------------------------------------------
+# Local clutter
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/

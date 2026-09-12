@@ -1,0 +1,659 @@
+/* ============================================================================
+   workbench.css — tools/qubo-workbench/ only.
+   Load after global.css and page.css. Every colour here comes from a global
+   token, so the tool follows the site's two themes and the reading panel
+   without owning a palette of its own.
+
+   The page column is wider than --measure: a Q matrix and a variable ledger are
+   not paragraphs. Prose inside a panel keeps --measure for itself, so the
+   reading panel still governs anything that is actually read.
+   ============================================================================ */
+
+main.wb-page {
+  max-width: min(1140px, 100%);
+  text-align: left;
+  padding-top: clamp(28px, 6vw, 54px);
+}
+.wb-page .vh {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* ---------------------------------------------------------------- page head */
+
+.wb-head { max-width: 64ch; margin: 0 0 clamp(24px, 4vw, 38px); }
+.wb-head h1 {
+  font-family: var(--font-display); font-size: clamp(1.8rem, 5vw, 2.6rem);
+  color: var(--ink); margin: .3em 0 .25em; letter-spacing: -0.02em;
+}
+.wb-head .lead { color: var(--body); margin: 0 0 .8em; max-width: var(--measure); }
+.wb-head .lead:last-child { margin-bottom: 0; }
+.wb-head .obs-eyebrow { margin: 0; }
+
+/* ---------------------------------------------------------------- callouts --
+   Three severities, distinguished by an icon glyph and a label as well as by
+   colour, so the meaning survives greyscale and colour-blindness.
+     note  — neutral, explains a rule
+     warn  — approaching the cap, or an override the user made on purpose
+     stop  — over the cap: a feature is switched off
+*/
+.wb-callout {
+  display: grid; grid-template-columns: auto 1fr; gap: 4px 12px;
+  border: 1px solid var(--line-strong); border-left-width: 4px; border-radius: 12px;
+  background: var(--card); padding: 14px 16px; margin: 0 0 22px;
+}
+.wb-callout + .wb-callout { margin-top: -8px; }
+.wb-callout .ico {
+  font-family: var(--font-mono); font-size: .8rem; font-weight: 500;
+  width: 22px; height: 22px; border-radius: 999px; display: grid; place-items: center;
+  border: 1.5px solid currentColor; grid-row: 1 / span 2; align-self: start; margin-top: 1px;
+}
+.wb-callout .title {
+  font-family: var(--font-display); font-weight: 600; font-size: .92rem; color: var(--ink);
+  align-self: center; margin: 0;
+}
+.wb-callout p { margin: 0; font-size: .92rem; color: var(--body); max-width: 62ch; }
+.wb-callout .title + p { margin-top: 2px; }
+
+.wb-callout[data-level="note"] { border-left-color: var(--ax); }
+.wb-callout[data-level="note"] .ico { color: var(--ax); }
+.wb-callout[data-level="warn"] { border-left-color: #b54708; }
+.wb-callout[data-level="warn"] .ico { color: #b54708; }
+.wb-callout[data-level="stop"] { border-left-color: #b42318; }
+.wb-callout[data-level="stop"] .ico { color: #b42318; }
+html[data-theme="dark"] .wb-callout[data-level="warn"] { border-left-color: #fdb022; }
+html[data-theme="dark"] .wb-callout[data-level="warn"] .ico { color: #fdb022; }
+html[data-theme="dark"] .wb-callout[data-level="stop"] { border-left-color: #fda29b; }
+html[data-theme="dark"] .wb-callout[data-level="stop"] .ico { color: #fda29b; }
+.wb-callout[hidden] { display: none; }
+
+/* -------------------------------------------------------------- the step rail
+   Four steps, always all four visible. A locked step is not hidden — seeing
+   what comes next is half of what the rail is for — it is just not reachable,
+   and says why on hover/focus via its title.
+   The rail is a <nav> of <button>s: steps are in-page state, not documents. */
+
+.wb-rail {
+  display: flex; gap: 0; flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain;
+  border: 1px solid var(--line); border-radius: 14px; background: var(--card);
+  padding: 6px; margin: 0 0 clamp(20px, 3vw, 30px); box-shadow: var(--shadow);
+  scrollbar-width: thin;
+}
+.wb-step {
+  flex: 1 1 0; min-width: 148px; display: flex; align-items: center; gap: 10px;
+  font: inherit; text-align: left; background: none; border: 1.5px solid transparent;
+  border-radius: 10px; padding: 10px 12px; cursor: pointer; color: var(--muted);
+  transition: background-color .15s, color .15s, border-color .15s;
+}
+.wb-step .n {
+  font-family: var(--font-mono); font-size: .78rem; font-weight: 500;
+  width: 26px; height: 26px; flex: none; border-radius: 999px; display: grid; place-items: center;
+  border: 1.5px solid var(--line-strong); color: var(--muted); background: var(--bg);
+}
+.wb-step .t { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+.wb-step .t b { font-family: var(--font-display); font-size: .88rem; font-weight: 600; color: inherit; }
+.wb-step .t span { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .04em; color: var(--muted); }
+
+.wb-step:hover:not([disabled]) { background: var(--accent-weak); color: var(--ink); }
+.wb-step:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 1px; }
+.wb-step[aria-current="step"] { border-color: var(--ax); color: var(--ink); background: var(--bg); }
+.wb-step[aria-current="step"] .n { border-color: var(--ax); color: var(--ax); }
+.wb-step[data-state="done"] .n { border-color: var(--ax); background: var(--ax); color: var(--card); }
+.wb-step[disabled] { cursor: not-allowed; opacity: .45; }
+
+/* ------------------------------------------------------------------- panels */
+
+.wb-panel {
+  border: 1px solid var(--line); border-radius: 18px; background: var(--card);
+  box-shadow: var(--shadow); margin: 0 0 clamp(20px, 3vw, 28px); overflow: hidden;
+  scroll-margin-top: 84px;
+}
+.wb-panel[hidden] { display: none; }
+.wb-panel-bar {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px 18px;
+  flex-wrap: wrap; padding: 14px 18px; border-bottom: 1px solid var(--line);
+}
+.wb-panel-bar h2 { font-family: var(--font-display); font-size: .98rem; font-weight: 600; color: var(--ink); margin: 0; }
+.wb-panel-bar .sub { font-family: var(--font-mono); font-size: .72rem; color: var(--muted); margin: 0; }
+.wb-panel-body { padding: 18px; }
+.wb-panel-body > p { max-width: var(--measure); }
+.wb-panel-body > :first-child { margin-top: 0; }
+.wb-panel-body > :last-child { margin-bottom: 0; }
+
+/* --------------------------------------------------------- the size readout --
+   Qubit count, decision/ancilla split, statevector memory. Deliberately NO
+   runtime estimate: that depends on the visitor's machine and would be a
+   number the tool cannot stand behind. */
+
+.wb-size {
+  display: flex; flex-wrap: wrap; gap: 10px 0; align-items: stretch;
+  border: 1px solid var(--line-strong); border-radius: 12px; background: var(--bg);
+  padding: 2px 0; margin: 0 0 18px;
+}
+.wb-size .cell { flex: 1 1 auto; min-width: 116px; padding: 10px 16px; }
+.wb-size .cell + .cell { border-left: 1px solid var(--line); }
+.wb-size .k {
+  display: block; font-family: var(--font-mono); font-size: .64rem; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 3px;
+}
+.wb-size .v { font-family: var(--font-mono); font-size: 1.02rem; color: var(--ink); }
+.wb-size .v small { font-size: .72rem; color: var(--muted); }
+.wb-size[data-cap="warn"] { border-color: #b54708; }
+.wb-size[data-cap="over"] { border-color: #b42318; }
+html[data-theme="dark"] .wb-size[data-cap="warn"] { border-color: #fdb022; }
+html[data-theme="dark"] .wb-size[data-cap="over"] { border-color: #fda29b; }
+
+@media (max-width: 560px) {
+  .wb-size .cell + .cell { border-left: none; border-top: 1px solid var(--line); }
+  .wb-size .cell { flex: 1 1 100%; }
+}
+
+/* ------------------------------------------------------------------ buttons */
+
+.wb-btn {
+  font: inherit; font-family: var(--font-mono); font-size: .78rem; letter-spacing: .03em;
+  padding: 9px 16px; border-radius: 999px; border: 1.5px solid var(--line-strong);
+  background: var(--bg); color: var(--ink); cursor: pointer; white-space: nowrap;
+  transition: border-color .15s, color .15s, background-color .15s, opacity .2s;
+}
+.wb-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+.wb-btn:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+.wb-btn:disabled { opacity: .42; cursor: not-allowed; }
+.wb-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+html[data-theme="dark"] .wb-btn.primary { color: #0a0e18; }
+.wb-btn.primary:hover:not(:disabled) { filter: brightness(1.08); color: #fff; }
+html[data-theme="dark"] .wb-btn.primary:hover:not(:disabled) { color: #0a0e18; }
+
+.wb-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* ------------------------------------------------------------------ mono bits */
+
+.wb-mono { font-family: var(--font-mono); }
+.wb-muted { color: var(--muted); }
+code.wb-tok {
+  font-family: var(--font-mono); font-size: .88em; background: var(--accent-weak);
+  color: var(--ink); border-radius: 5px; padding: 1px 5px;
+}
+
+/* A displayed formula: scrolls rather than shrinks, like the circuit diagram. */
+.wb-formula {
+  font-family: var(--font-mono); font-size: .86rem; color: var(--ink);
+  background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+  padding: 12px 14px; overflow-x: auto; margin: 14px 0; white-space: pre;
+}
+
+@media (pointer: coarse) {
+  .wb-btn { min-height: 44px; }
+  .wb-step { min-height: 44px; }
+}
+
+/* ============================================================================
+   Step 1 — template picker, the input form, the matrix, the ledger, the verdict
+   ============================================================================ */
+
+.wb-h3 {
+  font-family: var(--font-display); font-size: .92rem; font-weight: 600; color: var(--ink);
+  margin: 30px 0 12px; padding-top: 18px; border-top: 1px solid var(--line);
+}
+#wbResults:focus { outline: none; }
+#wbResults[hidden] { display: none; }
+
+/* ------------------------------------------------------- the template picker */
+
+.wb-problems { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 20px; }
+.wb-chip {
+  font: inherit; text-align: left; cursor: pointer; padding: 10px 16px;
+  border: 1.5px solid var(--line-strong); border-radius: 12px; background: var(--card);
+  display: flex; flex-direction: column; line-height: 1.3;
+  transition: border-color .15s, background-color .15s;
+}
+.wb-chip b { font-family: var(--font-display); font-size: .9rem; font-weight: 600; color: var(--ink); }
+.wb-chip span { font-family: var(--font-mono); font-size: .7rem; color: var(--muted); }
+.wb-chip:hover { border-color: var(--accent); }
+.wb-chip[aria-pressed="true"] { border-color: var(--ax); background: var(--accent-weak); }
+.wb-chip:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+
+/* --------------------------------------------------------------- the tables --
+   One table skin for the item form, the ledger, the matrix and the ground-state
+   list, so the page reads as one thing. Numbers are tabular-figure mono: columns
+   of digits have to line up or they cannot be compared by eye. */
+
+.wb-scroll {
+  overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin;
+  border: 1px solid var(--line); border-radius: 12px; background: var(--bg);
+}
+.wb-table { border-collapse: collapse; width: 100%; font-size: .86rem; }
+.wb-table th, .wb-table td { padding: 7px 12px; text-align: left; border-bottom: 1px solid var(--line); }
+.wb-table thead th {
+  font-family: var(--font-mono); font-size: .66rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); font-weight: 500; white-space: nowrap;
+  position: sticky; top: 0; background: var(--bg); z-index: 1;
+}
+.wb-table tbody tr:last-child th, .wb-table tbody tr:last-child td { border-bottom: none; }
+.wb-table .num { font-family: var(--font-mono); color: var(--muted); width: 1%; white-space: nowrap; }
+.wb-table .sym { font-family: var(--font-mono); color: var(--ink); font-weight: 500; white-space: nowrap; }
+.wb-table td, .wb-table th { font-variant-numeric: tabular-nums; }
+
+.wb-badge {
+  font-family: var(--font-mono); font-size: .64rem; letter-spacing: .06em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--muted);
+  white-space: nowrap;
+}
+.wb-badge[data-kind="decision"] { border-color: var(--ax); color: var(--ax); }
+.wb-badge[data-kind="ancilla"]  { border-color: var(--line-strong); color: var(--muted); }
+.wb-badge[data-kind="ok"]  { border-color: #067647; color: #067647; }
+.wb-badge[data-kind="bad"] { border-color: #b42318; color: #b42318; }
+html[data-theme="dark"] .wb-badge[data-kind="ok"]  { border-color: #75e0a7; color: #75e0a7; }
+html[data-theme="dark"] .wb-badge[data-kind="bad"] { border-color: #fda29b; color: #fda29b; }
+
+/* ------------------------------------------------------------- the Q matrix --
+   Sign is carried by the number itself; the tint only makes the pattern visible
+   at a glance. --tint is the magnitude relative to the largest coefficient, set
+   per cell by render.js. */
+
+.wb-matrix { font-family: var(--font-mono); font-size: .76rem; width: auto; }
+.wb-matrix th, .wb-matrix td { padding: 5px 9px; text-align: right; border: 1px solid var(--line); }
+.wb-matrix thead th, .wb-matrix tbody th { color: var(--muted); font-size: .68rem; text-align: center; }
+.wb-matrix .corner { border: none; background: transparent; }
+.wb-matrix td.blank { background: transparent; border-color: transparent; }
+.wb-matrix td.zero { color: var(--muted); }
+.wb-matrix td.diag { font-weight: 500; outline: 1.5px solid var(--line-strong); outline-offset: -1.5px; }
+.wb-matrix td[data-sign="neg"] { background: color-mix(in srgb, var(--ax-x) calc(var(--tint) * 26%), transparent); color: var(--ink); }
+.wb-matrix td[data-sign="pos"] { background: color-mix(in srgb, var(--ax-y) calc(var(--tint) * 26%), transparent); color: var(--ink); }
+html[data-theme="dark"] .wb-matrix td[data-sign="neg"] { background: color-mix(in srgb, var(--ax-x) calc(var(--tint) * 22%), transparent); }
+html[data-theme="dark"] .wb-matrix td[data-sign="pos"] { background: color-mix(in srgb, var(--ax-y) calc(var(--tint) * 22%), transparent); }
+
+.wb-legend {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px;
+  font-family: var(--font-mono); font-size: .7rem; color: var(--muted); margin: 10px 0 0;
+}
+.wb-legend .swatch { width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--line-strong); display: inline-block; }
+.wb-legend .swatch[data-sign="neg"] { background: color-mix(in srgb, var(--ax-x) 26%, transparent); }
+.wb-legend .swatch[data-sign="pos"] { background: color-mix(in srgb, var(--ax-y) 26%, transparent); }
+.wb-legend .sep { color: var(--line-strong); }
+.wb-offset { font-family: var(--font-mono); font-size: .78rem; color: var(--muted); margin: 10px 0 0; }
+.wb-offset b { color: var(--ink); font-weight: 500; }
+
+/* ----------------------------------------------------------------- the form */
+
+.wb-form-table td { padding: 5px 8px; }
+.wb-form-table .act { width: 1%; }
+.wb-input {
+  font: inherit; font-family: var(--font-mono); font-size: .84rem; color: var(--ink);
+  background: var(--card); border: 1.5px solid var(--line-strong); border-radius: 8px;
+  padding: 7px 10px; width: 100%; min-width: 78px;
+}
+.wb-input:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 1px; border-color: var(--accent); }
+.wb-input[aria-invalid] { border-color: #b42318; }
+html[data-theme="dark"] .wb-input[aria-invalid] { border-color: #fda29b; }
+.wb-input[data-auto="true"] { color: var(--muted); font-style: italic; }
+
+.wb-icon-btn {
+  font: inherit; font-size: 1.1rem; line-height: 1; color: var(--muted); cursor: pointer;
+  background: none; border: 1.5px solid transparent; border-radius: 8px; padding: 4px 9px;
+}
+.wb-icon-btn:hover { color: #b42318; border-color: var(--line-strong); }
+html[data-theme="dark"] .wb-icon-btn:hover { color: #fda29b; }
+.wb-icon-btn:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 1px; }
+
+.wb-fields { display: flex; flex-wrap: wrap; gap: 18px 26px; margin: 20px 0 0; }
+.wb-field { display: flex; flex-direction: column; gap: 5px; min-width: 210px; flex: 1 1 210px; max-width: 340px; }
+.wb-field label {
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); display: flex; align-items: baseline; gap: 8px;
+}
+.wb-field-note { font-size: .78rem; color: var(--muted); margin: 2px 0 0; max-width: 46ch; }
+.wb-field-note[data-level="warn"] { color: #b54708; }
+.wb-field-note[data-level="warn"] b { color: #b54708; }
+html[data-theme="dark"] .wb-field-note[data-level="warn"],
+html[data-theme="dark"] .wb-field-note[data-level="warn"] b { color: #fdb022; }
+.wb-form > .wb-field-note { margin-top: 16px; font-family: var(--font-mono); }
+
+.wb-link {
+  font: inherit; font-family: var(--font-body); font-size: .72rem; text-transform: none; letter-spacing: 0;
+  color: var(--accent); background: none; border: none; padding: 0; cursor: pointer;
+}
+.wb-link:hover { text-decoration: underline; }
+.wb-link:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+.wb-link[hidden] { display: none; }
+
+.wb-form .wb-actions { margin-top: 20px; }
+.wb-form .wb-callout { margin: 20px 0 0; }
+
+/* -------------------------------------------------------------- the verdict */
+
+.wb-verdict-head {
+  display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start;
+  border: 1px solid var(--line-strong); border-left-width: 4px; border-radius: 12px;
+  background: var(--bg); padding: 14px 16px; margin: 0 0 16px;
+}
+.wb-verdict-head .ico {
+  font-family: var(--font-mono); font-size: .85rem; width: 26px; height: 26px; border-radius: 999px;
+  display: grid; place-items: center; border: 1.5px solid currentColor; margin-top: 1px;
+}
+.wb-verdict-head .title { font-family: var(--font-display); font-weight: 600; font-size: 1rem; color: var(--ink); margin: 0 0 4px; }
+.wb-verdict-head .detail { margin: 0; font-size: .9rem; color: var(--body); max-width: 62ch; }
+.wb-verdict-head[data-level="ok"]   { border-left-color: #067647; }
+.wb-verdict-head[data-level="ok"] .ico { color: #067647; }
+.wb-verdict-head[data-level="note"] { border-left-color: var(--ax); }
+.wb-verdict-head[data-level="note"] .ico { color: var(--ax); }
+.wb-verdict-head[data-level="warn"] { border-left-color: #b54708; }
+.wb-verdict-head[data-level="warn"] .ico { color: #b54708; }
+.wb-verdict-head[data-level="stop"] { border-left-color: #b42318; }
+.wb-verdict-head[data-level="stop"] .ico { color: #b42318; }
+html[data-theme="dark"] .wb-verdict-head[data-level="ok"] { border-left-color: #75e0a7; }
+html[data-theme="dark"] .wb-verdict-head[data-level="ok"] .ico { color: #75e0a7; }
+html[data-theme="dark"] .wb-verdict-head[data-level="warn"] { border-left-color: #fdb022; }
+html[data-theme="dark"] .wb-verdict-head[data-level="warn"] .ico { color: #fdb022; }
+html[data-theme="dark"] .wb-verdict-head[data-level="stop"] { border-left-color: #fda29b; }
+html[data-theme="dark"] .wb-verdict-head[data-level="stop"] .ico { color: #fda29b; }
+
+.wb-checks { display: flex; flex-direction: column; gap: 2px; margin: 0 0 16px; }
+.wb-check {
+  display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: baseline;
+  padding: 7px 2px; border-bottom: 1px solid var(--line); font-size: .86rem;
+}
+.wb-check:last-child { border-bottom: none; }
+.wb-check .mark { font-family: var(--font-mono); font-size: .8rem; width: 1em; }
+.wb-check b { font-weight: 500; color: var(--ink); display: block; }
+.wb-check .wb-muted { font-size: .8rem; display: block; }
+.wb-check[data-level="ok"] .mark { color: #067647; }
+.wb-check[data-level="warn"] .mark { color: #b54708; }
+.wb-check[data-level="error"] .mark { color: #b42318; }
+html[data-theme="dark"] .wb-check[data-level="ok"] .mark { color: #75e0a7; }
+html[data-theme="dark"] .wb-check[data-level="warn"] .mark { color: #fdb022; }
+html[data-theme="dark"] .wb-check[data-level="error"] .mark { color: #fda29b; }
+
+.wb-facts { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 0 0 14px; }
+.wb-facts .fact { display: flex; flex-direction: column; }
+.wb-facts .k { font-family: var(--font-mono); font-size: .64rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.wb-facts .v { font-family: var(--font-mono); font-size: .92rem; color: var(--ink); }
+.wb-bf-note { font-size: .8rem; margin: 10px 0 0; }
+
+/* ============================================================================
+   Phase 2 — the graph input modes
+   ============================================================================ */
+
+.wb-constraint {
+  font-size: .88rem; color: var(--body); margin: 0 0 20px; max-width: 62ch;
+  padding-left: 12px; border-left: 2px solid var(--line-strong);
+}
+.wb-constraint b { color: var(--ink); font-weight: 600; }
+
+/* view switch between the edge list and the grid — same graph, two readings */
+.wb-tabs { display: inline-flex; gap: 4px; padding: 4px; margin: 0 0 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.wb-tab {
+  font: inherit; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .03em;
+  padding: 7px 14px; border-radius: 7px; border: none; background: none; color: var(--muted); cursor: pointer;
+}
+.wb-tab:hover { color: var(--ink); }
+.wb-tab[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: 0 1px 2px rgba(16,24,40,.08); }
+html[data-theme="dark"] .wb-tab[aria-pressed="true"] { box-shadow: none; border: 1px solid var(--line-strong); padding: 6px 13px; }
+.wb-tab:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 1px; }
+
+.wb-field-wide { max-width: min(620px, 100%); flex-basis: 100%; }
+.wb-textarea {
+  width: 100%; min-height: 84px; resize: vertical; line-height: 1.7;
+  font-family: var(--font-mono); font-size: .84rem;
+}
+.wb-graph-summary { font-family: var(--font-mono); font-size: .74rem; }
+.wb-preview { font-family: var(--font-mono); font-size: .74rem; margin-top: 16px; }
+
+/* adjacency grid: a checkbox per unordered pair, mirrored across the diagonal */
+.wb-grid { font-family: var(--font-mono); font-size: .74rem; width: auto; }
+.wb-grid th, .wb-grid td { border: 1px solid var(--line); text-align: center; padding: 4px 8px; }
+.wb-grid thead th, .wb-grid tbody th { color: var(--muted); font-size: .7rem; }
+.wb-grid .corner { border: none; background: transparent; }
+.wb-grid td.diag { color: var(--line-strong); background: var(--bg); }
+.wb-cellbox { width: 16px; height: 16px; accent-color: var(--ax); cursor: pointer; margin: 0; }
+.wb-cellbox:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 1px; }
+
+@media (pointer: coarse) {
+  .wb-tab { min-height: 44px; }
+  .wb-cellbox { width: 22px; height: 22px; }
+}
+
+/* ============================================================================
+   Phase 3 — indexed families: the one-hot groups beside the ledger
+   ============================================================================ */
+
+.wb-groups-wrap { margin: 16px 0 0; }
+.wb-groups-head {
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 8px;
+}
+.wb-groups { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.wb-groups li { font-size: .82rem; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+.wb-groups b { font-weight: 500; color: var(--ink); display: block; }
+.wb-groups span { font-size: .76rem; }
+
+/* ============================================================================
+   Phase 4 — Step 2, the Ising bridge
+   ============================================================================ */
+
+.wb-h4 {
+  font-family: var(--font-display); font-size: .84rem; font-weight: 600; color: var(--ink);
+  margin: 26px 0 10px; letter-spacing: .01em;
+}
+
+.wb-facts-boxed {
+  border: 1px solid var(--line-strong); border-radius: 12px; background: var(--bg);
+  padding: 12px 16px; gap: 10px 32px; margin-bottom: 18px;
+}
+
+/* The offset gets a box of its own. It is the number everyone drops, and
+   dropping it is what makes generated code disagree with the browser. */
+.wb-offset-box {
+  display: grid; grid-template-columns: auto auto 1fr; gap: 4px 12px; align-items: baseline;
+  border: 1px solid var(--ax); border-radius: 12px; padding: 12px 16px; margin: 0 0 8px;
+  background: var(--accent-weak);
+}
+.wb-offset-box .k {
+  font-family: var(--font-mono); font-size: .64rem; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--ax);
+}
+.wb-offset-box b { font-family: var(--font-mono); font-size: 1.05rem; color: var(--ink); font-weight: 500; }
+.wb-offset-box .wb-muted { grid-column: 1 / -1; font-size: .82rem; max-width: 62ch; }
+
+.wb-ising { font-size: .82rem; }
+.wb-ising .right { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.wb-ising .zero { color: var(--muted); }
+
+@media (max-width: 560px) {
+  .wb-offset-box { grid-template-columns: 1fr; }
+}
+
+/* ============================================================================
+   Phase 5 — Step 3: charts and the eight analysis views
+   ============================================================================ */
+
+.wb-status { font-family: var(--font-mono); font-size: .74rem; color: var(--muted); min-height: 1.2em; margin: 0 0 8px; }
+
+.wb-sub { margin: 0 0 34px; padding-top: 22px; border-top: 1px solid var(--line); }
+.wb-sub:first-child { padding-top: 0; border-top: none; }
+.wb-sub .wb-h4 { display: flex; align-items: baseline; gap: 10px; margin-top: 0; }
+.wb-sub .wb-h4 .ord {
+  font-family: var(--font-mono); font-size: .66rem; color: var(--card);
+  background: var(--ax); border-radius: 999px; width: 20px; height: 20px;
+  display: inline-grid; place-items: center; flex: none; align-self: center;
+}
+.wb-sub-blurb { font-size: .88rem; color: var(--body); max-width: 64ch; margin: 0 0 14px; }
+
+.wb-figure { margin: 0 0 14px; }
+.wb-figure figcaption { font-size: .78rem; color: var(--muted); margin-top: 8px; max-width: 70ch; }
+.wb-chart {
+  width: 100%; max-width: 560px; height: auto; display: block;
+  border: 1px solid var(--line); border-radius: 12px; background: var(--bg); padding: 6px;
+}
+
+/* chart internals — all stroke/fill from tokens so both themes work */
+.ch-grid { stroke: var(--line); stroke-width: 1; }
+.ch-axis { stroke: var(--line-strong); stroke-width: 1.2; }
+.ch-frame { fill: none; stroke: var(--line-strong); stroke-width: 1; }
+.ch-tick { font-family: var(--font-mono); font-size: 9px; fill: var(--muted); }
+.ch-axis-label { font-family: var(--font-mono); font-size: 10px; fill: var(--muted); }
+.ch-line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.ch-dot { stroke: var(--bg); stroke-width: 1; }
+.ch-rule { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+.ch-rule-label { font-family: var(--font-mono); font-size: 9px; fill: var(--muted); }
+.ch-bar { fill: var(--ax-y); fill-opacity: .55; }
+.ch-mark { fill: none; stroke: var(--ink); stroke-width: 2; }
+.ch-mark-dot { fill: var(--ink); }
+
+.wb-legend-list {
+  list-style: none; display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 0;
+  margin: 10px 0 0; font-family: var(--font-mono); font-size: .72rem; color: var(--muted);
+}
+.wb-legend-list li { display: flex; align-items: center; gap: 7px; }
+.wb-legend-list .key { width: 24px; height: 8px; flex: none; }
+
+.wb-notes { margin: 12px 0 0; padding-left: 18px; font-size: .84rem; color: var(--body); }
+.wb-notes li { margin-bottom: 4px; max-width: 66ch; }
+.wb-notes b { color: var(--ink); font-weight: 500; }
+
+@media (prefers-reduced-motion: reduce) { .wb-chart * { transition: none !important; } }
+
+/* ============================================================================
+   Phase 6 — Step 4: the generated program
+   ============================================================================ */
+
+.wb-toggles { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin: 0 0 18px; background: var(--bg); }
+.wb-toggles-head {
+  font-family: var(--font-mono); font-size: .66rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 10px;
+}
+.wb-toggle { display: flex; align-items: baseline; gap: 10px; padding: 4px 0; }
+.wb-toggle input { accent-color: var(--ax); width: 15px; height: 15px; flex: none; margin: 0; position: relative; top: 2px; }
+.wb-toggle input:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+.wb-toggle label { font-size: .86rem; color: var(--body); cursor: pointer; }
+.wb-toggle label b { color: var(--ink); font-weight: 500; }
+.wb-toggle label span { color: var(--muted); }
+
+.wb-code-actions { margin: 0 0 12px; }
+.wb-copy-note { font-family: var(--font-mono); font-size: .72rem; color: var(--muted); }
+.wb-code {
+  font-family: var(--font-mono); font-size: .76rem; line-height: 1.65; color: var(--ink);
+  background: var(--bg); border: 1px solid var(--line-strong); border-radius: 12px;
+  padding: 16px 18px; margin: 0; max-height: 60vh; overflow: auto; white-space: pre;
+  tab-size: 4;
+}
+.wb-code:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+a.wb-btn { text-decoration: none; display: inline-flex; align-items: center; }
+@media (pointer: coarse) { .wb-toggle input { width: 20px; height: 20px; } }
+
+/* ============================================================================
+   Phase 7 — save codes and hover definitions
+   ============================================================================ */
+
+.wb-save { border: 1px solid var(--line); border-radius: 12px; background: var(--card); margin: 0 0 18px; }
+.wb-save > summary {
+  cursor: pointer; padding: 12px 16px; font-family: var(--font-mono); font-size: .76rem;
+  letter-spacing: .02em; color: var(--ink); list-style: none;
+}
+.wb-save > summary::-webkit-details-marker { display: none; }
+.wb-save > summary::before { content: "+ "; color: var(--ax); }
+.wb-save[open] > summary::before { content: "− "; }
+.wb-save > summary:hover { color: var(--accent); }
+.wb-save > summary:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: -2px; border-radius: 12px; }
+.wb-save-body { padding: 0 16px 16px; }
+.wb-save-body > p { font-size: .86rem; color: var(--body); max-width: 64ch; margin: 0 0 12px; }
+.wb-save-body .wb-textarea { font-size: .74rem; word-break: break-all; }
+.wb-save-body .wb-actions { margin-top: 12px; }
+
+/* --- hover/focus definitions ---
+   A real focusable control, not a title attribute: the bubble has to be
+   reachable by keyboard, and a title attribute is not. */
+.wb-def {
+  position: relative; cursor: help; border-bottom: 1px dashed var(--ax);
+  color: inherit; display: inline;
+}
+.wb-def:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; border-radius: 3px; }
+.wb-def-bubble {
+  position: absolute; left: 0; top: calc(100% + 8px); z-index: 70;
+  width: max-content; max-width: min(340px, 82vw);
+  background: var(--card); color: var(--body); border: 1px solid var(--line-strong);
+  border-radius: 10px; box-shadow: var(--shadow); padding: 11px 13px;
+  font-family: var(--font-body); font-size: .82rem; font-weight: 400; line-height: 1.55;
+  letter-spacing: normal; text-transform: none; white-space: normal; cursor: auto;
+}
+.wb-def-bubble[hidden] { display: none; }
+.wb-def-bubble b { display: block; font-family: var(--font-mono); font-size: .7rem; color: var(--ax); margin-bottom: 4px; }
+/* near the right edge, hang the bubble the other way */
+.wb-def:nth-last-child(-n+2) > .wb-def-bubble { left: auto; right: 0; }
+
+@media (pointer: coarse) { .wb-def-bubble { max-width: min(300px, 86vw); } }
+
+/* ============================================================================
+   Phase 7 — reduced motion, and the print view
+   ============================================================================
+   global.css already kills transitions under prefers-reduced-motion. These are
+   the tool's own: nothing here animates by default, so this is a backstop for
+   the hover lifts and the panel/step changes rather than a fix. */
+
+@media (prefers-reduced-motion: reduce) {
+  .wb-step, .wb-btn, .wb-chip, .wb-card, .wb-tab, .wb-def-bubble {
+    transition: none !important;
+  }
+  .wb-chart, .wb-chart * { animation: none !important; }
+}
+
+/* A generated program is something people print or save. Give it the page. */
+@media print {
+  .wb-rail, .wb-save, .wb-toggles, .wb-code-actions, .topbar, .nav, .panel { display: none !important; }
+  .wb-code { max-height: none; overflow: visible; border: none; padding: 0; }
+  .wb-panel { box-shadow: none; border-color: #ccc; break-inside: avoid; }
+}
+
+.wb-foot { margin: clamp(30px, 5vw, 50px) 0 0; padding-top: 22px; border-top: 1px solid var(--line); }
+.wb-foot p { font-size: .82rem; color: var(--muted); max-width: 68ch; margin: 0 0 8px; }
+.wb-foot b { color: var(--body); font-weight: 500; }
+
+/* ============================================================================
+   Step navigation: the row at the foot of each panel, and the corner control
+   ============================================================================ */
+
+/* The row sits below everything else in a step, separated, so it reads as "you
+   have reached the end of this" rather than as another control in the middle. */
+.wb-stepnav {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  flex-wrap: wrap; margin: clamp(26px, 4vw, 40px) 0 0;
+  padding-top: 20px; border-top: 1px solid var(--line);
+}
+.wb-stepnav-gap { flex: 0 0 auto; }        /* holds the left slot on step 1 */
+.wb-stepnav .wb-btn { flex: 0 1 auto; }
+.wb-stepnav .wb-btn[data-nav="next"] { margin-left: auto; }
+.wb-stepnav .wb-btn[data-nav="restart"] { margin-left: auto; }
+
+@media (max-width: 480px) {
+  .wb-stepnav { flex-direction: column; align-items: stretch; }
+  .wb-stepnav .wb-btn { width: 100%; text-align: center; justify-content: center; }
+  .wb-stepnav .wb-btn[data-nav="next"],
+  .wb-stepnav .wb-btn[data-nav="restart"] { margin-left: 0; order: -1; }
+  .wb-stepnav-gap { display: none; }
+}
+
+/* Out of the way until you have scrolled past the top of a step, then a way
+   back to the start of THAT step — not the top of the document, which is the
+   rail you have already used. */
+.wb-totop {
+  position: fixed; right: clamp(14px, 3vw, 26px); bottom: clamp(14px, 3vw, 26px); z-index: 50;
+  display: inline-flex; align-items: center; gap: 8px;
+  font: inherit; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .03em;
+  color: var(--ink); background: var(--card);
+  border: 1.5px solid var(--line-strong); border-radius: 999px;
+  padding: 10px 16px; cursor: pointer; box-shadow: var(--shadow);
+  transition: border-color .15s, color .15s, opacity .2s;
+}
+.wb-totop[hidden] { display: none; }
+.wb-totop:hover { border-color: var(--accent); color: var(--accent); }
+.wb-totop:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 3px; }
+
+/* On a phone the label costs more room than it is worth; the arrow carries it,
+   and the aria-label carries the meaning for anyone who needs it spelled out. */
+@media (max-width: 560px) {
+  .wb-totop { padding: 12px 14px; min-height: 44px; }
+  .wb-totop-text { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+
+@media (prefers-reduced-motion: reduce) { .wb-totop { transition: none; } }
+@media print { .wb-totop, .wb-stepnav { display: none !important; } }

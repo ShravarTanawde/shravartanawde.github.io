@@ -21,3 +21,18 @@ main h1 { font-family: var(--font-display); font-size: clamp(1.8rem,5vw,2.6rem);
 main .kets { font-family: var(--font-mono); color: var(--muted); font-size: 1rem; margin-bottom: 1.4em; }
 main .kets b { color: var(--ax); font-weight: 500; }
 main p.lead { max-width: 52ch; margin: 0 auto; color: var(--body); }
+
+/* ---------- tool list ----------
+   tools.html only. One card per tool, each a single link: the whole card is the
+   target, so there is no "read more" to hunt for. Grows to a grid when a second
+   tool arrives. */
+.tool-list { list-style: none; padding: 0; margin: clamp(28px,5vw,44px) 0 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); text-align: left; }
+.tool-card { display: flex; flex-direction: column; gap: 8px; height: 100%; padding: 20px 22px; text-decoration: none; border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: var(--shadow); transition: border-color .15s, transform .15s; }
+.tool-card:hover { border-color: var(--ax); transform: translateY(-2px); }
+.tool-card:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 3px; }
+.tool-card h2 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; color: var(--ink); margin: 0; }
+.tool-card .tool-kicker { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ax); margin: 0; }
+.tool-card p { margin: 0; color: var(--body); font-size: .92rem; }
+.tool-card .tool-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
+.tool-card .tool-tags span { font-family: var(--font-mono); font-size: .66rem; color: var(--muted); border: 1px solid var(--line-strong); border-radius: 999px; padding: 2px 9px; }
+@media (prefers-reduced-motion: reduce) { .tool-card:hover { transform: none; } }

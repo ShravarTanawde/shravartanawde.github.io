@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-axis="y">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f6f7f9">
+<title>QUBO / QAOA Workbench · Quantum Portfolio</title>
+<meta name="description" content="Turn a combinatorial problem into a QUBO, check it, look at the QAOA landscape, and take away runnable PennyLane code. Runs entirely in your browser.">
+
+<!-- Apply saved theme + reading settings BEFORE first paint (no flash).
+     Also seeds the topbar sphere with the PREVIOUS page's axis, so js/axis.js has
+     something to animate away from. Keep AXIS in sync with js/axis.js. -->
+<script>
+  (function () {
+    var d = document.documentElement;
+    try {
+      var t = localStorage.getItem('qp-theme');
+      if (t) d.setAttribute('data-theme', t);
+      var r = JSON.parse(localStorage.getItem('qp-reading') || '{}');
+      var MAP = {font:{default:'var(--stack-default)',inter:'var(--stack-inter)',atkinson:'var(--stack-atkinson)',dyslexic:'var(--stack-dyslexic)'},size:{small:'15px',medium:'16px',large:'18px',xl:'20px'},tracking:{normal:'0em',wide:'0.02em',wider:'0.04em'},leading:{tight:'1.4',normal:'1.6',relaxed:'1.8',loose:'2.0'},measure:{narrow:'55ch',default:'66ch',wide:'80ch',full:'none'}};
+      var V = {font:'--font-body',size:'--size',tracking:'--tracking-body',leading:'--leading-body',measure:'--measure'};
+      for (var k in V) if (r[k] && MAP[k][r[k]]) d.style.setProperty(V[k], MAP[k][r[k]]);
+    } catch (e) {}
+    try {
+      var AXIS = {z:['0deg','1'], x:['-78.5deg','0.882'], y:['78.5deg','0.882']};
+      var from = sessionStorage.getItem('qp-axis');
+      if (!AXIS[from]) from = d.getAttribute('data-axis');
+      if (AXIS[from]) { d.style.setProperty('--axis-angle', AXIS[from][0]); d.style.setProperty('--axis-scale', AXIS[from][1]); }
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+
+<link rel="stylesheet" href="../../css/global.css?v=5">
+<link rel="stylesheet" href="../../css/page.css?v=5">
+<link rel="stylesheet" href="css/workbench.css?v=9">
+</head>
+<body>
+
+  <div class="topbar">
+    <a class="brand" href="../../index.html" aria-label="Back to the sphere (home)" title="Back to the sphere">
+      <span class="brand-sphere">
+        <svg viewBox="0 0 40 40" aria-hidden="true">
+          <circle class="bs-rim" cx="20" cy="20" r="17"></circle>
+          <ellipse class="bs-eq" cx="20" cy="20" rx="17" ry="6"></ellipse>
+          <line class="bs-guide" x1="20" y1="3" x2="20" y2="37"></line>
+          <line class="bs-guide" x1="5.3" y1="17" x2="34.7" y2="23"></line>
+          <line class="bs-guide" x1="5.3" y1="23" x2="34.7" y2="17"></line>
+          <g class="bs-active">
+            <line x1="20" y1="37" x2="20" y2="3"></line>
+            <circle cx="20" cy="3" r="2.6"></circle>
+          </g>
+        </svg>
+      </span>
+      <span class="name">Shravar G Tanawde</span>
+    </a>
+    <div class="bar-actions">
+      <button id="spin" class="spin" role="switch" aria-checked="false" aria-label="Toggle theme by rotating the polarizing filter" title="Rotate the filter to block the photon">
+        <svg viewBox="0 0 66 38" aria-hidden="true">
+          <line class="beam-in" x1="3" y1="19" x2="22" y2="19"></line>
+          <line class="beam-out" x1="44" y1="19" x2="63" y2="19"></line>
+          <g class="filter">
+            <circle class="rim" cx="33" cy="19" r="11"></circle>
+            <g class="grating">
+              <line x1="33" y1="9" x2="33" y2="29"></line>
+              <line x1="28.5" y1="10.5" x2="28.5" y2="27.5"></line>
+              <line x1="37.5" y1="10.5" x2="37.5" y2="27.5"></line>
+            </g>
+          </g>
+          <circle class="photon" cx="6" cy="19" r="2.8"></circle>
+        </svg>
+      </button>
+      <button id="aaToggle" class="aa-btn" aria-label="Reading settings" aria-expanded="false" aria-controls="aaPanel" aria-haspopup="dialog">Aa</button>
+    </div>
+  </div>
+
+  <nav class="nav" aria-label="Sections">
+      <a class="navlink" href="../../index.html">Home</a>
+      <a class="navlink" href="../../projects.html">Projects &amp; Experience</a>
+      <a class="navlink" href="../../learn.html">Simulations &amp; Learn</a>
+      <a class="navlink on" href="../../tools.html">Tools &amp; Software</a>
+  </nav>
+
+  <main class="wb-page">
+
+    <header class="wb-head">
+      <p class="obs-eyebrow">Y basis · tools</p>
+      <h1>QUBO / QAOA Workbench</h1>
+      <p class="lead">Pick a combinatorial problem, fill in an instance, and watch it turn into
+        a <span data-def="qubo">QUBO</span> you can check — then into an <span data-def="ising">Ising Hamiltonian</span>, a <span data-def="qaoa">QAOA</span> landscape, and finally a
+        block of PennyLane you can paste into a fresh notebook and run.</p>
+      <p class="lead">Everything happens in this tab. Nothing is uploaded, nothing is fetched,
+        and there is no account — the only thing that leaves the page is code you copy.</p>
+    </header>
+
+    <div class="wb-callout" data-level="note">
+      <span class="ico" aria-hidden="true">i</span>
+      <p class="title">Where the limits are</p>
+      <p>A statevector doubles with every qubit, so simulation, brute-force checking and the
+        landscape view stop at <strong data-def="statevector">20 qubits</strong>. Code generation never stops — above the
+        line you still get the full formulation and a program to run elsewhere. Penalty weights
+        come from published closed-form bounds, so a formulation the tool cannot brute-force is
+        still correct by construction.</p>
+    </div>
+
+    <details class="wb-save">
+      <summary>Save this instance, or resume one</summary>
+      <div class="wb-save-body">
+        <p>A save code carries the whole formulation, so pasting one back reopens every step it is
+          big enough for — you can come back to the middle of the pipeline, not just the start.
+          It is a string of text and nothing else: no account, no upload, nothing stored anywhere
+          but wherever you paste it.</p>
+        <label class="vh" for="wbSaveCode">Save code</label>
+        <textarea id="wbSaveCode" class="wb-input wb-textarea" rows="3" spellcheck="false"
+                  placeholder="Paste a save code here, or press Save to make one."></textarea>
+        <div class="wb-actions">
+          <button class="wb-btn" type="button" id="wbSave">Save this instance</button>
+          <button class="wb-btn" type="button" id="wbLoad">Load the pasted code</button>
+        </div>
+        <p class="wb-field-note" id="wbSaveNote" role="status" aria-live="polite"></p>
+      </div>
+    </details>
+
+    <nav class="wb-rail" id="wbRail" aria-label="Workbench steps">
+      <button class="wb-step" type="button" data-step="1" aria-current="step">
+        <span class="n" aria-hidden="true">1</span>
+        <span class="t"><b>Formulate</b><span>problem → QUBO</span></span>
+      </button>
+      <button class="wb-step" type="button" data-step="2" disabled>
+        <span class="n" aria-hidden="true">2</span>
+        <span class="t"><b>Ising form</b><span>QUBO → H</span></span>
+      </button>
+      <button class="wb-step" type="button" data-step="3" disabled>
+        <span class="n" aria-hidden="true">3</span>
+        <span class="t"><b>Analyze</b><span>landscape · optimizers</span></span>
+      </button>
+      <button class="wb-step" type="button" data-step="4" disabled>
+        <span class="n" aria-hidden="true">4</span>
+        <span class="t"><b>PennyLane code</b><span>take it away</span></span>
+      </button>
+    </nav>
+
+    <!-- Written by render.js when the instance approaches or crosses the cap. -->
+    <div class="wb-callout" id="wbNotice" hidden></div>
+
+    <!-- Qubit count, decision/ancilla split, statevector memory. No runtime estimate:
+         that depends on the visitor's machine and is not a number this tool can stand behind. -->
+    <div class="wb-size" id="wbSize" hidden></div>
+
+    <section class="wb-panel" id="panel-1" aria-labelledby="h-step-1">
+      <div class="wb-panel-bar">
+        <h2 id="h-step-1">Step 1 · Formulate</h2>
+        <p class="sub">problem instance → Q, offset, λ</p>
+      </div>
+      <div class="wb-panel-body">
+        <p>Every problem here ends up as the same object: a square matrix <code class="wb-tok">Q</code>
+          over binary variables, plus a constant offset. Minimising</p>
+        <div class="wb-formula">E(y) = Σ_k Q[k][k]·y_k  +  Σ_{k&lt;l} Q[k][l]·y_k·y_l  +  offset        y_k ∈ {0,1}</div>
+        <p>over all assignments of the bits is the problem. Constraints do not appear separately —
+          they are folded in as <span data-def="penalty">penalty terms weighted by λ</span>, chosen large enough that breaking a
+          constraint can never pay for itself. Every λ below is the published <span data-def="bound">closed-form bound</span>
+          for that problem, so the formulation is sound even at sizes nothing here can check.</p>
+
+        <!-- Both filled from the template registry, so a new problem appears here
+             the moment problems.js gains an entry. -->
+        <div class="wb-problems" id="wbProblems" role="group" aria-label="Problem template"></div>
+        <p class="wb-constraint" id="wbConstraint"></p>
+
+        <div id="wbForm"></div>
+
+        <div id="wbResults" hidden>
+          <h3 class="wb-h3">The Q matrix</h3>
+          <div id="wbMatrix"></div>
+
+          <h3 class="wb-h3">Which qubit is which</h3>
+          <div id="wbLedger"></div>
+
+          <h3 class="wb-h3">Does the formulation actually work?</h3>
+          <div id="wbVerdict"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wb-panel" id="panel-2" aria-labelledby="h-step-2" hidden>
+      <div class="wb-panel-bar">
+        <h2 id="h-step-2">Step 2 · Ising form</h2>
+        <p class="sub">QUBO → h, J, offset</p>
+      </div>
+      <div class="wb-panel-body">
+        <p>The same energy, rewritten over spins <code class="wb-tok">s = 2y − 1</code>. Nothing is
+          being solved here and nothing is lost — it is a change of variables, and the point of the
+          step is that you can see it is one. These three things are what a simulator or a device
+          actually takes: the local fields <code class="wb-tok">h</code>, the couplings
+          <code class="wb-tok">J</code>, and the <span data-def="offset">constant offset</span>.</p>
+        <div id="wbIsing"></div>
+      </div>
+    </section>
+
+    <section class="wb-panel" id="panel-3" aria-labelledby="h-step-3" hidden>
+      <div class="wb-panel-bar">
+        <h2 id="h-step-3">Step 3 · Analyze</h2>
+        <p class="sub">under the 20-qubit cap only</p>
+      </div>
+      <div class="wb-panel-body">
+        <p>QAOA, simulated here in the tab. The circuit is built from the Hamiltonian in Step 2,
+          run on a hand-written <span data-def="statevector">statevector</span>, and measured against the <span data-def="groundState">true optimum</span> that Step 1
+          <span data-def="bruteForce">brute-forced</span> — which is why none of this exists above the cap: there is nothing to
+          measure against, and nothing small enough to simulate.</p>
+
+        <!-- Shown only if something reaches this panel over the cap. The rail
+             normally makes that impossible. -->
+        <div class="wb-callout" id="wbAnalysisGate" data-level="stop" hidden>
+          <span class="ico" aria-hidden="true">!</span>
+          <p class="title">Too large to analyse here</p>
+          <p>Above ~20 qubits, this tool generates code but can’t run, verify, or analyze the
+            landscape in your browser. You’ll get the formulation and PennyLane code to run yourself.</p>
+        </div>
+
+        <p class="wb-status" id="wbAnalysisStatus" role="status" aria-live="polite"></p>
+        <div id="wbAnalysis"></div>
+      </div>
+    </section>
+
+    <section class="wb-panel" id="panel-4" aria-labelledby="h-step-4" hidden>
+      <div class="wb-panel-bar">
+        <h2 id="h-step-4">Step 4 · PennyLane code</h2>
+        <p class="sub">never capped</p>
+      </div>
+      <div class="wb-panel-body">
+        <p>A self-contained cell: it installs what it needs, defines this instance inline, seeds
+          its own randomness and prints a result. Paste it into a fresh notebook and it runs, with
+          nothing to fill in. This step is never capped — above the limit it is the whole offering,
+          and it is marked as unverified rather than withheld.</p>
+        <div id="wbCodegen"></div>
+      </div>
+    </section>
+
+    <footer class="wb-foot">
+      <p>Generated code targets <b id="wbFooterVersion">PennyLane</b>. That pin is checked by
+        executing the emitted programs against a real release, not by reading a version number —
+        so a deprecation inside a minor release is caught rather than missed.</p>
+      <p>Everything on this page ran in your browser. Nothing was uploaded, nothing was fetched,
+        and the only thing that leaves is code you copy.</p>
+    </footer>
+
+  </main>
+
+  <!-- Reading settings popover -->
+  <div id="aaPanel" class="panel" role="dialog" aria-label="Reading settings" hidden>
+    <div class="panel-title">Reading settings <span class="hint">applies live</span></div>
+    <div class="grid">
+      <div class="field wide"><label for="c-style">Style</label>
+        <select id="c-style" data-var="font"><option value="default">Default (Sans)</option><option value="inter">Inter</option><option value="atkinson">Atkinson Hyperlegible</option><option value="dyslexic">OpenDyslexic</option></select></div>
+      <div class="field"><label for="c-size">Size</label>
+        <select id="c-size" data-var="size"><option value="small">Small</option><option value="medium">Medium</option><option value="large">Large</option><option value="xl">Extra Large</option></select></div>
+      <div class="field"><label for="c-tracking">Letter spacing</label>
+        <select id="c-tracking" data-var="tracking"><option value="normal">Normal</option><option value="wide">Wide</option><option value="wider">Wider</option></select></div>
+      <div class="field"><label for="c-leading">Line spacing</label>
+        <select id="c-leading" data-var="leading"><option value="tight">Tight</option><option value="normal">Normal</option><option value="relaxed">Relaxed</option><option value="loose">Loose</option></select></div>
+      <div class="field"><label for="c-measure">Paragraph width</label>
+        <select id="c-measure" data-var="measure"><option value="narrow">Narrow</option><option value="default">Default</option><option value="wide">Wide</option><option value="full">Full</option></select></div>
+      <div class="preview"><span class="cap">Preview</span>A qubit measured in the wrong basis gives a random result.</div>
+    </div>
+    <div class="panel-foot"><button id="aaReset" class="reset" type="button">Reset to defaults</button><span class="saved-note">Saved on this device</span></div>
+  </div>
+
+  <script src="../../js/theme.js?v=4"></script>
+  <script src="../../js/accessibility.js?v=4"></script>
+  <script src="../../js/axis.js?v=4"></script>
+
+  <!-- The tool itself is ES modules, so it needs to be served over http(s), not
+       opened from the filesystem. See README. -->
+  <script type="module">
+    import { init, registerStep } from './js/ui/pipeline.js?v=1';
+
+    /* Every step now exists and registers itself from inside pipeline.js. */
+    init();
+
+    /* One place shows the pinned framework version, and it reads it from the
+       generator rather than repeating it. */
+    import('./js/core/codegen.js?v=1').then(({ PENNYLANE_VERSION }) => {
+      const slot = document.getElementById('wbFooterVersion');
+      if (slot) slot.textContent = 'PennyLane ' + PENNYLANE_VERSION;
+    });
+  </script>
+</body>
+</html>
