@@ -15,7 +15,7 @@ from a CDN.
 index.html            front page: identity cluster + interactive Bloch sphere navigator
 projects.html         |Project⟩ / |Experience⟩      built out: circuit view + write-up stack
 learn.html            |Simulations⟩ / |Learn⟩       topic map: 76-node graph + node panel
-tools.html            |Tools⟩ / |Software⟩          placeholder, wired
+tools.html            |Tools⟩ / |Software⟩          one card per tool
 .nojekyll             stops GitHub Pages running Jekyll over the folder
 css/global.css        design tokens + shared chrome (top bar, theme toggle, reading panel)
 css/home.css          front page only: identity cluster, sphere, contact modal
@@ -41,6 +41,9 @@ js/learn/            the topic map                       (learn only, ES modules
   sims/<id>.js         one module per interactive
 learn/nodes/<id>.html one content fragment per topic, fetched on first open
 tools/validate-graph.mjs  run by hand: node tools/validate-graph.mjs
+tools/qubo-workbench/ the QUBO / QAOA Workbench (section below)
+tools/arxiv-radar/   the quant-ph Radar (section below)
+.github/workflows/radar-weekly.yml  the Radar's weekly update
 assets/docs/cv.pdf    the CV linked from the front page
 assets/images/        Profile.png, projects/, roles/
 ```
@@ -279,11 +282,130 @@ on every assignment for small instances and on a deterministic sample for large 
 which is what catches a mistake in expanding a square into linear and quadratic
 terms, and it is the only real correctness check that still runs above the cap.
 
+## The quant-ph Radar
+
+`tools/arxiv-radar/` shows what quantum physics is working on: every paper on
+arXiv's quant-ph list, primary and cross-listed, over the last five years,
+grouped into topics and compared across six ranges (1W to 5Y). A small embedding
+model places papers about the same idea near each other, the clusters become
+about 400 fine topics inside 60 broad ones, and the page counts what share of
+each period's papers lands in each. It updates itself every Sunday at midnight
+India time through a GitHub Action. The page reports activity and nothing more: it never calls a
+topic promising or a gap, because that judgement is the reader's.
+
+```
+tools/arxiv-radar/
+  index.html          the tool page (same chrome as the other pages)
+  css/radar.css       tool-only styles; --up/--down are the only local colours
+  js/main.js          entry: loads the data, builds the controls, wires events
+  js/data.js          the only module that fetches, and only data/*.json
+  js/state.js         range, filter, facets, search; URL and qp-radar storage
+  js/render.js        every DOM write and every number format
+  js/charts.js        inline-SVG bars, lines, sparklines; no library
+  data/radar.json     the weekly summary (written by the Action)
+  data/details.json   paper lists for the topic panel (written by the Action)
+.github/workflows/radar-weekly.yml
+```
+
+The pipeline that produces the data (harvest, embeddings, topic model, weekly
+job) is **not on this branch**. It lives on the `radar-data` branch with the raw
+paper metadata, and its README there explains it. Keeping it off `main` is the
+same rule as the workbench's `validation/`: everything on `main` is served by
+Pages, and a few hundred megabytes of Python and Parquet have no business being
+reachable on the site.
+
+### Data contract
+
+Both files carry `"schema": 1`. `data.js` refuses a file with any other value,
+because a page reading a file of the wrong shape would show wrong numbers with
+no sign that anything is off. Change the schema number whenever the shape
+changes, in `pipeline/summary.py` and `js/data.js` together.
+
+`radar.json`, compact JSON, numbers rounded to four significant figures:
+
+| key | what it holds |
+|---|---|
+| `meta` | `generated_at`, `data_through` (last day counted, a Sunday), `first_date`, `n_papers_total`, `model` (version, fit date, embedding model and pinned revision, topic counts), `unassigned_last_week_pct`, `emerging_weeks` |
+| `facets` | the facet list, in display order |
+| `topic_cols` | column names for the topic rows below |
+| `topics` | one object per fine topic: `id`, `name`, `description`, `facet`, `parent`, `ml_adjacent`, `housekeeping`, `unstable`, `terms`, `neighbours`, `lineage`, `trend` (per filter: growth in share per year and its 95% range, or null) and `n_total` |
+| `broad` | one object per broad topic: `id`, `name`, `description`, `children`, `terms`, `trend` |
+| `views` | `views[range][filter]` for ranges `1W 1M 3M 6M 1Y 5Y` and filters `all primary cross` (below) |
+| `emerging` | up to 10 groups: `id`, `first_seen`, `n`, `weeks_seen`, `weekly` (12 counts), `terms`, `papers` (`[id, title, date]`) |
+
+Each view holds `window` (start, end, the comparison window, `granularity`),
+`totals` (`n` papers in the window; `n_now` and `n_then`, the two counts being
+compared; `primary_share`; `unassigned_share`), `volume` (bucket labels and
+counts, and whether the first or last bucket is a partial month), `topics` and
+`broad` (rows in `topic_cols` order: `id, n, n_now, n_then, share_now,
+share_then, delta_pts, z, signal, spark`), `terms` (`gaining` and `losing`, each
+`[term, early %, late %, log2]`, with a fifth `folded` reason on terms kept only
+for debugging) and `categories` (`colisted`, and `cross_sources` for the
+cross-listed filter).
+
+Sparklines are counts per bucket, not shares; the page divides by the view's
+volume counts. For every range but 5Y the comparison is the previous window of
+the same length. For 5Y it is the first 52 weeks of the range against the last
+52.
+
+`details.json` holds, per fine topic, `typical` (6 papers chosen when the model
+was fitted) and `latest` (the 20 most recent, with an `is_primary` flag), as
+arrays in the column order given in its `cols`. The page loads it the first time
+a topic panel opens.
+
+### The weekly job
+
+`.github/workflows/radar-weekly.yml` runs every Sunday at 18:30 UTC (midnight
+IST). It reports the newest week arXiv has fully announced, which at that hour
+is the week that ended the Sunday before: papers submitted from Friday afternoon
+to Sunday, about a sixth of a week, only appear with Monday's announcement, so
+the week just ending would always read short. It checks out both branches, installs CPU-only
+PyTorch and `requirements-weekly.txt`, runs `python -m pipeline.weekly`, then
+commits the new shards to `radar-data` and the two data files to `main`.
+
+- It looks back 90 days, not 14. About 3% of papers wait two to eight weeks in
+  arXiv's moderation queue; a 14-day window would never see them.
+- **Gates.** It publishes nothing if this week has under half the trailing
+  8-week median of papers, if arXiv errors survive the retries, if the summary
+  fails validation, or if the total paper count went down. The site keeps last
+  week's data and the job summary says why.
+- Running it twice in a week adds nothing and commits nothing.
+- A push made with `GITHUB_TOKEN` does not start a Pages build, so the last step
+  requests one through the REST API (`pages: write`).
+- `workflow_dispatch` takes `days_back` and `dry_run` (run everything, commit
+  nothing).
+
+Set once in the repository settings:
+
+1. **Actions → General → Workflow permissions → Read and write permissions.**
+2. **Secrets and variables → Actions → New repository secret:** `RADAR_CONTACT`,
+   the address put in the User-Agent arXiv asks API clients to send. It is read
+   at run time and never written to either branch.
+
+GitHub disables scheduled workflows in a repository with no activity for 60
+days. If the radar stops updating, check the Actions tab first.
+
+### Refitting the topics
+
+The weekly job never refits: it assigns new papers to the existing topics. Every
+three months or so (the job summary says when one is due), the topics are
+refitted on the laptop, renamed where they changed, checked by hand, and
+published as a new model version. Old versions stay untouched. The step-by-step
+runbook is in the `radar-data` README.
+
+### Local only
+
+As with the workbench, three things beside the tool are deliberately not
+committed: `tools/arxiv-radar/CLAUDE.md` (the build constraints), the brief it
+was built from, and `validation/radar_*.mjs`:
+
+```
+node validation/radar_site_check.mjs     # chrome, ?v= versions, network, contrast, copy rules
+node validation/radar_render_check.mjs   # every range x filter rendered in fake-dom.mjs
+```
+
 ## Still to do
 
-- **`learn.html` and `tools.html`** are placeholders. The chrome, nav and axis
-  animation all work; only `<main>` needs writing. `tools.html` should end up
-  linking to `tools/qubo-workbench/`.
 - **`assets/docs/cv.pdf`**: keep the filename when you refresh it, so the link
   in `index.html` doesn't need touching.
 

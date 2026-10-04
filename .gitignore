@@ -3,7 +3,7 @@
 # and .nojekyll means nothing is filtered. So anything committed here is
 # reachable over the web, whether or not a page links to it.
 #
-# These two are deliberately NOT part of the site, so they stay out of the repo.
+# These are deliberately NOT part of the site, so they stay out of the repo.
 # ============================================================================
 
 # Working notes and build constraints for the QUBO/QAOA workbench. Guidance for
@@ -16,6 +16,10 @@ CLAUDE.md
 #   - templates_check.py, which executes generated PennyLane
 #   - benchmarks/, including third-party DIMACS instance files
 validation/
+
+# The build brief for the quant-ph Radar. Instructions for whoever builds the
+# tool, not content for anyone visiting it.
+ARXIV_RADAR_BRIEF.md
 
 # ---------------------------------------------------------------------------
 # Local clutter

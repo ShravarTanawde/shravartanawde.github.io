@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-axis="y">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f6f7f9">
+<title>quant-ph Radar · Quantum Portfolio</title>
+<meta name="description" content="Five years of arXiv quant-ph papers, grouped into topics and tracked week by week. Updated every week; runs in your browser.">
+
+<!-- Apply saved theme + reading settings BEFORE first paint (no flash).
+     Also seeds the topbar sphere with the PREVIOUS page's axis, so js/axis.js has
+     something to animate away from. Keep AXIS in sync with js/axis.js. -->
+<script>
+  (function () {
+    var d = document.documentElement;
+    try {
+      var t = localStorage.getItem('qp-theme');
+      if (t) d.setAttribute('data-theme', t);
+      var r = JSON.parse(localStorage.getItem('qp-reading') || '{}');
+      var MAP = {font:{default:'var(--stack-default)',inter:'var(--stack-inter)',atkinson:'var(--stack-atkinson)',dyslexic:'var(--stack-dyslexic)'},size:{small:'15px',medium:'16px',large:'18px',xl:'20px'},tracking:{normal:'0em',wide:'0.02em',wider:'0.04em'},leading:{tight:'1.4',normal:'1.6',relaxed:'1.8',loose:'2.0'},measure:{narrow:'55ch',default:'66ch',wide:'80ch',full:'none'}};
+      var V = {font:'--font-body',size:'--size',tracking:'--tracking-body',leading:'--leading-body',measure:'--measure'};
+      for (var k in V) if (r[k] && MAP[k][r[k]]) d.style.setProperty(V[k], MAP[k][r[k]]);
+    } catch (e) {}
+    try {
+      var AXIS = {z:['0deg','1'], x:['-78.5deg','0.882'], y:['78.5deg','0.882']};
+      var from = sessionStorage.getItem('qp-axis');
+      if (!AXIS[from]) from = d.getAttribute('data-axis');
+      if (AXIS[from]) { d.style.setProperty('--axis-angle', AXIS[from][0]); d.style.setProperty('--axis-scale', AXIS[from][1]); }
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+
+<link rel="stylesheet" href="../../css/global.css?v=5">
+<link rel="stylesheet" href="../../css/page.css?v=5">
+<link rel="stylesheet" href="css/radar.css?v=1">
+</head>
+<body>
+
+  <div class="topbar">
+    <a class="brand" href="../../index.html" aria-label="Back to the sphere (home)" title="Back to the sphere">
+      <span class="brand-sphere">
+        <svg viewBox="0 0 40 40" aria-hidden="true">
+          <circle class="bs-rim" cx="20" cy="20" r="17"></circle>
+          <ellipse class="bs-eq" cx="20" cy="20" rx="17" ry="6"></ellipse>
+          <line class="bs-guide" x1="20" y1="3" x2="20" y2="37"></line>
+          <line class="bs-guide" x1="5.3" y1="17" x2="34.7" y2="23"></line>
+          <line class="bs-guide" x1="5.3" y1="23" x2="34.7" y2="17"></line>
+          <g class="bs-active">
+            <line x1="20" y1="37" x2="20" y2="3"></line>
+            <circle cx="20" cy="3" r="2.6"></circle>
+          </g>
+        </svg>
+      </span>
+      <span class="name">Shravar G Tanawde</span>
+    </a>
+    <div class="bar-actions">
+      <button id="spin" class="spin" role="switch" aria-checked="false" aria-label="Toggle theme by rotating the polarizing filter" title="Rotate the filter to block the photon">
+        <svg viewBox="0 0 66 38" aria-hidden="true">
+          <line class="beam-in" x1="3" y1="19" x2="22" y2="19"></line>
+          <line class="beam-out" x1="44" y1="19" x2="63" y2="19"></line>
+          <g class="filter">
+            <circle class="rim" cx="33" cy="19" r="11"></circle>
+            <g class="grating">
+              <line x1="33" y1="9" x2="33" y2="29"></line>
+              <line x1="28.5" y1="10.5" x2="28.5" y2="27.5"></line>
+              <line x1="37.5" y1="10.5" x2="37.5" y2="27.5"></line>
+            </g>
+          </g>
+          <circle class="photon" cx="6" cy="19" r="2.8"></circle>
+        </svg>
+      </button>
+      <button id="aaToggle" class="aa-btn" aria-label="Reading settings" aria-expanded="false" aria-controls="aaPanel" aria-haspopup="dialog">Aa</button>
+    </div>
+  </div>
+
+  <nav class="nav" aria-label="Sections">
+      <a class="navlink" href="../../index.html">Home</a>
+      <a class="navlink" href="../../projects.html">Projects &amp; Experience</a>
+      <a class="navlink" href="../../learn.html">Simulations &amp; Learn</a>
+      <a class="navlink on" href="../../tools.html">Tools &amp; Software</a>
+  </nav>
+
+  <main class="wb-page rd-page">
+
+    <header class="wb-head">
+      <p class="obs-eyebrow">Y basis · tools</p>
+      <h1>quant-ph Radar</h1>
+      <p class="lead">What quantum physics is working on, read from every paper posted to arXiv's quant-ph list over the last five years. I built it to see which areas are growing, which are cooling, and what is starting to form before it has a name.</p>
+      <p class="lead">The numbers update every week. Apart from the site's fonts, the page loads only its own data files. No tracking, no account, and nothing about what you do here is sent anywhere.</p>
+    </header>
+
+    <noscript><p class="rd-status">This page draws its charts with JavaScript. With it off, the weekly summary is still readable as raw data at <a href="data/radar.json">data/radar.json</a>.</p></noscript>
+
+    <p class="rd-status" id="rdStatus" role="status" aria-live="polite">Loading the latest week…</p>
+
+    <div id="rdApp" hidden>
+
+      <dl class="rd-stats" id="rdStats"></dl>
+
+      <section class="rd-controls" aria-label="Range and filters">
+        <fieldset class="rd-seg" id="rdRange">
+          <legend class="vh">Range</legend>
+        </fieldset>
+        <div class="rd-filter">
+          <fieldset class="rd-seg" id="rdFilter">
+            <legend class="vh">Papers</legend>
+          </fieldset>
+          <p class="rd-help">Cross-listed papers are filed under another category and also listed in quant-ph.</p>
+        </div>
+        <div class="rd-chips" id="rdFacets" role="group" aria-label="Facets"></div>
+        <div class="rd-row">
+          <label class="rd-search"><span class="vh">Search topics</span>
+            <input type="search" id="rdSearch" placeholder="Search topics" autocomplete="off" spellcheck="false"></label>
+          <label class="rd-check"><input type="checkbox" id="rdHideML"> Hide machine-learning topics</label>
+          <span class="saved-note">Saved on this device</span>
+        </div>
+      </section>
+
+      <section class="rd-section" aria-labelledby="h-moves">
+        <h2 id="h-moves">Biggest moves</h2>
+        <p class="rd-intro" id="rdMovesIntro"></p>
+        <div class="rd-cols">
+          <div><h3 class="rd-h3">Growing</h3><ol class="rd-moves" id="rdGrowing"></ol></div>
+          <div><h3 class="rd-h3">Cooling</h3><ol class="rd-moves" id="rdCooling"></ol></div>
+        </div>
+      </section>
+
+      <section class="rd-section" aria-labelledby="h-emerging">
+        <h2 id="h-emerging">Not yet a topic</h2>
+        <p class="rd-intro">Papers that don't fit any existing topic closely, but keep landing near each other. Each group here has appeared in at least three of the last twelve weeks, no single author is on more than half of its papers, and its papers sit as close together as those of most existing topics. Some will become topics at the next refit; some are noise. The names are automatic: just the terms the papers share.</p>
+        <p class="rd-note" id="rdEmergingWhen"></p>
+        <div class="rd-cards" id="rdEmerging"></div>
+      </section>
+
+      <section class="rd-section" aria-labelledby="h-topics">
+        <h2 id="h-topics">All topics</h2>
+        <p class="rd-intro">Every topic in the current model. Open one to see its typical papers, the latest ones, and its closest neighbours.</p>
+        <div class="rd-tablebar">
+          <fieldset class="rd-seg rd-seg-small" id="rdLayout">
+            <legend class="vh">Table layout</legend>
+          </fieldset>
+          <p class="rd-note" id="rdHiddenLine"></p>
+        </div>
+        <div class="rd-scroll" id="rdTableWrap"></div>
+      </section>
+
+      <section class="rd-section" aria-labelledby="h-volume">
+        <h2 id="h-volume">Papers per week</h2>
+        <p class="rd-intro" id="rdVolumeIntro"></p>
+        <div class="rd-chart" id="rdVolume"></div>
+        <p class="rd-summary" id="rdVolumeText"></p>
+      </section>
+
+      <section class="rd-section" aria-labelledby="h-terms">
+        <h2 id="h-terms">Terms gaining and losing ground</h2>
+        <p class="rd-intro" id="rdTermsIntro"></p>
+        <div class="rd-cols">
+          <div><h3 class="rd-h3">Gaining</h3><div id="rdGaining"></div></div>
+          <div><h3 class="rd-h3">Losing</h3><div id="rdLosing"></div></div>
+        </div>
+      </section>
+
+      <section class="rd-section" aria-labelledby="h-cats">
+        <h2 id="h-cats">Where the papers come from</h2>
+        <p class="rd-intro">quant-ph papers often carry other categories too. These are the most common, and, for cross-listed papers, the categories they are primarily filed under.</p>
+        <div class="rd-cols" id="rdCats"></div>
+      </section>
+
+      <div class="rd-callouts">
+        <div class="wb-callout" data-level="note">
+          <span class="ico" aria-hidden="true">i</span>
+          <p class="title">How this works</p>
+          <p>Every abstract is turned into a vector by a small language model that places papers about the same idea near each other, even when they use different words. Papers that cluster together form a topic: <span id="rdNFine">fine</span> topics of at least 30 papers each, grouped into <span id="rdNBroad">broad</span> broad topics. Each topic is named from its most typical papers. Claude drafted the names, and I checked and edited every one. The page counts how much of each period's output lands in each topic. New papers are assigned every week; the topics themselves are refitted every few months, and older papers are re-read with each refit so the history stays consistent.</p>
+        </div>
+        <div class="wb-callout" data-level="note">
+          <span class="ico" aria-hidden="true">i</span>
+          <p class="title">Where the limits are</p>
+          <p>Topics come from how papers are written, not from any official classification. Some are methods, some are platforms, and a paper can sit close to two. Short ranges are noisy: a week is a few hundred papers, so one popular paper and its follow-ups can move a topic, and most fine topics need a year or more before a change is larger than chance. A change is only marked when it is more than two standard errors from zero; otherwise the page says so. Dates are first-submission dates, so a paper revised later still counts in the week it first appeared. About 3% of papers wait two to eight weeks in arXiv's moderation queue, so the newest weeks start slightly short and fill in over the following updates. Last week, <span id="rdUnassigned">a share</span> of papers didn't fit any topic closely enough to be assigned.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <dialog class="rd-panel" id="rdPanel" aria-labelledby="rdPanelTitle"></dialog>
+
+    <footer class="wb-foot">
+      <p id="rdFootData">Data: arXiv quant-ph, primary and cross-listed. Paper metadata from arXiv.org, used under CC0 through the arXiv API. This tool is not affiliated with or endorsed by arXiv.</p>
+      <p>Everything on this page ran in your browser. Apart from the site's fonts, the only things it loaded were its own data files.</p>
+    </footer>
+
+  </main>
+
+  <!-- Reading settings popover -->
+  <div id="aaPanel" class="panel" role="dialog" aria-label="Reading settings" hidden>
+    <div class="panel-title">Reading settings <span class="hint">applies live</span></div>
+    <div class="grid">
+      <div class="field wide"><label for="c-style">Style</label>
+        <select id="c-style" data-var="font"><option value="default">Default (Sans)</option><option value="inter">Inter</option><option value="atkinson">Atkinson Hyperlegible</option><option value="dyslexic">OpenDyslexic</option></select></div>
+      <div class="field"><label for="c-size">Size</label>
+        <select id="c-size" data-var="size"><option value="small">Small</option><option value="medium">Medium</option><option value="large">Large</option><option value="xl">Extra Large</option></select></div>
+      <div class="field"><label for="c-tracking">Letter spacing</label>
+        <select id="c-tracking" data-var="tracking"><option value="normal">Normal</option><option value="wide">Wide</option><option value="wider">Wider</option></select></div>
+      <div class="field"><label for="c-leading">Line spacing</label>
+        <select id="c-leading" data-var="leading"><option value="tight">Tight</option><option value="normal">Normal</option><option value="relaxed">Relaxed</option><option value="loose">Loose</option></select></div>
+      <div class="field"><label for="c-measure">Paragraph width</label>
+        <select id="c-measure" data-var="measure"><option value="narrow">Narrow</option><option value="default">Default</option><option value="wide">Wide</option><option value="full">Full</option></select></div>
+      <div class="preview"><span class="cap">Preview</span>A qubit measured in the wrong basis gives a random result.</div>
+    </div>
+    <div class="panel-foot"><button id="aaReset" class="reset" type="button">Reset to defaults</button><span class="saved-note">Saved on this device</span></div>
+  </div>
+
+  <script src="../../js/theme.js?v=4"></script>
+  <script src="../../js/accessibility.js?v=5"></script>
+  <script src="../../js/axis.js?v=4"></script>
+
+  <!-- ES modules, so the page has to be served over http(s), not opened from
+       the filesystem. See README. -->
+  <script type="module" src="js/main.js?v=1"></script>
+</body>
+</html>

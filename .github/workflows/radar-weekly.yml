@@ -1,0 +1,153 @@
+# quant-ph Radar: the weekly update.
+#
+# Runs every Sunday at 18:30 UTC, which is midnight in India (IST), for the
+# newest week arXiv has fully announced: at that hour, the week that ended the
+# Sunday before. The week just ending is not used yet, because papers submitted
+# from Friday afternoon to Sunday (about a sixth of a week) only appear on arXiv
+# with Monday's announcement. A run started by hand from Tuesday on reports the
+# week just past. It harvests, assigns and rebuilds on
+# the radar-data branch, then commits the new shards there and the two summary
+# files here. If any gate fails, pipeline.weekly exits non-zero, nothing is
+# committed, the site keeps last week's data, and the job summary says why.
+#
+# Set once in the repository settings:
+#   * Actions > General > Workflow permissions: "Read and write permissions".
+#   * Secrets > Actions: RADAR_CONTACT, the address sent in the User-Agent that
+#     arXiv asks API clients to include. It is never written to either branch.
+#
+# GitHub disables scheduled workflows in a repository with no activity for 60
+# days. If the radar stops updating, check the Actions tab first.
+
+name: Radar weekly
+
+on:
+  schedule:
+    - cron: '30 18 * * 0'
+  workflow_dispatch:
+    inputs:
+      days_back:
+        description: Days of submissions to look back over (catches papers held in moderation)
+        default: '90'
+        required: false
+      dry_run:
+        description: Run everything, commit nothing
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  # A push made with GITHUB_TOKEN does not start a Pages build, so the last
+  # step requests one through the REST API.
+  pages: write
+
+concurrency:
+  group: radar-weekly
+  cancel-in-progress: false
+
+jobs:
+  weekly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out main (the site)
+        uses: actions/checkout@v5
+
+      - name: Check out radar-data (pipeline and data)
+        uses: actions/checkout@v5
+        with:
+          ref: radar-data
+          path: radar-data
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: radar-data/pipeline/requirements-weekly.txt
+
+      # The CPU wheel index, so this never pulls the 2 GB CUDA build.
+      - name: Install
+        run: |
+          pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+          pip install -r radar-data/pipeline/requirements-weekly.txt
+
+      - name: Read the model's embedding revision
+        id: model
+        working-directory: radar-data
+        run: |
+          python - <<'EOF' >> "$GITHUB_OUTPUT"
+          import json, pathlib
+          latest = max(pathlib.Path("data/model").glob("v*"), key=lambda p: int(p.name[1:]))
+          m = json.loads((latest / "model.json").read_text())
+          print("key=" + m["embedding_model"].replace("/", "-") + "-" + m["revision"])
+          EOF
+
+      # Evicted caches only cost a download: the revision is pinned either way.
+      - name: Cache the embedding model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-${{ steps.model.outputs.key }}
+
+      - name: Weekly update
+        working-directory: radar-data
+        env:
+          RADAR_CONTACT: ${{ secrets.RADAR_CONTACT }}
+          HF_HUB_DISABLE_TELEMETRY: '1'
+        run: python -m pipeline.weekly --main .. --days-back "${{ inputs.days_back || '90' }}"
+
+      - name: Commit and push
+        id: push
+        if: ${{ !inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          WEEK=$(python -c "import json; print(json.load(open('tools/arxiv-radar/data/radar.json'))['meta']['data_through'])")
+          push() {
+            for attempt in 1 2 3; do
+              if git -C "$1" pull --rebase origin "$2" && git -C "$1" push origin "HEAD:$2"; then return 0; fi
+              sleep 15
+            done
+            return 1
+          }
+          for dir in radar-data .; do
+            git -C "$dir" config user.name "github-actions[bot]"
+            git -C "$dir" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          done
+
+          # Data first: the summary is rebuilt from every shard, so if the main
+          # push below fails, next week's run heals it.
+          git -C radar-data add data
+          if git -C radar-data diff --cached --quiet; then
+            echo "- radar-data: nothing new to commit." >> "$GITHUB_STEP_SUMMARY"
+          else
+            git -C radar-data commit -q -m "Radar data: week to $WEEK"
+            push radar-data radar-data
+            echo "- radar-data: pushed the week to $WEEK." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          git add tools/arxiv-radar/data
+          if git diff --cached --quiet; then
+            echo "- main: summary unchanged, nothing to commit." >> "$GITHUB_STEP_SUMMARY"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -q -m "Radar: week to $WEEK"
+            if push . "${{ github.ref_name }}"; then
+              echo "- main: pushed the summary for the week to $WEEK." >> "$GITHUB_STEP_SUMMARY"
+              echo "pushed=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "- main: push failed after 3 attempts. The data branch is up to date, so next week's run will publish both weeks." >> "$GITHUB_STEP_SUMMARY"
+              exit 1
+            fi
+          fi
+
+      - name: Request a Pages build
+        if: ${{ !inputs.dry_run && steps.push.outputs.pushed == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh api -X POST "repos/${{ github.repository }}/pages/builds" > /dev/null; then
+            echo "- Requested a Pages build." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- Could not request a Pages build; the summary is committed but the site may not show it until the next push to main." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
