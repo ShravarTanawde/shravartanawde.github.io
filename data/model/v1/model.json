@@ -1,0 +1,44 @@
+{
+ "version": "v1",
+ "fitted_on": "2026-10-04",
+ "window": [
+  "2021-10-04",
+  "2026-09-13"
+ ],
+ "holdout": [
+  "2026-09-14",
+  "2026-09-27"
+ ],
+ "n_papers": 69383,
+ "embedding_model": "BAAI/bge-small-en-v1.5",
+ "revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+ "params": {
+  "umap": {
+   "metric": "cosine",
+   "n_neighbors": 15,
+   "n_components": 8,
+   "min_dist": 0.0
+  },
+  "hdbscan": {
+   "min_cluster_size": 30,
+   "min_samples": 10,
+   "cluster_selection_method": "leaf"
+  },
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "broad_groups": 60,
+  "fine_target": [
+   300,
+   450
+  ]
+ },
+ "threshold": {
+  "percentile": 5,
+  "floor": 0.8
+ },
+ "n_fine": 398,
+ "n_broad": 60
+}

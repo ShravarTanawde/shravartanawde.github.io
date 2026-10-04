@@ -1,0 +1,3076 @@
+{
+ "version": "v1",
+ "broad": {
+  "b01": {
+   "name": "Learning quantum systems",
+   "description": "Papers that learn states, Hamiltonians, entanglement and phases from data, with provable learning algorithms or with neural networks."
+  },
+  "b02": {
+   "name": "Quantum machine learning",
+   "description": "Papers that build, benchmark and apply quantum machine-learning models (kernels, neural networks, generative models, reservoirs) to classical data."
+  },
+  "b03": {
+   "name": "Quantum computing for finance",
+   "description": "Papers that apply quantum algorithms and quantum machine learning to pricing, risk, portfolio selection and financial prediction."
+  },
+  "b04": {
+   "name": "Language, education and culture",
+   "description": "Papers on large language models and NLP meeting quantum computing, quantum education and workforce, music, and quantum-like models of cognition."
+  },
+  "b05": {
+   "name": "Simulation, annealing and ground states",
+   "description": "Papers on simulating many-body and molecular systems on quantum hardware, adiabatic and annealing algorithms, and classical simulation of noisy circuits."
+  },
+  "b06": {
+   "name": "Quantum optimal control",
+   "description": "Papers that design control fields and pulses for state preparation and gates, analytically, numerically and with robustness to errors."
+  },
+  "b07": {
+   "name": "Reinforcement learning",
+   "description": "Papers that use reinforcement learning to control quantum systems and compile circuits, or build quantum versions of reinforcement-learning agents."
+  },
+  "b08": {
+   "name": "Biology and drug discovery",
+   "description": "Papers that apply quantum optimisation and simulation to protein structure, docking, drug design and genomic sequence problems."
+  },
+  "b09": {
+   "name": "Optimisation and scientific computing",
+   "description": "Papers on QAOA, QUBOs and industrial optimisation, variational-algorithm training, and quantum algorithms for linear algebra and differential equations."
+  },
+  "b10": {
+   "name": "Quantum error correction",
+   "description": "Papers on error-correcting codes, decoders, fault-tolerant gadgets, magic states and error mitigation."
+  },
+  "b11": {
+   "name": "Systems, simulators and benchmarks",
+   "description": "Papers on classical simulators of quantum circuits, compilation and routing, distributed and HPC-integrated execution, and benchmarking of quantum computers."
+  },
+  "b12": {
+   "name": "Circuits, compilation and programming",
+   "description": "Papers on circuit synthesis and decomposition, state preparation, arithmetic and Fourier circuits, Shor's algorithm, programming languages, testing and ZX-calculus."
+  },
+  "b13": {
+   "name": "Entanglement and nonlocality",
+   "description": "Papers that detect, quantify and classify entanglement, and study Bell nonlocality in standard, network and LOCC settings."
+  },
+  "b14": {
+   "name": "Entropies, divergences and Markov dynamics",
+   "description": "Papers on the mathematics of quantum information: entropies and divergences, optimal transport, information geometry, Markov semigroups and non-Markovianity."
+  },
+  "b15": {
+   "name": "Quantum information theory",
+   "description": "Papers on channel capacities, resource theories, magic, discrimination and estimation of states, measurement incompatibility, uncertainty relations and steering."
+  },
+  "b16": {
+   "name": "Operator algebras and matrix analysis",
+   "description": "Papers on the mathematics underlying quantum theory: positive maps, categorical quantum mechanics, majorization and matrix inequalities, and mutually unbiased bases."
+  },
+  "b17": {
+   "name": "Quantum walks",
+   "description": "Papers on discrete- and continuous-time quantum walks: spatial search, spreading and localisation, and state transfer on graphs."
+  },
+  "b18": {
+   "name": "Quantum complexity and query algorithms",
+   "description": "Papers on quantum complexity theory: local Hamiltonian problems, query complexity, Grover search, hidden subgroups, proof systems, nonlocal games and unitary designs."
+  },
+  "b19": {
+   "name": "Quantum key distribution",
+   "description": "Papers on QKD protocols, security proofs and implementations over fibre, free space and satellites, including continuous-variable, device-independent and multiparty schemes."
+  },
+  "b20": {
+   "name": "Quantum cryptography and certification",
+   "description": "Papers on quantum cryptographic primitives, pseudorandomness, delegated and blind computation, privacy, quantum money, randomness generation and device-independent certification."
+  },
+  "b21": {
+   "name": "Photonic quantum information",
+   "description": "Papers on photonic entanglement generation and processing, programmable photonic circuits, quantum memories, fibre networks, timing and optical receivers."
+  },
+  "b22": {
+   "name": "Quantum teleportation",
+   "description": "Papers on teleportation protocols and their fidelity, continuous-variable teleportation, and quantum energy teleportation."
+  },
+  "b23": {
+   "name": "Quantum networks and repeaters",
+   "description": "Papers on quantum internet architecture and simulation, entanglement routing, repeaters, distillation and purification, and satellite entanglement distribution."
+  },
+  "b24": {
+   "name": "Estimation, tomography and sampling",
+   "description": "Papers on parameter estimation and metrology bounds, state and process tomography, classical shadows, phase and amplitude estimation, noise spectroscopy and boson sampling."
+  },
+  "b25": {
+   "name": "Nonclassical light and interference",
+   "description": "Papers on cat, Fock and other non-Gaussian states of light, nonclassicality measures, two-photon interference, wave-particle duality and continuous-variable entanglement criteria."
+  },
+  "b26": {
+   "name": "Quantum imaging and remote sensing",
+   "description": "Papers on quantum illumination, quantum radar and lidar, imaging with correlated and undetected photons, and quantum-limited superresolution."
+  },
+  "b27": {
+   "name": "Single-photon detectors",
+   "description": "Papers that develop and characterise single-photon avalanche diodes and superconducting nanowire detectors, including photon-number resolution."
+  },
+  "b28": {
+   "name": "Superconducting circuit hardware",
+   "description": "Papers that design, fabricate, control and read out superconducting qubits and the microwave circuitry around them."
+  },
+  "b29": {
+   "name": "Quantum thermal machines and driven-dissipative control",
+   "description": "Papers on quantum batteries, heat engines, heat flow, synchronisation, dissipative state preparation and controlled population or state transfer."
+  },
+  "b30": {
+   "name": "Semiconductor spin qubits",
+   "description": "Papers on electron and hole spin qubits in silicon and germanium quantum dots, from materials to gates and automated tuning."
+  },
+  "b31": {
+   "name": "Gate implementations across platforms",
+   "description": "Papers on entangling gates for ions, neutral atoms and photons, trapped-ion architecture, gate robustness methods and bosonic codes."
+  },
+  "b32": {
+   "name": "Atomic sensors, clocks and cooling",
+   "description": "Papers on Rydberg electrometry, atomic magnetometers, optical clocks and the laser cooling and trapping of atoms and ions."
+  },
+  "b33": {
+   "name": "Interferometry, levitation and fundamental-physics sensing",
+   "description": "Papers on dark matter searches, atom and matter-wave interferometry, levitated particles and quantum-enhanced optical interferometers."
+  },
+  "b34": {
+   "name": "Nonlinear quantum optics and photon-pair sources",
+   "description": "Papers on generating squeezed light and entangled photon pairs, structured photons, frequency conversion and entangled two-photon spectroscopy."
+  },
+  "b35": {
+   "name": "Quantum dot emitters and free-electron quantum optics",
+   "description": "Papers on semiconductor quantum dot photon sources and spin-photon interfaces, and on quantum optics with free electron beams."
+  },
+  "b36": {
+   "name": "Optomechanics and quantum acoustics",
+   "description": "Papers on cavity optomechanics, mechanical entanglement and cooling, force sensing, phononic transducers and surface acoustic wave devices."
+  },
+  "b37": {
+   "name": "Cavity magnonics",
+   "description": "Papers on magnons in YIG and other magnets coupled to microwave cavities, mechanics and qubits."
+  },
+  "b38": {
+   "name": "Light-matter interaction",
+   "description": "Papers on cavity and waveguide QED, Rabi and Jaynes-Cummings models, collective emission, polaritons, spin squeezing and strong-field quantum optics."
+  },
+  "b39": {
+   "name": "NV centres in diamond",
+   "description": "Papers on nitrogen-vacancy centre physics and materials, NV magnetometry, and NV and nanodiamond sensing in biology."
+  },
+  "b40": {
+   "name": "Solid-state colour centres and emitters",
+   "description": "Papers on spin defects and quantum emitters in hBN, silicon, silicon carbide and diamond, rare-earth dopants, and excitons in 2D semiconductors."
+  },
+  "b41": {
+   "name": "Spin chemistry and magnetic resonance",
+   "description": "Papers on molecular and nuclear spins, NMR and hyperpolarisation, radical-pair magnetoreception and chirality effects in molecules."
+  },
+  "b42": {
+   "name": "Rydberg atom physics and simulation",
+   "description": "Papers on Rydberg atom arrays as many-body simulators and on controlling Rydberg excitations, states and interactions."
+  },
+  "b43": {
+   "name": "Molecular and chemical physics",
+   "description": "Papers on electronic structure theory, nonadiabatic and ultrafast molecular dynamics, energy transfer, Rydberg molecules and control of cold molecules."
+  },
+  "b44": {
+   "name": "Topological and non-Hermitian matter",
+   "description": "Papers on Majorana modes, Chern and Floquet topological phases, non-Hermitian topology and skin effects, and 2D quantum materials."
+  },
+  "b45": {
+   "name": "Quantum many-body phases and gases",
+   "description": "Papers on quantum phase transitions, spin liquids, Hubbard and Bose-Hubbard models, impurities, Bose-Einstein condensates and many-body transport."
+  },
+  "b46": {
+   "name": "Driven systems and ergodicity breaking",
+   "description": "Papers on Floquet engineering, time crystals, many-body scars, Hilbert space fragmentation and Anderson and many-body localisation."
+  },
+  "b47": {
+   "name": "Quantum chaos and operator growth",
+   "description": "Papers on quantum chaos, scrambling and OTOCs, Krylov complexity, random matrix spectra, SYK models, dual-unitary circuits and cellular automata."
+  },
+  "b48": {
+   "name": "Holography and quantum information",
+   "description": "Papers on holographic error-correcting codes, bulk reconstruction and the holographic entropy cone."
+  },
+  "b49": {
+   "name": "Tensor network methods",
+   "description": "Papers on matrix product states, PEPS and tree tensor networks as tools for many-body simulation."
+  },
+  "b50": {
+   "name": "Entanglement, symmetry and topological order",
+   "description": "Papers on many-body entanglement entropy, symmetry-protected and topological order, anyons, integrability, geometric phases and lattice gauge theory simulation."
+  },
+  "b51": {
+   "name": "Vortex beams and twisted particles",
+   "description": "Papers on electrons, photons and atoms carrying orbital angular momentum and how vortex states interact with matter and fields."
+  },
+  "b52": {
+   "name": "Vacuum fluctuations and QED effects",
+   "description": "Papers on Casimir forces, vacuum fluctuations, Schwinger pair production, bound-state QED corrections and the Aharonov-Bohm effect."
+  },
+  "b53": {
+   "name": "Non-Hermitian quantum physics",
+   "description": "Papers on PT-symmetric and pseudo-Hermitian Hamiltonians, exceptional points and sensing near them."
+  },
+  "b54": {
+   "name": "Mathematical quantum mechanics",
+   "description": "Papers on exactly solvable potentials, relativistic wave equations, scattering theory, phase-space methods, coherent states and few-body problems."
+  },
+  "b55": {
+   "name": "Quantum thermodynamics foundations",
+   "description": "Papers on information thermodynamics and Landauer erasure, entropy production, work statistics and work extraction."
+  },
+  "b56": {
+   "name": "Open-system dynamics and thermalisation",
+   "description": "Papers on master equations, decoherence, thermalisation, Gibbs state preparation, monitored circuits, speed limits, thermometry and time in quantum dynamics."
+  },
+  "b57": {
+   "name": "Foundations and interpretation",
+   "description": "Papers on the structure and interpretation of quantum theory, Bell nonlocality, contextuality, causality, reference frames, Bohmian mechanics and history."
+  },
+  "b58": {
+   "name": "Quantum gravity and cosmology interfaces",
+   "description": "Papers on black holes and Hawking radiation, gravity-induced entanglement, collapse models, quantum clocks, cosmology and minimal-length theories."
+  },
+  "b59": {
+   "name": "Quantum information in neutrino physics",
+   "description": "Papers on coherence and correlations in neutrino oscillations and quantum simulation of collective neutrino flavour dynamics."
+  },
+  "b60": {
+   "name": "Relativistic quantum information and particle physics",
+   "description": "Papers on Unruh-DeWitt detectors, entanglement harvesting, and entanglement and Bell tests in particle scattering and collider events."
+  }
+ },
+ "fine": {
+  "t001": {
+   "name": "Quantum state and channel learning",
+   "description": "Papers that bound the samples and queries needed to learn unknown states, channels and measurements, including shadow tomography and online learning.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t002": {
+   "name": "Machine learning for molecules and materials",
+   "description": "Papers that combine classical or quantum machine learning with electronic-structure methods to predict molecular energies, potentials and material properties.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t003": {
+   "name": "Quantum PAC learning theory",
+   "description": "Papers that prove sample-complexity bounds and quantum-classical separations for learning classical concepts in PAC and statistical-query models.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t004": {
+   "name": "Machine-learned entanglement detection",
+   "description": "Papers that train neural networks and other classifiers to detect, classify or quantify entanglement from partial measurement data.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t005": {
+   "name": "Hamiltonian learning",
+   "description": "Papers that recover the Hamiltonian or Lindbladian of a many-body system from its dynamics, often with Heisenberg-limited scaling.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t006": {
+   "name": "Machine learning of phases of matter",
+   "description": "Papers that classify quantum phases and detect phase transitions with supervised, unsupervised or quantum machine learning on many-body data.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t007": {
+   "name": "Neural quantum states",
+   "description": "Papers that represent many-body wavefunctions with neural networks and optimise them by variational Monte Carlo.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t008": {
+   "name": "Quantum clustering algorithms",
+   "description": "Papers that give quantum and hybrid algorithms for k-means, spectral and correlation clustering, including coreset constructions with provable speed-ups.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t009": {
+   "name": "Quantum generative models",
+   "description": "Papers that train quantum circuit Born machines, IQP-based and diffusion-style generative models to learn and sample probability distributions.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t010": {
+   "name": "Quantum generative adversarial networks",
+   "description": "Papers that design and train quantum and hybrid GANs, mostly for image and tabular data generation, and study mode collapse.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t011": {
+   "name": "Quantum graph neural networks",
+   "description": "Papers that build quantum and hybrid graph neural networks and quantum graph embeddings for learning on graph-structured data.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t012": {
+   "name": "Quantum reservoir computing",
+   "description": "Papers that use the fixed dynamics of spin, oscillator and photonic systems as reservoirs for time-series prediction, with trained classical readout.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t013": {
+   "name": "Tensor-network machine learning",
+   "description": "Papers that use matrix product states and other tensor networks as classifiers and generative models, and study their training.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t014": {
+   "name": "Quantum physics-informed neural networks",
+   "description": "Papers that solve ordinary and partial differential equations with quantum or hybrid physics-informed neural networks.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t015": {
+   "name": "Geometric quantum machine learning",
+   "description": "Papers that build symmetry-equivariant quantum neural networks from group representation theory to improve trainability and generalisation.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t016": {
+   "name": "Quantum time-series forecasting",
+   "description": "Papers that forecast weather, energy and financial time series with quantum LSTMs, variational circuits and other hybrid sequence models.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t017": {
+   "name": "Photonic quantum neural networks",
+   "description": "Papers that implement neural networks and classifiers on linear-optical and other photonic hardware, classical or quantum.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t018": {
+   "name": "QML security and anomaly detection",
+   "description": "Papers that study adversarial and backdoor attacks on quantum classifiers, or apply QML to intrusion and anomaly detection.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "mixed",
+   "note": "Two halves: attacks on and robustness of QML models; QML applied to cyber-security anomaly detection."
+  },
+  "t019": {
+   "name": "Quantum federated learning",
+   "description": "Papers that train quantum or hybrid models across distributed clients without sharing data, with privacy and communication constraints.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t020": {
+   "name": "QML for medical data",
+   "description": "Papers that apply quantum and hybrid classifiers to medical images, clinical records and biomedical signals, mostly as benchmarks against classical models.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t021": {
+   "name": "Quantum kernel methods",
+   "description": "Papers that build, train and benchmark quantum kernels and quantum support vector machines, including their concentration and scaling.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t022": {
+   "name": "Quantum and hybrid neural networks",
+   "description": "Papers that design quantum convolutional and hybrid quantum-classical neural networks and test them on image classification benchmarks.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t023": {
+   "name": "Quantum machine learning surveys",
+   "description": "Papers that review quantum machine learning as a whole: data encoding, model families, hardware readiness and claimed advantages.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t024": {
+   "name": "Variational quantum classifiers",
+   "description": "Papers that design variational quantum classifiers, especially multiclass schemes, ensembles, data re-uploading and output encodings.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t025": {
+   "name": "QML for financial prediction",
+   "description": "Papers that apply quantum and hybrid classifiers and regressors to credit risk, fraud detection and stock-return prediction.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t026": {
+   "name": "Option pricing with amplitude estimation",
+   "description": "Papers that price derivatives and estimate financial risk with quantum amplitude estimation as a quadratic speed-up over Monte Carlo.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t027": {
+   "name": "Portfolio optimisation",
+   "description": "Papers that cast portfolio selection as QUBO or constrained problems and solve them with QAOA, VQE, annealing and decomposition pipelines.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t028": {
+   "name": "Quantum computer music",
+   "description": "Papers that compose, synthesise and sonify music and sound with quantum circuits, annealers and quantum data.",
+   "facet": "Miscellaneous",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Miscellaneous: art and music has no facet of its own."
+  },
+  "t029": {
+   "name": "LLM agents for quantum computing",
+   "description": "Papers that use large language models and AI agents to write quantum code, design experiments, run hardware and answer physics questions.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t030": {
+   "name": "Quantum natural language processing",
+   "description": "Papers that build compositional (DisCoCat, DisCoCirc) and attention-based quantum models for text classification and generation.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t031": {
+   "name": "Quantum education and workforce",
+   "description": "Papers that design and evaluate quantum courses, outreach and training programmes, and survey students, instructors and industry needs.",
+   "facet": "Miscellaneous",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Miscellaneous: education and workforce has no facet of its own."
+  },
+  "t032": {
+   "name": "Quantum-like models of cognition",
+   "description": "Papers that model human decision-making, opinion dynamics and language with quantum probability and open-system formalisms.",
+   "facet": "Miscellaneous",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Miscellaneous: cognitive science has no facet of its own."
+  },
+  "t033": {
+   "name": "Compilation for neutral-atom arrays",
+   "description": "Papers that compile, route and schedule circuits on neutral-atom arrays using atom movement, zoned architectures and native multi-qubit gates.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t034": {
+   "name": "Shortcuts to adiabaticity",
+   "description": "Papers that speed up adiabatic state transfer and preparation with counterdiabatic driving, invariant-based inverse engineering and related shortcuts.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t035": {
+   "name": "Rydberg arrays for independent sets",
+   "description": "Papers that encode maximum independent set and other graph problems in Rydberg atom arrays via the blockade, and assess hardness and speed-ups.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t036": {
+   "name": "Classical simulation of noisy circuits",
+   "description": "Papers that classically simulate or sample from noisy and random quantum circuits (Pauli propagation, frame methods) and locate where advantage can begin.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t037": {
+   "name": "Minor embedding and annealer benchmarks",
+   "description": "Papers that embed optimisation problems into D-Wave hardware graphs, tune chain strengths and schedules, and benchmark annealer generations.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t038": {
+   "name": "Quantum annealing dynamics",
+   "description": "Papers that study annealing schedules, energy gaps, diabatic and reverse annealing, catalysts and decoherence in transverse-field Ising annealing.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t039": {
+   "name": "Fermion-to-qubit mappings and Hubbard simulation",
+   "description": "Papers that design fermion-to-qubit encodings and circuits for simulating Fermi-Hubbard and other fermionic models on digital hardware.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t040": {
+   "name": "Analog and digital-analog simulation",
+   "description": "Papers that analyse the accuracy, error propagation, verification and programming of analog and digital-analog quantum simulators.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t041": {
+   "name": "Adiabatic quantum computation",
+   "description": "Papers that analyse adiabatic algorithms for state preparation, optimisation and linear systems, including runtime bounds and discretised adiabatic evolution.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t042": {
+   "name": "Trotter error and product formulas",
+   "description": "Papers that bound, estimate and reduce Trotter error, and design higher-order, randomised and multi-product formulas for Hamiltonian simulation.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t043": {
+   "name": "Quantum imaginary-time evolution",
+   "description": "Papers that implement imaginary-time evolution on quantum hardware (QITE, probabilistic and variational variants) to prepare ground and thermal states.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t044": {
+   "name": "Quantum impurity solvers for DMFT",
+   "description": "Papers that compute Green's functions of Anderson impurity models on quantum hardware as solvers for dynamical mean-field theory.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t045": {
+   "name": "Quantum Krylov and subspace diagonalisation",
+   "description": "Papers that estimate eigenvalues by projecting Hamiltonians onto quantum-generated Krylov or sampled subspaces, including sample-based Krylov diagonalisation.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t046": {
+   "name": "VQE for lattice and nuclear models",
+   "description": "Papers that apply variational quantum eigensolvers to Hubbard, Heisenberg and nuclear shell-model Hamiltonians and benchmark ansatz choices.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t047": {
+   "name": "VQE for molecular electronic structure",
+   "description": "Papers that compute molecular ground and excited states with VQE, ADAPT and related ansatze, and benchmark them for quantum chemistry.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t048": {
+   "name": "Robust quantum optimal control",
+   "description": "Papers that design control pulses insensitive to drift, model errors and noise, and quantify the cost of that robustness.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t049": {
+   "name": "Quantum optimal control theory",
+   "description": "Papers that apply Pontryagin's principle, invariants and Krotov-type methods to steer closed and open systems, including incoherent and feedback control.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t050": {
+   "name": "GRAPE and numerical pulse optimisation",
+   "description": "Papers that develop gradient-based and global numerical solvers and software packages for quantum optimal control problems.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t051": {
+   "name": "Reinforcement learning for quantum control",
+   "description": "Papers that train reinforcement-learning agents to design pulses, feedback, readout and cooling protocols for quantum devices.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t052": {
+   "name": "Quantum reinforcement learning",
+   "description": "Papers that build reinforcement-learning agents from variational circuits or quantum subroutines and test them on classical environments.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t053": {
+   "name": "RL for circuit synthesis and compilation",
+   "description": "Papers that use reinforcement learning to synthesise, optimise and route quantum circuits and to search circuit architectures.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t054": {
+   "name": "Protein folding and drug discovery",
+   "description": "Papers that map protein folding, side-chain placement, docking and peptide design to QUBOs and variational algorithms.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t055": {
+   "name": "Quantum algorithms for genomics",
+   "description": "Papers that apply quantum search, annealing and optimisation to sequence alignment, genome assembly, phylogenetics and mRNA design.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t056": {
+   "name": "Quantum continuous optimisation",
+   "description": "Papers that give quantum algorithms and query bounds for convex, nonconvex and stochastic optimisation, including Hamiltonian descent and interior-point methods.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t057": {
+   "name": "Power-grid optimisation",
+   "description": "Papers that apply QAOA, annealing and quantum linear solvers to unit commitment, power flow and other electricity-grid problems.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t058": {
+   "name": "Routing, scheduling and logistics",
+   "description": "Papers that formulate travelling-salesman, vehicle-routing, scheduling and packing problems as QUBOs and solve them with quantum and hybrid solvers.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t059": {
+   "name": "QAOA performance and parameter setting",
+   "description": "Papers that analyse, train, transfer parameters for and benchmark the quantum approximate optimisation algorithm (QAOA), including constrained mixers.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t060": {
+   "name": "QUBO formulations and solvers",
+   "description": "Papers that build, compress and encode quadratic unconstrained binary optimisation (QUBO) formulations and benchmark quantum and classical QUBO solvers.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t061": {
+   "name": "QSP, QSVT and block encodings",
+   "description": "Papers that develop quantum signal processing, singular-value transformation and block encodings as general tools for polynomial transformations of matrices.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t062": {
+   "name": "Quantum linear system solvers",
+   "description": "Papers that design, optimise and compare HHL and later quantum linear-system algorithms, including variational and quantum-inspired solvers.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t063": {
+   "name": "Quantum algorithms for differential equations",
+   "description": "Papers that solve linear and nonlinear ODEs and PDEs on quantum computers via Schrödingerisation, Carleman linearisation and variational methods.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t064": {
+   "name": "Quantum lattice Boltzmann and CFD",
+   "description": "Papers that simulate classical fluid flow on quantum computers, mostly through lattice Boltzmann and Carleman-linearised schemes.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t065": {
+   "name": "Barren plateaus and VQA training",
+   "description": "Papers that analyse trainability of variational quantum algorithms: barren plateaus, initialisation, gradient estimation and optimisers.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t066": {
+   "name": "Magic state distillation and cultivation",
+   "description": "Papers that design and cost magic-state distillation, cultivation and injection protocols for fault-tolerant non-Clifford gates.",
+   "facet": "Error correction & fault tolerance",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t067": {
+   "name": "Quantum error mitigation",
+   "description": "Papers that develop and benchmark zero-noise extrapolation, probabilistic error cancellation, readout correction and other mitigation methods on noisy hardware.",
+   "facet": "Error correction & fault tolerance",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t068": {
+   "name": "Floquet codes",
+   "description": "Papers that construct and analyse dynamical (Floquet) codes generated by periodic sequences of non-commuting two-qubit measurements.",
+   "facet": "Error correction & fault tolerance",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t069": {
+   "name": "QEC benchmarking and realistic noise",
+   "description": "Papers that simulate, benchmark and teach quantum error correction under realistic hardware noise such as crosstalk, drift and readout error.",
+   "facet": "Error correction & fault tolerance",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t070": {
+   "name": "Fault-tolerant gadgets and syndrome extraction",
+   "description": "Papers that design flag-based syndrome extraction, error-detecting codes and low-overhead fault-tolerant state preparation and logic.",
+   "facet": "Error correction & fault tolerance",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t071": {
+   "name": "Surface-code decoders",
+   "description": "Papers that build matching, belief-propagation and neural-network decoders for surface and colour codes, with attention to real-time latency.",
+   "facet": "Error correction & fault tolerance",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t072": {
+   "name": "Stabilizer code constructions",
+   "description": "Papers that construct stabilizer and non-stabilizer codes algebraically, including qudit and mixed-dimension codes, and study their structure.",
+   "facet": "Error correction & fault tolerance",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t073": {
+   "name": "Transversal and non-Clifford logical gates",
+   "description": "Papers that find codes supporting transversal, fold-transversal and constant-depth logical gates, especially non-Clifford gates on CSS and qLDPC codes.",
+   "facet": "Error correction & fault tolerance",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t074": {
+   "name": "Decoders for qLDPC codes",
+   "description": "Papers that design belief-propagation-based and other decoders for quantum low-density parity-check codes, including bivariate bicycle codes.",
+   "facet": "Error correction & fault tolerance",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t075": {
+   "name": "Low-overhead qLDPC architectures",
+   "description": "Papers that lay out quantum low-density parity-check codes on realistic hardware connectivity and perform logical operations on them with low overhead.",
+   "facet": "Error correction & fault tolerance",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t076": {
+   "name": "GPU and HPC circuit simulators",
+   "description": "Papers that build and benchmark state-vector and hybrid circuit simulators on GPUs, supercomputers and other accelerators.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t077": {
+   "name": "Tensor-network circuit simulation",
+   "description": "Papers that simulate quantum circuits with matrix product states and other tensor networks, and compile tensor networks into shallow circuits.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t078": {
+   "name": "Distributed quantum computing",
+   "description": "Papers that partition, compile and schedule circuits across networked quantum processors linked by teleported gates and shared entanglement.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t079": {
+   "name": "Circuit cutting",
+   "description": "Papers that split large circuits into smaller subcircuits by gate and wire cuts and reduce the resulting sampling overhead.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t080": {
+   "name": "Benchmarking quantum computers",
+   "description": "Papers that define and run application-level and holistic benchmarks such as quantum volume to compare quantum processors and software stacks.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t081": {
+   "name": "Qubit mapping and routing",
+   "description": "Papers that map logical qubits to hardware and insert SWAPs to satisfy connectivity, with exact, heuristic and benchmarked routers.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t082": {
+   "name": "Quantum-HPC integration and cloud",
+   "description": "Papers that integrate quantum processors into HPC centres and cloud services: software stacks, scheduling, orchestration and hybrid workflows.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t083": {
+   "name": "Randomized benchmarking",
+   "description": "Papers that design and analyse randomized benchmarking, cross-entropy and related protocols for estimating gate error rates.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t084": {
+   "name": "Quantum image representation",
+   "description": "Papers that encode, compress, transform and encrypt classical images in quantum states (FRQI, NEQR and successors).",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t085": {
+   "name": "Measurement-based quantum computation",
+   "description": "Papers that compile circuits into measurement patterns on graph and cluster states, and study flow, universality and MBQC resources.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t086": {
+   "name": "Shor's algorithm and cryptanalysis",
+   "description": "Papers that implement, optimise and cost Shor-type factoring and discrete-logarithm algorithms, and assess alternative factoring claims.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t087": {
+   "name": "ZX-calculus and graphical languages",
+   "description": "Papers that develop ZX, ZH and ZXW diagrammatic calculi, prove completeness, and use rewriting for circuits and verification.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t088": {
+   "name": "Quantum Fourier transform circuits",
+   "description": "Papers that design faster, shallower and hardware-mapped quantum Fourier transform circuits and related transforms.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t089": {
+   "name": "Quantum arithmetic circuits",
+   "description": "Papers that design adders, multipliers, comparators and modular arithmetic with low Toffoli, T and ancilla counts.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t090": {
+   "name": "Quantum state preparation",
+   "description": "Papers that prepare arbitrary, sparse and structured quantum states with optimal depth and ancilla trade-offs.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t091": {
+   "name": "Quantum programming languages and verification",
+   "description": "Papers that design quantum programming languages, intermediate representations and semantics, and formally verify quantum programs.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t092": {
+   "name": "Quantum software testing and debugging",
+   "description": "Papers that test, debug and study bugs in quantum programs, libraries and simulators with software-engineering methods.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t093": {
+   "name": "Multi-controlled gate decomposition",
+   "description": "Papers that decompose multi-controlled and general unitaries into CNOTs and single-qubit gates with fewer gates or lower depth.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t094": {
+   "name": "Clifford+T synthesis and circuit optimisation",
+   "description": "Papers that synthesise and optimise circuits over Clifford+T and other gate sets, minimising T-count, CNOT count and depth.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t095": {
+   "name": "Graph and hypergraph states",
+   "description": "Papers that classify and construct graph and hypergraph states and relate their entanglement to graph-theoretic structure such as vertex-minors.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t096": {
+   "name": "Entanglement monogamy relations",
+   "description": "Papers that derive tighter monogamy and polygamy inequalities for concurrence, negativity and other entanglement measures in multi-qubit systems.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t097": {
+   "name": "Nonlocality without entanglement",
+   "description": "Papers that construct sets of orthogonal product states that cannot be distinguished by local operations and classical communication (LOCC).",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t098": {
+   "name": "Entanglement detection and measures",
+   "description": "Papers that derive separability criteria, entanglement witnesses and measures for bipartite and multipartite states, including moment-based tests.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t099": {
+   "name": "Local-unitary invariants and AME states",
+   "description": "Papers that classify multipartite entanglement by local-unitary invariants and construct absolutely maximally entangled states and perfect tensors.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t100": {
+   "name": "Bell inequalities and nonlocality",
+   "description": "Papers that construct and optimise Bell inequalities, quantify nonlocality, and study sequential sharing of Bell violations.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t101": {
+   "name": "Network nonlocality",
+   "description": "Papers that study nonlocal correlations in networks with independent sources, such as triangle and bilocal networks.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t102": {
+   "name": "Quantum optimal transport",
+   "description": "Papers that define quantum Wasserstein distances and optimal-transport costs between states and channels and prove their metric properties.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t103": {
+   "name": "Information geometry and wavefunction entropies",
+   "description": "Papers that study metrics on quantum state space, or compute Shannon, Fisher and Rényi entropies for exactly solvable potentials.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "mixed",
+   "note": "Two halves: information geometry of state manifolds; position- and momentum-space entropies of solvable model wavefunctions."
+  },
+  "t104": {
+   "name": "Quantum Markov semigroups and dynamical maps",
+   "description": "Papers that characterise completely positive dynamical maps, Markov semigroups, their generators, divisibility and relaxation rates.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t105": {
+   "name": "Quantum non-Markovianity",
+   "description": "Papers that define, witness and quantify memory effects in open quantum dynamics, including multi-time processes and quantum versus classical memory.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t106": {
+   "name": "Kirkwood-Dirac quasiprobability",
+   "description": "Papers that study Kirkwood-Dirac quasiprobability distributions, their nonpositivity and links to weak values, coherence and quantum advantage.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t107": {
+   "name": "Quantum relative entropies and divergences",
+   "description": "Papers that prove continuity, data-processing and operational results for von Neumann, Rényi and f-divergence quantities.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t108": {
+   "name": "Magic and stabilizer Rényi entropy",
+   "description": "Papers that quantify nonstabilizerness (magic) with stabilizer Rényi entropies and other monotones, especially in many-body states and circuits.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t109": {
+   "name": "Purification, cloning and channel supermaps",
+   "description": "Papers that bound and construct protocols for purifying, cloning, storing and transforming unknown states and channels, including the random purification channel.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t110": {
+   "name": "Fidelity and trace-distance estimation",
+   "description": "Papers that give sample- and query-optimal algorithms for estimating fidelity, trace distance, purity and state-power traces.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t111": {
+   "name": "General quantum resource theories",
+   "description": "Papers that develop the general framework of quantum resource theories: monotones, robustness, convertibility and dynamical resources.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t112": {
+   "name": "Coherence and imaginarity resource theories",
+   "description": "Papers that quantify quantum coherence and imaginarity as resources and relate them to metrology, algorithms and state transformations.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t113": {
+   "name": "Channel capacities and quantum Shannon theory",
+   "description": "Papers that bound classical and quantum capacities of channels, prove achievability and converse results, and study communication complexity.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t114": {
+   "name": "Measurement incompatibility",
+   "description": "Papers that characterise, quantify and certify incompatibility of measurements and instruments and its role in operational tasks.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t115": {
+   "name": "Uncertainty relations",
+   "description": "Papers that derive tighter variance-based, entropic and skew-information uncertainty relations, including memory-assisted versions.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t116": {
+   "name": "EPR steering",
+   "description": "Papers that detect, quantify and share Einstein-Podolsky-Rosen steering in bipartite, multipartite and network scenarios.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t117": {
+   "name": "State and channel discrimination",
+   "description": "Papers that find optimal minimum-error, unambiguous and sequential strategies for discriminating quantum states and channels, and their limits.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t118": {
+   "name": "Categorical quantum mechanics",
+   "description": "Papers that formalise quantum processes, supermaps and subsystems with monoidal, dagger and Markov categories and linear logic.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t119": {
+   "name": "Mutually unbiased bases",
+   "description": "Papers that construct, classify and bound sets of mutually unbiased bases and complex Hadamard matrices, especially in dimension six.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t120": {
+   "name": "Majorization and matrix inequalities",
+   "description": "Papers that prove majorization relations, norm and trace inequalities and related results in matrix analysis used in quantum information.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t121": {
+   "name": "Positive and completely positive maps",
+   "description": "Papers that characterise positive, k-positive and completely positive maps on matrix and operator algebras, including Choi-type maps and dilations.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t122": {
+   "name": "Quantum walk spatial search",
+   "description": "Papers that design and analyse spatial search for marked vertices with coined, Szegedy and continuous-time quantum walks on graphs.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t123": {
+   "name": "Discrete-time quantum walk dynamics",
+   "description": "Papers that study spreading, localisation, decoherence and entanglement of coined and continuous-time quantum walks on lattices.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t124": {
+   "name": "Perfect state transfer on graphs",
+   "description": "Papers that characterise perfect and pretty good state transfer of quantum walks on graph families using spectral graph theory.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t125": {
+   "name": "Local Hamiltonian complexity",
+   "description": "Papers that classify the complexity of ground-state and Gibbs-state problems for local Hamiltonians and give classical approximation algorithms.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t126": {
+   "name": "Quantum topological data analysis",
+   "description": "Papers that estimate Betti numbers and persistent homology with quantum algorithms and prove hardness results for these tasks.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t127": {
+   "name": "Hidden subgroup and group problems",
+   "description": "Papers that solve hidden subgroup, isomorphism and representation-theoretic problems over groups with quantum algorithms, and bound their complexity.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t128": {
+   "name": "Nonlocal games and quantum game theory",
+   "description": "Papers that analyse quantum strategies in nonlocal games such as CHSH and magic square, or quantise classical games with Nash equilibria.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "mixed",
+   "note": "Two halves: nonlocal games, rigidity and compiled games; economic-style quantum game theory (prisoners' dilemma, Nash equilibria)."
+  },
+  "t129": {
+   "name": "Quantum graph algorithms",
+   "description": "Papers that give quantum query and time bounds for graph problems such as cuts, cycles, triangles and treewidth.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t130": {
+   "name": "Unitary designs and pseudorandom unitaries",
+   "description": "Papers that construct approximate unitary t-designs and pseudorandom unitaries from shallow random circuits, including under symmetries.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t131": {
+   "name": "Grover search and amplitude amplification",
+   "description": "Papers that modify, implement and analyse Grover's search and amplitude amplification, including deterministic, qudit and NISQ variants.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t132": {
+   "name": "Quantum query complexity",
+   "description": "Papers that prove quantum query upper and lower bounds and separations for Boolean functions, search problems and adaptivity.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t133": {
+   "name": "QMA and quantum proof systems",
+   "description": "Papers that study QMA, QCMA, quantum PCPs and interactive proofs, including oracle separations and complexity-class collapses.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t134": {
+   "name": "Quantum secret sharing",
+   "description": "Papers that design threshold and other quantum secret sharing schemes, their codes, access structures and rates.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t135": {
+   "name": "Multiparty and semi-quantum key protocols",
+   "description": "Papers that propose conference key agreement, semi-quantum key distribution, quantum dialogue and anonymous multiparty key protocols.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t136": {
+   "name": "Satellite and free-space QKD",
+   "description": "Papers that model and demonstrate quantum key distribution over satellite downlinks and terrestrial free-space links, including turbulence and scheduling.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t137": {
+   "name": "QKD information reconciliation",
+   "description": "Papers that design LDPC, polar and other error-correction schemes for reconciling keys in discrete- and continuous-variable QKD.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t138": {
+   "name": "Twin-field and MDI QKD",
+   "description": "Papers that implement and extend twin-field and measurement-device-independent quantum key distribution for long distances and networks.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t139": {
+   "name": "Continuous-variable QKD",
+   "description": "Papers that develop and demonstrate continuous-variable QKD with Gaussian and discrete modulation, local local oscillators and composable security.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t140": {
+   "name": "Practical QKD security and attacks",
+   "description": "Papers that prove finite-key security of practical decoy-state QKD and analyse source and detector imperfections and attacks.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t141": {
+   "name": "Device-independent QKD",
+   "description": "Papers that bound key rates and prove security of device-independent quantum key distribution based on Bell violations.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t142": {
+   "name": "Quantum differential privacy",
+   "description": "Papers that define and analyse differential privacy and related privacy notions for quantum states, channels and algorithms.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t143": {
+   "name": "Private distributed quantum sensing",
+   "description": "Papers that estimate global functions with networks of quantum sensors while keeping local parameters private or secure against eavesdroppers.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t144": {
+   "name": "Quantum money, blockchain and voting",
+   "description": "Papers that design quantum money and tokens, quantum or post-quantum blockchains, Byzantine agreement and voting protocols, and assess quantum threats to cryptocurrencies.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t145": {
+   "name": "Blind and delegated quantum computation",
+   "description": "Papers that let clients delegate quantum computations to untrusted servers with blindness, verifiability or homomorphic encryption.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t146": {
+   "name": "Quantum cryptographic primitives",
+   "description": "Papers that construct and separate quantum cryptographic primitives such as commitments, oblivious transfer, unclonable and one-shot signatures, and one-way state generators.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t147": {
+   "name": "Pseudorandom states and unitaries",
+   "description": "Papers that construct, separate and bound pseudorandom quantum states, function-like states and unitaries as cryptographic primitives.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t148": {
+   "name": "Certified quantum randomness",
+   "description": "Papers that certify and bound randomness in device-independent and semi-device-independent scenarios, including guessing probabilities.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t149": {
+   "name": "Quantum random number generators",
+   "description": "Papers that build and characterise quantum random number generators from vacuum noise, phase noise and other sources, including source-independent designs.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t150": {
+   "name": "Self-testing of states and measurements",
+   "description": "Papers that self-test entangled states and measurements from observed correlations, in Bell and prepare-and-measure scenarios.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t151": {
+   "name": "Quantum-limited optical receivers",
+   "description": "Papers that design receivers approaching the Helstrom and Holevo limits for coherent-state optical communication, including joint-detection schemes.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t152": {
+   "name": "Entanglement distribution over deployed fibre",
+   "description": "Papers that distribute polarisation and other entanglement over metropolitan fibre networks, including coexistence with classical traffic.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t153": {
+   "name": "Quantum time synchronisation",
+   "description": "Papers that synchronise clocks and transfer time over fibre and free space with entangled photons and quantum network protocols.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t154": {
+   "name": "Optical quantum memories",
+   "description": "Papers that store and retrieve photonic qubits in atomic, rare-earth and integrated memories, with attention to efficiency, lifetime and multimode capacity.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t155": {
+   "name": "Heralded photonic entanglement",
+   "description": "Papers that generate and measure Bell, GHZ and high-dimensional entangled photon states with linear optics and heralding.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t156": {
+   "name": "Photonic cluster states and fusion",
+   "description": "Papers that generate photonic graph and cluster states from emitters or linear optics and build fusion-based fault-tolerant architectures.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t157": {
+   "name": "Programmable photonic processors",
+   "description": "Papers that design, characterise and benchmark reconfigurable integrated interferometer meshes and photonic processors for quantum light.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t158": {
+   "name": "Frequency-bin photonic qudits",
+   "description": "Papers that generate and manipulate frequency-bin entangled photons and qudits on chips with microresonators and electro-optic gates.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t159": {
+   "name": "Quantum energy teleportation",
+   "description": "Papers that extract energy remotely from entangled many-body ground states using local measurements and classical communication.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t160": {
+   "name": "Teleportation protocols and fidelity",
+   "description": "Papers that design teleportation protocols (qudit, bidirectional, port-based, noisy) and analyse their fidelity and resource requirements.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t161": {
+   "name": "Continuous-variable teleportation",
+   "description": "Papers that teleport continuous-variable and hybrid states using squeezed, photon-subtracted and other non-Gaussian entangled resources.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t162": {
+   "name": "Entanglement distillation protocols",
+   "description": "Papers that design and bound protocols converting many noisy entangled pairs into fewer high-fidelity pairs by local operations.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t163": {
+   "name": "Entanglement purification in networks",
+   "description": "Papers that analyse and optimise entanglement purification within network operation, including memory decoherence, buffering and asymmetric inputs.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t164": {
+   "name": "Satellite entanglement distribution",
+   "description": "Papers that model satellite and high-altitude platform architectures for global entanglement distribution and quantum internet backbones.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t165": {
+   "name": "Quantum internet architecture and simulators",
+   "description": "Papers that propose quantum network stacks and architectures and build discrete-event simulators and software for designing them.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t166": {
+   "name": "Entanglement routing",
+   "description": "Papers that route bipartite and multipartite entanglement across network topologies with multipath and graph-state methods.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t167": {
+   "name": "Quantum repeater chains",
+   "description": "Papers that analyse rates and fidelity of memory-based and all-photonic quantum repeaters with entanglement swapping and multiplexing.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t168": {
+   "name": "Boson sampling",
+   "description": "Papers that analyse the hardness, classical simulation and experimental validation of boson sampling and Gaussian boson sampling.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t169": {
+   "name": "Qubit noise spectroscopy",
+   "description": "Papers that measure and model the spectra and correlations of qubit dephasing noise with pulse sequences and repeated Ramsey measurements.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t170": {
+   "name": "Quantum amplitude estimation",
+   "description": "Papers that design low-depth, maximum-likelihood, Bayesian and parallel variants of quantum amplitude estimation.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t171": {
+   "name": "Quantum parameter estimation theory",
+   "description": "Papers that derive quantum Cramér-Rao and Bayesian bounds, multiparameter limits and optimal strategies for quantum metrology, including under noise.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t172": {
+   "name": "Classical shadows",
+   "description": "Papers that develop and analyse classical-shadow protocols for predicting many observables from randomised measurements, including process and fermionic shadows.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t173": {
+   "name": "Quantum state and process tomography",
+   "description": "Papers that reconstruct quantum states, processes and measurements from data, with adaptive, compressed and noise-aware tomography methods.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t174": {
+   "name": "Quantum phase estimation",
+   "description": "Papers that design and cost quantum phase estimation variants, especially low-depth and statistical versions for early fault-tolerant ground-state energy estimation.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t175": {
+   "name": "Optical cat and Fock state generation",
+   "description": "Papers that prepare Schrödinger cat, Fock and other non-Gaussian states of light and bosonic modes, often by heralded photon subtraction.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t176": {
+   "name": "Nonclassicality and non-Gaussianity of light",
+   "description": "Papers that quantify and detect nonclassicality, Wigner negativity and non-Gaussianity of optical states, including photon-added and subtracted states.",
+   "facet": "Light-matter & quantum optics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t177": {
+   "name": "Hong-Ou-Mandel interference",
+   "description": "Papers that study two-photon and multi-photon interference, indistinguishability and Hong-Ou-Mandel effects in theory and experiment.",
+   "facet": "Light-matter & quantum optics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t178": {
+   "name": "Wave-particle duality and complementarity",
+   "description": "Papers that test and quantify wave-particle duality, which-path information, quantum erasers and complementarity in interferometers.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t179": {
+   "name": "Continuous-variable entanglement criteria",
+   "description": "Papers that derive entanglement witnesses and separability criteria for Gaussian and non-Gaussian continuous-variable states.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t180": {
+   "name": "Quantum illumination",
+   "description": "Papers that analyse entanglement-enhanced target detection with two-mode squeezed light in noisy, lossy environments, and its receivers and limits.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t181": {
+   "name": "Quantum radar and lidar",
+   "description": "Papers that model and demonstrate quantum-enhanced radar and lidar for ranging, velocity estimation and jamming resistance.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t182": {
+   "name": "Ghost imaging and undetected photons",
+   "description": "Papers that image with photon-pair correlations: ghost imaging, imaging with undetected photons, quantum OCT and entangled-photon microscopy.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t183": {
+   "name": "Superresolution by mode demultiplexing",
+   "description": "Papers that resolve incoherent point sources below the Rayleigh limit with spatial-mode demultiplexing and quantum-limited estimation.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t184": {
+   "name": "Single-photon avalanche diodes",
+   "description": "Papers that design, model and calibrate SPAD and InGaAs single-photon detectors, including dark counts, afterpulsing and efficiency.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t185": {
+   "name": "Superconducting nanowire single-photon detectors",
+   "description": "Papers that develop SNSPDs and arrays with high efficiency, low jitter, mid-infrared response and photon-number resolution.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t186": {
+   "name": "Electrons on helium and neon",
+   "description": "Papers that trap and control single electrons on liquid helium or solid neon surfaces as qubits.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t187": {
+   "name": "Microwave-optical transduction",
+   "description": "Papers that convert quantum signals between microwave and optical frequencies to link superconducting qubits over distance.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t188": {
+   "name": "Single microwave photon detection",
+   "description": "Papers that detect, count and generate single itinerant microwave photons using superconducting circuits.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t189": {
+   "name": "Josephson parametric amplifiers",
+   "description": "Papers that build Josephson and travelling-wave parametric amplifiers for near quantum-limited microwave amplification.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t190": {
+   "name": "Cryogenic control electronics and wiring",
+   "description": "Papers that develop cryogenic electronics, wiring, filtering and calibrated measurement setups for millikelvin quantum devices.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t191": {
+   "name": "Superconducting circuit quantisation",
+   "description": "Papers that derive Hamiltonians for superconducting circuits from lumped-element or electromagnetic models of their environment.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t192": {
+   "name": "Dispersive readout and Purcell filters",
+   "description": "Papers that speed up and improve dispersive readout of superconducting qubits, often with Purcell filters protecting coherence.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t193": {
+   "name": "Quasiparticles and radiation-induced errors",
+   "description": "Papers that measure and mitigate quasiparticle poisoning and correlated errors from cosmic rays and radioactivity in superconducting qubits.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t194": {
+   "name": "Superconducting qubit gates and couplers",
+   "description": "Papers that design two-qubit gates, tunable couplers and crosstalk suppression for transmon and fluxonium processors.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t195": {
+   "name": "Superconducting materials and fabrication",
+   "description": "Papers that improve films, junctions, substrates and fabrication steps to cut loss in superconducting resonators and qubits.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t196": {
+   "name": "Two-level system defects",
+   "description": "Papers that characterise microscopic two-level system defects and their effect on superconducting qubit coherence and stability.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t197": {
+   "name": "Qubit control systems and calibration",
+   "description": "Papers that build FPGA and RFSoC control stacks and software for calibrating and running superconducting qubits.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t198": {
+   "name": "Quantum batteries",
+   "description": "Papers that model charging, storage and work extraction (ergotropy) in quantum batteries and look for collective charging advantages.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t199": {
+   "name": "Quantum synchronisation",
+   "description": "Papers that study synchronisation of quantum self-sustained oscillators and spins, including van der Pol models and experiments.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t200": {
+   "name": "Dissipative entanglement stabilisation",
+   "description": "Papers that use engineered dissipation and reservoirs to prepare and stabilise entangled steady states of qubits.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t201": {
+   "name": "Spin-chain quantum state transfer",
+   "description": "Papers that design spin-chain couplings and protocols for perfect or high-fidelity transfer of quantum states.",
+   "facet": "Information & entanglement theory",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t202": {
+   "name": "Kerr-cat and bosonic oscillator qubits",
+   "description": "Papers that control Kerr parametric oscillators, cat qubits and nonlinear bosonic modes, including multiphoton dissipation and gates.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t203": {
+   "name": "STIRAP and adiabatic population transfer",
+   "description": "Papers that design stimulated Raman adiabatic passage and related pulse schemes for population transfer in multilevel systems.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t204": {
+   "name": "Quantum heat engines and refrigerators",
+   "description": "Papers that analyse Otto cycles and other quantum heat engines and refrigerators for power, efficiency and fluctuations.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t205": {
+   "name": "Quantum heat transport and rectification",
+   "description": "Papers that control heat currents between quantum baths with thermal diodes, valves, transistors and superconducting circuits.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t206": {
+   "name": "Automated quantum dot tuning",
+   "description": "Papers that automate the tuning and characterisation of quantum dot devices, often with machine learning on charge stability diagrams.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": true,
+   "coherence": "coherent"
+  },
+  "t207": {
+   "name": "Silicon spin qubit control",
+   "description": "Papers that demonstrate and model gates, readout, shuttling and noise for spin qubits in silicon and germanium quantum dots.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t208": {
+   "name": "Valley splitting and hole spins",
+   "description": "Papers that model valley splitting, g-tensors and spin-orbit effects in Si/SiGe and germanium hole spin qubits.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t209": {
+   "name": "Geometric and holonomic quantum gates",
+   "description": "Papers that design nonadiabatic geometric and holonomic gates and make them robust to control errors.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t210": {
+   "name": "Photon-photon and photonic gate schemes",
+   "description": "Papers that propose deterministic or heralded gates between photonic qubits, often mediated by emitters or cavities.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "mixed",
+   "note": "Broad pool of gate proposals across photonic, atom-photon and circuit QED hybrids; unstable across seeds."
+  },
+  "t211": {
+   "name": "Dynamical decoupling",
+   "description": "Papers that design and test dynamical decoupling sequences to suppress decoherence and crosstalk during idling and gates.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t212": {
+   "name": "Rydberg gates for neutral atoms",
+   "description": "Papers that design and demonstrate Rydberg-blockade entangling gates and control for neutral-atom quantum computers.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t213": {
+   "name": "Trapped-ion entangling gates",
+   "description": "Papers that design and demonstrate high-fidelity two-qubit gates on trapped ions using lasers, microwaves or motional modes.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t214": {
+   "name": "Trapped-ion QCCD architecture and shuttling",
+   "description": "Papers that compile, schedule and architect shuttling-based trapped-ion quantum computers with multiple zones.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t215": {
+   "name": "Ion trap design and fabrication",
+   "description": "Papers that design, simulate and fabricate surface-electrode, 3D and Penning traps for trapped-ion quantum computing.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t216": {
+   "name": "GKP and bosonic error-correcting codes",
+   "description": "Papers that analyse, prepare and decode Gottesman-Kitaev-Preskill, cat and other bosonic codes.",
+   "facet": "Error correction & fault tolerance",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t217": {
+   "name": "Rydberg-atom electrometry",
+   "description": "Papers that use Rydberg atoms in vapour cells as sensitive receivers and sensors of radio-frequency and microwave electric fields.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t218": {
+   "name": "Optically pumped atomic magnetometers",
+   "description": "Papers that build and model alkali vapour magnetometers and comagnetometers, including SERF and squeezed-light schemes.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t219": {
+   "name": "Neutral atom trapping and tweezer loading",
+   "description": "Papers that cool, load and image neutral atoms in magneto-optical traps, optical tweezers and lattices.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t220": {
+   "name": "Atomic clocks",
+   "description": "Papers that build and evaluate optical and microwave atomic clocks, their systematic shifts and frequency comparisons.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t221": {
+   "name": "Trapped-ion laser cooling",
+   "description": "Papers that cool, measure the temperature of and control motional modes of trapped ions and ion crystals.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t222": {
+   "name": "Quantum sensors for dark matter",
+   "description": "Papers that propose and run searches for axions, dark photons and ultralight dark matter with qubits, spins and other quantum sensors.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t223": {
+   "name": "Macroscopic spatial superpositions",
+   "description": "Papers that plan Stern-Gerlach and matter-wave interferometers to put massive nanoparticles into spatial superpositions.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t224": {
+   "name": "Atom interferometry techniques",
+   "description": "Papers that develop Bragg, Raman and Floquet atom optics and pulse sequences for more sensitive atom interferometers.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t225": {
+   "name": "Atom-interferometric inertial sensors",
+   "description": "Papers that build atom gravimeters, accelerometers and gyroscopes for field, space and long-baseline use.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t226": {
+   "name": "Magnetic levitation of particles",
+   "description": "Papers that magnetically levitate superconductors, magnets and microparticles for precision force, gravity and rotation sensing.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t227": {
+   "name": "Gravitational-wave detector quantum noise",
+   "description": "Papers that reduce quantum noise in gravitational-wave and other large interferometers with squeezing and readout schemes.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t228": {
+   "name": "Optically levitated nanoparticles",
+   "description": "Papers that trap, cool and squeeze optically levitated nanoparticles for force sensing and macroscopic quantum tests.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t229": {
+   "name": "Quantum-enhanced interferometric phase estimation",
+   "description": "Papers that compute phase sensitivity of Mach-Zehnder and SU(1,1) interferometers with squeezed, NOON and non-Gaussian states.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t230": {
+   "name": "Entangled two-photon absorption spectroscopy",
+   "description": "Papers that test and model entangled two-photon absorption and other spectroscopy driven by entangled photon pairs.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t231": {
+   "name": "Orbital angular momentum photons",
+   "description": "Papers that generate, transform and measure photons and entanglement carrying orbital angular momentum and other spatial modes.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t232": {
+   "name": "Squeezed light generation",
+   "description": "Papers that generate, characterise and engineer squeezed light from optical parametric oscillators, waveguides and microcombs.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t233": {
+   "name": "Quantum metasurface photon sources",
+   "description": "Papers that generate and shape entangled photon pairs with nonlinear metasurfaces and thin films.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t234": {
+   "name": "Spatio-temporal SPDC theory",
+   "description": "Papers that model and characterise the spatial and spectral structure of biphotons from spontaneous parametric down-conversion.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t235": {
+   "name": "Integrated photon-pair sources",
+   "description": "Papers that build bright entangled photon-pair sources on lithium niobate and other integrated photonic chips.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t236": {
+   "name": "Quantum frequency conversion",
+   "description": "Papers that convert single photons between emitter wavelengths and telecom bands with low added noise.",
+   "facet": "Communication & cryptography",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t237": {
+   "name": "Quantum dot spin-photon interfaces",
+   "description": "Papers that control optically active electron and hole spins in quantum dots and entangle them with emitted photons.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t238": {
+   "name": "Quantum electron microscopy and beam shaping",
+   "description": "Papers that shape free-electron beams with light and bring quantum methods to transmission electron microscopy and imaging.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t239": {
+   "name": "Free electron-photon interactions",
+   "description": "Papers that study entanglement and quantum state preparation through interactions between free electrons and photons or emitters.",
+   "facet": "Light-matter & quantum optics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t240": {
+   "name": "Quantum dot excitation and photon cascades",
+   "description": "Papers that model and demonstrate excitation schemes and biexciton cascades for entangled photons from quantum dots.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t241": {
+   "name": "Quantum dot single-photon sources",
+   "description": "Papers that build bright, indistinguishable single-photon sources from semiconductor quantum dots in cavities and waveguides.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t242": {
+   "name": "Piezo-optomechanical transducers",
+   "description": "Papers that design optomechanical crystals and piezoelectric devices to convert quantum signals between microwaves, phonons and light.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t243": {
+   "name": "Quantum acoustics with superconducting qubits",
+   "description": "Papers that couple superconducting qubits to surface and bulk acoustic wave resonators and itinerant phonons.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t244": {
+   "name": "Optomechanical entanglement and squeezing",
+   "description": "Papers that propose schemes to entangle mechanical modes with light or each other and to squeeze mechanical motion.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t245": {
+   "name": "Optomechanical force sensing",
+   "description": "Papers that push optomechanical force and displacement sensing beyond the standard quantum limit with squeezing and backaction evasion.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t246": {
+   "name": "Optomechanical cooling and control",
+   "description": "Papers that cool and control mechanical resonators through cavity backaction, feedback and engineered optomechanical coupling.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t247": {
+   "name": "Cavity magnomechanics",
+   "description": "Papers that propose entanglement, squeezing and nonreciprocity in systems coupling magnons, phonons and cavity photons.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t248": {
+   "name": "Magnon-photon coupling",
+   "description": "Papers that measure and engineer coupling between magnons and microwave or optical cavity photons, including magnon polaritons.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t249": {
+   "name": "Quantum magnonics with qubits",
+   "description": "Papers that create nonclassical magnon states such as blockade, squeezing and cat states using qubits coupled to magnons.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t250": {
+   "name": "Quantum optics of high-harmonic generation",
+   "description": "Papers that treat high-harmonic generation and strong-field processes quantum optically, including driving with squeezed or nonclassical light.",
+   "facet": "Light-matter & quantum optics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t251": {
+   "name": "Photon blockade and nonreciprocity",
+   "description": "Papers that engineer photon blockade, antibunching and nonreciprocal transmission in cavities and hybrid systems.",
+   "facet": "Light-matter & quantum optics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t252": {
+   "name": "Spin squeezing",
+   "description": "Papers that generate spin-squeezed states with one-axis twisting, cavities and dipolar interactions for quantum-enhanced metrology.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t253": {
+   "name": "Jaynes-Cummings model dynamics",
+   "description": "Papers that solve generalised Jaynes-Cummings models for atom-field dynamics, entanglement and nonclassical field states.",
+   "facet": "Light-matter & quantum optics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t254": {
+   "name": "Quantum Rabi models",
+   "description": "Papers that analyse quantum Rabi models and their variants, including deep strong coupling and superradiant phase transitions.",
+   "facet": "Light-matter & quantum optics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t255": {
+   "name": "Molecular polaritons and polaritonic chemistry",
+   "description": "Papers that model molecules strongly coupled to optical cavities and how polaritons change spectra and chemical dynamics.",
+   "facet": "Light-matter & quantum optics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t256": {
+   "name": "Ultrastrong light-matter coupling",
+   "description": "Papers that develop theory for cavity QED in the ultrastrong regime and cavity control of quantum materials.",
+   "facet": "Light-matter & quantum optics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t257": {
+   "name": "Superradiance and subradiance",
+   "description": "Papers that study collective super- and subradiant emission from atomic arrays, ensembles and emitter collectives.",
+   "facet": "Light-matter & quantum optics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t258": {
+   "name": "Waveguide QED and giant atoms",
+   "description": "Papers that model emitters and giant atoms coupled to waveguides and structured baths, including bound states and non-Markovian dynamics.",
+   "facet": "Light-matter & quantum optics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t259": {
+   "name": "NV centre materials and photophysics",
+   "description": "Papers that create NV centres and study their charge states, spin readout and photophysics in diamond.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t260": {
+   "name": "NV and nanodiamond biosensing",
+   "description": "Papers that use NV centres and fluorescent nanodiamonds for relaxometry, thermometry and spin detection in cells and biological samples.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Unstable across seeds because it sits close to NV magnetometry; worth keeping separate as a niche."
+  },
+  "t261": {
+   "name": "NV-centre magnetometry",
+   "description": "Papers that build and improve NV-centre magnetometers, from single-spin scanning probes to ensemble and microwave field sensors.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t262": {
+   "name": "Boron-vacancy spin defects in hBN",
+   "description": "Papers that characterise and control boron-vacancy and other spin defects in hexagonal boron nitride for sensing.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t263": {
+   "name": "Quantum emitters in hBN",
+   "description": "Papers that create and characterise single-photon emitters in hexagonal boron nitride and study their coherence and spectra.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t264": {
+   "name": "Rare-earth ions in solids",
+   "description": "Papers that study erbium, europium and other rare-earth dopants in crystals as optical spin qubits, photon sources and memories.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t265": {
+   "name": "Colour centres in silicon",
+   "description": "Papers that develop T, G and other telecom colour centres in silicon as spin-photon interfaces.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t266": {
+   "name": "Spin defects in silicon carbide",
+   "description": "Papers that characterise vacancy and divacancy spin defects in silicon carbide and integrate them with devices and cavities.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t267": {
+   "name": "Group-IV diamond centres in nanophotonics",
+   "description": "Papers that couple tin-, silicon- and germanium-vacancy centres in diamond to cavities and photonic circuits as spin-photon interfaces.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t268": {
+   "name": "Excitons in 2D semiconductors",
+   "description": "Papers that model and measure excitons, trions and polaritons in transition-metal dichalcogenide monolayers and moiré heterostructures.",
+   "facet": "Miscellaneous",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Miscellaneous: condensed-matter optics has no facet of its own."
+  },
+  "t269": {
+   "name": "Radical-pair magnetoreception",
+   "description": "Papers that model the radical-pair mechanism behind avian magnetoreception and other biological magnetic field effects.",
+   "facet": "Miscellaneous",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Miscellaneous: quantum biology has no facet of its own."
+  },
+  "t270": {
+   "name": "Molecular spin qubits",
+   "description": "Papers that design molecular electron spins and single-molecule magnets as qubits, qudits and quantum sensors.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t271": {
+   "name": "NMR and nuclear hyperpolarisation",
+   "description": "Papers that develop NMR methods, dynamic nuclear polarisation and parahydrogen hyperpolarisation, often with quantum sensors.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t272": {
+   "name": "Chirality-induced spin selectivity",
+   "description": "Papers that explain and model chirality-induced spin selectivity in chiral molecules, junctions and nanowires.",
+   "facet": "Miscellaneous",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Miscellaneous: molecular physics and chemistry has no facet of its own."
+  },
+  "t273": {
+   "name": "Enantiomer detection and separation",
+   "description": "Papers that use cyclic three-level transitions, laser pulses and cavities to detect and separate chiral molecule enantiomers.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t274": {
+   "name": "Rydberg many-body dynamics",
+   "description": "Papers that study non-equilibrium and dissipative many-body dynamics of interacting Rydberg atoms and ions.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t275": {
+   "name": "Rydberg state control and interfaces",
+   "description": "Papers that prepare, image and control Rydberg excitations, circular states and Rydberg-photon interfaces in arrays and ensembles.",
+   "facet": "Platforms & hardware",
+   "ml_adjacent": false,
+   "coherence": "mixed",
+   "note": "Grab-bag of Rydberg techniques; unstable across seeds and overlaps t212 and t274."
+  },
+  "t276": {
+   "name": "Rydberg array quantum phases",
+   "description": "Papers that map ground-state phases of Rydberg atom arrays, such as dimer, spin-liquid and supersolid phases.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t277": {
+   "name": "Photosynthetic and excitonic energy transfer",
+   "description": "Papers that model coherent exciton and energy transfer in light-harvesting complexes and molecular aggregates with open-system methods.",
+   "facet": "Miscellaneous",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Miscellaneous: quantum biology and chemistry has no facet of its own."
+  },
+  "t278": {
+   "name": "Ultrafast and strong-field molecular dynamics",
+   "description": "Papers that simulate and image attosecond and femtosecond electron and nuclear dynamics in molecules after ionisation or laser excitation.",
+   "facet": "Miscellaneous",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Miscellaneous: chemical physics has no facet of its own."
+  },
+  "t279": {
+   "name": "Ultralong-range Rydberg molecules",
+   "description": "Papers that study trilobite, butterfly and macrodimer Rydberg molecules and Rydberg interactions with polar molecules.",
+   "facet": "Miscellaneous",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Miscellaneous: atomic and molecular physics has no facet of its own."
+  },
+  "t280": {
+   "name": "Molecular rotation and orientation control",
+   "description": "Papers that use shaped laser pulses to orient, align and control the rotational and vibrational states of molecules.",
+   "facet": "Miscellaneous",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Miscellaneous: atomic and molecular physics has no facet of its own."
+  },
+  "t281": {
+   "name": "Cold molecule spectroscopy and precision tests",
+   "description": "Papers that trap, cool and probe molecules and molecular ions for precision spectroscopy and electron EDM searches.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t282": {
+   "name": "Nonadiabatic molecular dynamics methods",
+   "description": "Papers that develop surface hopping, exact factorisation and ring-polymer methods for coupled electron-nuclear dynamics.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t283": {
+   "name": "Electronic structure theory",
+   "description": "Papers that develop density functional, reduced density matrix and coupled-cluster methods for electronic structure calculations.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t284": {
+   "name": "Magnetic and optical skyrmions",
+   "description": "Papers that study quantum skyrmions in magnets and optical fields, including skyrmion qubits and topological noise robustness.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "mixed",
+   "note": "Joins magnetic skyrmion qubits with optical skyrmion textures of light."
+  },
+  "t285": {
+   "name": "Majorana zero modes",
+   "description": "Papers that model, detect and braid Majorana zero modes in Kitaev chains, nanowires and quantum simulators.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t286": {
+   "name": "Chern insulators and fractional Hall states",
+   "description": "Papers that study Chern insulators, fractional quantum Hall and fractional Chern states, their invariants and edges.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t287": {
+   "name": "Graphene and twisted bilayers",
+   "description": "Papers that model electronic bands, topology and correlations in graphene, twisted bilayer graphene and moiré systems.",
+   "facet": "Miscellaneous",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Miscellaneous: condensed-matter materials has no facet of its own."
+  },
+  "t288": {
+   "name": "Van der Waals magnets and spintronics",
+   "description": "Papers that study magnetic topological insulators, van der Waals magnets, spin textures and spin-orbit torque in layered materials.",
+   "facet": "Miscellaneous",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Miscellaneous: condensed-matter materials has no facet of its own."
+  },
+  "t289": {
+   "name": "Non-Hermitian band topology",
+   "description": "Papers that classify non-Hermitian topological phases, invariants and bulk-boundary correspondence beyond the skin effect.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t290": {
+   "name": "Non-Hermitian skin effect",
+   "description": "Papers that analyse and observe the non-Hermitian skin effect, where bulk eigenstates pile up at boundaries.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t291": {
+   "name": "Topological pumping and photonic edge states",
+   "description": "Papers that study SSH models, topological pumping and edge states in photonic, atomic and quantum optical lattices.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t292": {
+   "name": "Floquet topological phases",
+   "description": "Papers that study topological phases of periodically driven systems, including anomalous Floquet phases and their detection.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t293": {
+   "name": "Kondo and quantum impurity models",
+   "description": "Papers that solve Kondo and Anderson impurity models and their real-time dynamics with numerical and analytical methods.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t294": {
+   "name": "Dicke model phase transitions",
+   "description": "Papers that analyse superradiant and dissipative phase transitions in Dicke models and their generalisations.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t295": {
+   "name": "Quantum spin liquids and frustrated magnets",
+   "description": "Papers that study spin liquids, Kitaev magnets and frustrated lattice models, including their realisation on quantum simulators.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t296": {
+   "name": "Quantum and dynamical phase transitions",
+   "description": "Papers that study equilibrium, excited-state and dynamical quantum phase transitions, mostly in Ising-type spin chains.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t297": {
+   "name": "Kibble-Zurek defect formation",
+   "description": "Papers that test Kibble-Zurek scaling of defects created when quenching across a quantum phase transition.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t298": {
+   "name": "Hubbard models and superconductivity",
+   "description": "Papers that study Fermi-Hubbard and t-J models, doping, pairing and magnetism in materials and cold-atom simulators.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t299": {
+   "name": "Bose-Hubbard phases",
+   "description": "Papers that map superfluid, Mott and density-wave phases of Bose-Hubbard and dipolar boson lattice models.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t300": {
+   "name": "Polarons and impurities in quantum gases",
+   "description": "Papers that study Bose and Fermi polarons and mobile impurities immersed in ultracold gases.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t301": {
+   "name": "Bose-Einstein condensate dynamics",
+   "description": "Papers that model Bose-Einstein condensates, superfluidity, vortices and turbulence in quantum gases.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t302": {
+   "name": "Quantum droplets and dipolar supersolids",
+   "description": "Papers that study quantum droplets, supersolids and dipolar Bose gases beyond mean field.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t303": {
+   "name": "Many-body transport and hydrodynamics",
+   "description": "Papers that study diffusive, superdiffusive and KPZ transport and emergent hydrodynamics in quantum spin and fermion chains.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t304": {
+   "name": "Floquet engineering",
+   "description": "Papers that model and engineer periodically driven quantum systems, including effective Hamiltonians, prethermalisation and dissipation.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t305": {
+   "name": "Time crystals",
+   "description": "Papers that study discrete, continuous and dissipative time crystals and observe them on quantum devices.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t306": {
+   "name": "Quantum many-body scars",
+   "description": "Papers that construct and observe many-body scar states that avoid thermalisation, such as in the PXP model.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t307": {
+   "name": "Hilbert space fragmentation",
+   "description": "Papers that study how kinetic constraints and symmetries fragment Hilbert space and slow thermalisation.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t308": {
+   "name": "Many-body and Anderson localisation",
+   "description": "Papers that study Anderson and many-body localisation transitions in disordered spin chains, circuits and graphs.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t309": {
+   "name": "Quasiperiodic localisation and mobility edges",
+   "description": "Papers that find mobility edges and reentrant localisation in quasiperiodic and non-Hermitian lattices.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t310": {
+   "name": "Quantum cellular automata",
+   "description": "Papers that build quantum and probabilistic cellular automata and relate them to Dirac dynamics and field theories.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t311": {
+   "name": "Krylov complexity and operator growth",
+   "description": "Papers that use Krylov complexity, Lanczos coefficients and spread complexity to characterise operator and state growth.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t312": {
+   "name": "Dual-unitary circuits",
+   "description": "Papers that use dual-unitary and space-time dual circuits as exactly solvable models of chaotic many-body dynamics.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t313": {
+   "name": "Sachdev-Ye-Kitaev models",
+   "description": "Papers that study chaos, thermodynamics and holographic features of SYK models and their sparse and open variants.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t314": {
+   "name": "Quantum billiards",
+   "description": "Papers that compare classical and quantum chaos in billiards through spectral statistics, eigenstates and OTOCs.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t315": {
+   "name": "Information scrambling and OTOCs",
+   "description": "Papers that measure information scrambling with out-of-time-ordered correlators and Loschmidt echoes in closed and open systems.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t316": {
+   "name": "Random matrix spectral statistics",
+   "description": "Papers that use random matrix theory, level spacings and spectral form factors to diagnose quantum chaos.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t317": {
+   "name": "Semiclassical and dissipative chaos",
+   "description": "Papers that relate classical chaos and Lyapunov exponents to quantum behaviour in kicked, few-body and dissipative systems.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t318": {
+   "name": "Holographic codes and bulk reconstruction",
+   "description": "Papers that model AdS/CFT bulk reconstruction with holographic error-correcting codes and random tensor networks.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t319": {
+   "name": "Holographic entropy inequalities",
+   "description": "Papers that characterise the holographic entropy cone and the entropy inequalities obeyed by holographic states.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t320": {
+   "name": "PEPS and 2D tensor networks",
+   "description": "Papers that optimise, evolve and contract projected entangled-pair states for two- and three-dimensional systems.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t321": {
+   "name": "Tree tensor networks and software",
+   "description": "Papers that develop tree tensor networks, time evolution schemes and software packages for tensor network simulation.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t322": {
+   "name": "Matrix product state theory",
+   "description": "Papers that study the structure, renormalisation and representational power of matrix product states and operators.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t323": {
+   "name": "Entanglement in non-Hermitian systems",
+   "description": "Papers that use entanglement entropy and its scaling to characterise criticality and transitions in non-Hermitian many-body systems.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t324": {
+   "name": "Quantum simulation of lattice gauge theories",
+   "description": "Papers that design algorithms and encodings to simulate Abelian and non-Abelian lattice gauge theories on quantum computers.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t325": {
+   "name": "String breaking and confinement dynamics",
+   "description": "Papers that simulate and observe string breaking, confinement and meson dynamics in lattice gauge theories on quantum hardware.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t326": {
+   "name": "Integrable spin chains",
+   "description": "Papers that build and solve integrable models with Bethe ansatz, Yang-Baxter equations and conserved charges.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t327": {
+   "name": "Geometric phases and quantum geometry",
+   "description": "Papers that study Berry phases, quantum geometric tensors and geometric formulations of quantum dynamics in closed and open systems.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Unstable across seeds; ranges from band geometry in crystals to geometric quantum mechanics."
+  },
+  "t328": {
+   "name": "Many-body entanglement entropy",
+   "description": "Papers that compute entanglement entropy, negativity and symmetry-resolved entanglement in critical and quenched many-body systems.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t329": {
+   "name": "Anyonic and fractional statistics",
+   "description": "Papers that construct and realise anyons with fractional exchange statistics, especially in one-dimensional lattice models.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t330": {
+   "name": "Symmetry-protected and generalised symmetry phases",
+   "description": "Papers that classify SPT phases, anomalies and non-invertible or categorical symmetries in lattice models.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t331": {
+   "name": "Non-Abelian anyons and topological order",
+   "description": "Papers that create, braid and classify anyons and topological orders, including mixed-state order and string-net states.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t332": {
+   "name": "Twisted electrons and relativistic vortex states",
+   "description": "Papers that model vortex electron wave packets and twisted particles in strong fields, scattering and radiation.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t333": {
+   "name": "Optical vortex light-matter interaction",
+   "description": "Papers that study how optical vortex and vector beams transfer orbital angular momentum to atoms, ions and media.",
+   "facet": "Light-matter & quantum optics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t334": {
+   "name": "Electromagnetic vacuum fluctuations",
+   "description": "Papers that study vacuum field fluctuations, radiation reaction and motion-induced radiation near mirrors and moving bodies.",
+   "facet": "Light-matter & quantum optics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t335": {
+   "name": "Schwinger pair production",
+   "description": "Papers that compute electron-positron pair creation from vacuum in strong, pulsed and chirped electric fields.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t336": {
+   "name": "Casimir energy in field theory",
+   "description": "Papers that compute Casimir vacuum energy for scalar, Dirac and lattice fields under different boundary conditions.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t337": {
+   "name": "Casimir and Casimir-Polder forces",
+   "description": "Papers that measure and model Casimir and Casimir-Polder forces between real materials, including friction and nonequilibrium effects.",
+   "facet": "Light-matter & quantum optics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t338": {
+   "name": "Bound-state QED and exotic atoms",
+   "description": "Papers that calculate QED, relativistic and nuclear-size corrections in hydrogen-like ions, muonic atoms and positron binding.",
+   "facet": "Miscellaneous",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Miscellaneous: atomic physics has no facet of its own."
+  },
+  "t339": {
+   "name": "Aharonov-Bohm effect",
+   "description": "Papers that reinterpret, generalise and test the Aharonov-Bohm effect and the physical role of vector potentials.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t340": {
+   "name": "PT-symmetric quantum systems",
+   "description": "Papers that simulate and use PT- and anti-PT-symmetric Hamiltonians in qubits, photonics and state transfer.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t341": {
+   "name": "Pseudo-Hermitian quantum theory",
+   "description": "Papers that develop the mathematical framework of non-Hermitian and pseudo-Hermitian quantum mechanics, observables and metrics.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t342": {
+   "name": "Exceptional points",
+   "description": "Papers that create, classify and observe exceptional points and their dynamics in non-Hermitian and open quantum systems.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t343": {
+   "name": "Exceptional-point and non-Hermitian sensing",
+   "description": "Papers that test whether exceptional points and non-Hermitian dynamics really enhance sensor precision, using quantum Fisher information.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t344": {
+   "name": "Few-body physics and Efimov states",
+   "description": "Papers that solve two-, three- and four-body problems with contact interactions, including Efimov physics and scattering lengths.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t345": {
+   "name": "Formulations of quantum mechanics",
+   "description": "Papers that reformulate quantum mechanics and relate it to classical mechanics through trajectories, actions and hydrodynamics.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t346": {
+   "name": "Wigner function and phase-space methods",
+   "description": "Papers that develop Wigner functions and other phase-space representations for quantum dynamics.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t347": {
+   "name": "Relativistic wave equations",
+   "description": "Papers that study the Dirac and related relativistic equations, their interpretation, symmetries and field quantisation.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t348": {
+   "name": "Dunkl quantum mechanics",
+   "description": "Papers that solve oscillators and wave equations with Dunkl derivatives involving reflection operators.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Narrow mathematical-physics niche; unstable across seeds."
+  },
+  "t349": {
+   "name": "Generalised coherent states",
+   "description": "Papers that construct generalised coherent states and ladder operators for oscillators and other algebraic systems.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t350": {
+   "name": "Potential scattering theory",
+   "description": "Papers that develop transfer matrix and other methods for quantum and wave scattering from potentials.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t351": {
+   "name": "Bound states of model potentials",
+   "description": "Papers that solve Schrödinger, Klein-Gordon and Dirac equations for bound states of Coulomb-like and other model potentials.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t352": {
+   "name": "Exactly solvable potentials and oscillators",
+   "description": "Papers that find exact and approximate spectra of anharmonic oscillators and solvable potentials using supersymmetry, WKB and polynomials.",
+   "facet": "Methods & numerics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t353": {
+   "name": "Information thermodynamics and erasure",
+   "description": "Papers that bound the thermodynamic cost of erasure and information processing, including Maxwell demons and second-law formulations.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t354": {
+   "name": "Entropy production and fluctuation theorems",
+   "description": "Papers that define and measure entropy production, fluctuation theorems and thermodynamic uncertainty relations in open quantum systems.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t355": {
+   "name": "Quantum work statistics",
+   "description": "Papers that define and measure quantum work distributions, Jarzynski equalities and quasiprobability approaches to work.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t356": {
+   "name": "Work extraction and ergotropy",
+   "description": "Papers that bound extractable work and ergotropy and the roles of coherence and correlations as thermodynamic resources.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t357": {
+   "name": "Quantum Mpemba effect",
+   "description": "Papers that predict and observe faster relaxation or symmetry restoration from initial states further from equilibrium.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t358": {
+   "name": "Quantum speed limits",
+   "description": "Papers that derive and test quantum speed limits on state, operator and open-system evolution.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t359": {
+   "name": "Quantum Zeno and anti-Zeno effects",
+   "description": "Papers that analyse Zeno and anti-Zeno effects from frequent measurement and use Zeno dynamics for control.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t360": {
+   "name": "Quantum thermometry",
+   "description": "Papers that design probes and protocols for estimating temperature with quantum Fisher information, often at low temperatures.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t361": {
+   "name": "Critical quantum metrology",
+   "description": "Papers that use quantum phase transitions and criticality to enhance parameter estimation precision.",
+   "facet": "Sensing & metrology",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t362": {
+   "name": "Lieb-Robinson bounds",
+   "description": "Papers that prove Lieb-Robinson bounds, light cones and propagation speed limits for many-body and open quantum systems.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t363": {
+   "name": "Leggett-Garg inequalities",
+   "description": "Papers that test macrorealism through Leggett-Garg inequality violations in qubits, fields and continuous-variable systems.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t364": {
+   "name": "Decoherence and entanglement dynamics",
+   "description": "Papers that track how coherence, entanglement and quantum correlations evolve when small systems couple to noisy environments.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Large catch-all genre of model calculations; broad but consistent in style."
+  },
+  "t365": {
+   "name": "Gibbs sampling and thermal state preparation",
+   "description": "Papers that design quantum algorithms and Lindbladian dynamics to prepare thermal states and sample Gibbs distributions.",
+   "facet": "Algorithms & complexity",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t366": {
+   "name": "Open quantum system master equations",
+   "description": "Papers that derive and solve Markovian and non-Markovian master equations and simulation methods for open quantum dynamics.",
+   "facet": "Open systems & thermodynamics",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Largest fine topic; a general methods pool that may hide sub-niches."
+  },
+  "t367": {
+   "name": "Quantum tunnelling and tunnelling time",
+   "description": "Papers that model tunnelling through barriers and double wells and the time a particle spends tunnelling.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t368": {
+   "name": "Thermalisation and the ETH",
+   "description": "Papers that study how closed many-body systems thermalise, testing the eigenstate thermalisation hypothesis.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t369": {
+   "name": "Measurement-induced phase transitions",
+   "description": "Papers that study entanglement transitions in monitored circuits and continuously measured many-body systems.",
+   "facet": "Many-body & simulation",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t370": {
+   "name": "Quantum arrival times",
+   "description": "Papers that define and measure when a quantum particle arrives at a detector, including Bohmian and POVM approaches.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t371": {
+   "name": "Mathematical structure of quantum theory",
+   "description": "Papers that reconstruct or axiomatise quantum theory and examine Hilbert spaces, observables and operator algebras.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t372": {
+   "name": "History and ontology of quantum physics",
+   "description": "Papers that revisit the history of quantum theory and early debates about the reality of the wave function.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "mixed",
+   "note": "Mixes historical studies with speculative ontology proposals; unstable across seeds."
+  },
+  "t373": {
+   "name": "Bohmian mechanics",
+   "description": "Papers that develop, test and debate Bohmian trajectories, pilot-wave models and their relativistic extensions.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t374": {
+   "name": "Quantum reference frames",
+   "description": "Papers that develop quantum reference frames, relational frame changes and the Page-Wootters approach to time.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t375": {
+   "name": "Born rule derivations",
+   "description": "Papers that derive, justify or test the Born rule for quantum probabilities.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t376": {
+   "name": "Quantum causal inference",
+   "description": "Papers that model causal structures with quantum latent variables and test nonclassicality in causal networks.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t377": {
+   "name": "Indefinite causal order",
+   "description": "Papers that study process matrices, the quantum switch and indefinite causal order in quantum processes.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t378": {
+   "name": "Interpreting Bell's theorem",
+   "description": "Papers that argue over what Bell's theorem and Bell experiments imply about locality, realism and hidden variables.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t379": {
+   "name": "Quantum contextuality",
+   "description": "Papers that develop Kochen-Specker and generalised contextuality, noncontextuality inequalities and contextuality as a resource.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t380": {
+   "name": "Interpretations and the measurement problem",
+   "description": "Papers that propose and compare interpretations of quantum mechanics and philosophical accounts of measurement and reality.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t381": {
+   "name": "QBism and observer-centred views",
+   "description": "Papers that discuss QBism, agents, experience and consciousness in the interpretation of quantum theory.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t382": {
+   "name": "Holographic and Krylov complexity",
+   "description": "Papers that relate computational and Krylov complexity to black hole interiors and holographic duals.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t383": {
+   "name": "Generalised uncertainty principle",
+   "description": "Papers that build minimal-length quantum mechanics from generalised uncertainty principles motivated by quantum gravity.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t384": {
+   "name": "Spontaneous collapse models",
+   "description": "Papers that develop and constrain spontaneous wave-function collapse models such as CSL with experiments.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t385": {
+   "name": "Gravity tests with clocks and collapse",
+   "description": "Papers that test gravitational time dilation, the equivalence principle and gravity-related collapse with quantum systems.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "mixed",
+   "note": "Joins gravity-related collapse tests with quantum clocks in gravity; unstable across seeds."
+  },
+  "t386": {
+   "name": "Quantum clocks and time",
+   "description": "Papers that model quantum clocks, relational and emergent time, and quantum time dilation.",
+   "facet": "Foundations",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t387": {
+   "name": "Quantum cosmology and curved spacetime",
+   "description": "Papers that study quantum fields in curved spacetime, quantum cosmology and decoherence of inflationary perturbations.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t388": {
+   "name": "Entanglement near black holes",
+   "description": "Papers that compute how entanglement, steering and coherence degrade for observers near black holes and in non-inertial frames.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t389": {
+   "name": "Analogue Hawking radiation",
+   "description": "Papers that model and observe Hawking-like radiation in analogue horizons in fluids, condensates and optics.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t390": {
+   "name": "Black hole information problem",
+   "description": "Papers that study information loss, Page curves and the recovery of information from evaporating black holes.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t391": {
+   "name": "Gravitons and gravitational decoherence",
+   "description": "Papers that study graviton noise, quantum signatures of gravitational waves and gravity-induced decoherence.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t392": {
+   "name": "Gravitationally induced entanglement",
+   "description": "Papers that propose and analyse table-top tests of whether gravity can entangle masses and so must be quantum.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t393": {
+   "name": "Quantum correlations in neutrino oscillations",
+   "description": "Papers that apply coherence, entanglement and other quantum-information measures to neutrino flavour oscillations and their decoherence.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t394": {
+   "name": "Simulating collective neutrino oscillations",
+   "description": "Papers that model and quantum-simulate many-body collective neutrino flavour oscillations in dense astrophysical environments.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent",
+   "note": "Unstable across seeds; splits from t393 differently by seed."
+  },
+  "t395": {
+   "name": "Entanglement at colliders",
+   "description": "Papers that measure entanglement, Bell violation and quantum tomography in top-quark, Higgs and other collider events.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t396": {
+   "name": "Entanglement in scattering processes",
+   "description": "Papers that study entanglement generated in particle scattering, from Compton scattering to partons and nucleon interactions.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t397": {
+   "name": "Entanglement harvesting",
+   "description": "Papers that compute how Unruh-DeWitt detectors extract entanglement from quantum field vacua under different motions and spacetimes.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  },
+  "t398": {
+   "name": "Unruh effect and accelerated detectors",
+   "description": "Papers that study the Unruh effect and how acceleration affects correlations and coherence of Unruh-DeWitt detectors.",
+   "facet": "Gravity & high-energy",
+   "ml_adjacent": false,
+   "coherence": "coherent"
+  }
+ },
+ "facets": [
+  "Platforms & hardware",
+  "Algorithms & complexity",
+  "Error correction & fault tolerance",
+  "Information & entanglement theory",
+  "Communication & cryptography",
+  "Sensing & metrology",
+  "Many-body & simulation",
+  "Open systems & thermodynamics",
+  "Light-matter & quantum optics",
+  "Gravity & high-energy",
+  "Foundations",
+  "Methods & numerics",
+  "Miscellaneous",
+  "Housekeeping"
+ ]
+}

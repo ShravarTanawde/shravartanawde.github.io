@@ -1,0 +1,21 @@
+# ============================================================================
+# This branch is public on GitHub but never served by Pages. Everything heavy or
+# private stays in .local/ and out of the repository.
+# ============================================================================
+
+# The venv, the harvest cache, embeddings, fit artifacts and the contact address
+# for arXiv's User-Agent. Several GB, rebuildable, and the address must stay off
+# a public branch.
+.local/
+
+# ---------------------------------------------------------------------------
+# Local clutter
+# ---------------------------------------------------------------------------
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+*.swp
+*~
+.idea/
+.vscode/
