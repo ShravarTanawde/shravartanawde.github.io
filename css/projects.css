@@ -1,5 +1,5 @@
 /* ============================================================
-   projects.css — projects.html only
+   projects.css: projects.html only
    The circuit (SVG, drawn by js/circuit.js) and the <details> stack
    underneath it. Load after global.css and page.css.
 
@@ -19,7 +19,7 @@ main.proj-page { max-width: min(1140px, 100%); text-align: left; }
 .vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 
 /* ---------- the domain palette ----------
-   Set once, read by the SVG wires and gates and by the stack cards — all of
+   Set once, read by the SVG wires and gates and by the stack cards, all of
    which carry the same data-wire attribute.
    --wire-fill pushes the colour away from the card and towards the ink, so a
    filled gate has readable --card-coloured text in BOTH themes without a
@@ -64,7 +64,7 @@ main.proj-page { max-width: min(1140px, 100%); text-align: left; }
 .measure-again:disabled { opacity: .42; cursor: default; }
 .measure-again:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
 
-/* Every future project adds width. The circuit scrolls; it never shrinks — nine
+/* Every future project adds width. The circuit scrolls; it never shrinks. Nine
    gates already come to about 1080px, so on a phone roughly a third of the
    diagram is on screen at a time and nothing but these shadows says so.
 
@@ -93,7 +93,7 @@ main.proj-page { max-width: min(1140px, 100%); text-align: left; }
 
 /* ---------- gates ----------
    Opacity only. This used to transition `filter` as well, which meant eight SVG
-   groups being re-rasterised through a blur on every frame of the collapse —
+   groups being re-rasterised through a blur on every frame of the collapse,
    easily the most expensive thing on the page, and for a blur riding on top of
    16% opacity, which nobody could see anyway. */
 .gate { transition: opacity .35s ease; }
@@ -108,7 +108,7 @@ main.proj-page { max-width: min(1140px, 100%); text-align: left; }
    js/circuit.js as a path, so all that is left here is to let a thinner stroke
    sit inside the cut corners without the chamfers looking blunt. */
 .gate[data-type="credential"] .gate-box { stroke-width: 1.8; stroke-linejoin: miter; }
-/* The strip above a gate names any extra kind it belongs to — ROLE, PUBLISHED.
+/* The strip above a gate names any extra kind it belongs to: ROLE, PUBLISHED.
    It reads in greyscale on its own, so the accent below is a second cue and
    never the only one. */
 .gate-tag { font-family: var(--font-mono); font-size: 9px; font-weight: 500; letter-spacing: .16em; fill: var(--wire); text-anchor: middle; }
@@ -168,7 +168,7 @@ svg.leg-gate.is-cert { border: 0; fill: none; stroke: var(--line-strong); stroke
 .leg-tag { font-family: var(--font-mono); font-weight: 500; font-size: .62rem; letter-spacing: .16em; color: var(--accent); }
 
 /* ============================================================
-   the stack — the legible spine, and the whole page without JS
+   the stack: the legible spine, and the whole page without JS
    ============================================================ */
 /* ---------- how the stack changes shape ----------
    Opacity and transform only. Those are the two things a browser can animate on
@@ -176,7 +176,7 @@ svg.leg-gate.is-cert { border: 0; fill: none; stroke: var(--line-strong); stroke
    that can hold 60fps while eight cards move at once.
 
    What used to be here animated grid-template-rows from 1fr to 0fr. It read
-   well on paper — a size you cannot know in advance, animated anyway — but it
+   well on paper (a size you cannot know in advance, animated anyway), but it
    meant a full layout pass for every card on every frame, and js/circuit.js was
    re-measuring and re-scrolling the page on those same frames to keep the
    reader's card still. Two layout passes and a scroll per frame is not a 16ms
@@ -186,7 +186,7 @@ svg.leg-gate.is-cert { border: 0; fill: none; stroke: var(--line-strong); stroke
    The trick that replaces it: cards leaving fade where they stand, with the
    layout untouched, and are taken out of the flow only once they are already
    invisible. The single frame where layout actually changes is a frame on which
-   nothing visible moves — so it costs one layout pass, total, and the scroll
+   nothing visible moves, so it costs one layout pass, total, and the scroll
    correction that goes with it can be one jump instead of a 500ms chase. */
 .stack-group { margin: 0 0 clamp(26px, 4vw, 38px); transition: opacity .24s ease; }
 .stack-group:last-child { margin-bottom: 0; }
@@ -261,8 +261,8 @@ svg.leg-gate.is-cert { border: 0; fill: none; stroke: var(--line-strong); stroke
 /* The real figures, once the slots below are gone.
 
    max-width and max-height with BOTH dimensions left auto is the one
-   combination that bounds a figure on each axis while keeping its aspect ratio
-   — the replaced-element sizing rules re-solve for the ratio rather than
+   combination that bounds a figure on each axis while keeping its aspect ratio:
+   the replaced-element sizing rules re-solve for the ratio rather than
    squashing. So a portrait plot cannot take over the page, and nothing is ever
    cropped: object-fit: cover would happily eat an axis label.
 
@@ -301,7 +301,7 @@ svg.leg-gate.is-cert { border: 0; fill: none; stroke: var(--line-strong); stroke
    Fixed to the side, and deliberately quiet: it fades in only once the circuit
    has left the viewport. Hidden with visibility rather than opacity alone, so
    while it is out of sight it is also out of the tab order and off the
-   accessibility tree — no JS attribute juggling needed.
+   accessibility tree, with no JS attribute juggling needed.
    ============================================================ */
 .to-circuit {
   position: fixed; z-index: 50;

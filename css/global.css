@@ -1,5 +1,5 @@
 /* ============================================================
-   global.css — design tokens + shared chrome
+   global.css: design tokens + shared chrome
    Loaded by every page. Must come before home.css / page.css.
    ============================================================ */
 
@@ -112,7 +112,7 @@ a { color: inherit; }
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
-/* The brand is the home link, and only exists on the inner pages — on the front page
+/* The brand is the home link, and only exists on the inner pages. On the front page
    the sphere itself is in the document, so the top bar carries just the controls. */
 .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
 .brand .name { font-family: var(--font-display); font-weight: 600; color: var(--ink); font-size: 15.5px; letter-spacing: .01em; }
@@ -247,7 +247,7 @@ html[data-theme="dark"] .spin .grating line { stroke: var(--accent); }
 }
 
 /* A backdrop-filter on a sticky bar is re-blurred on every scrolled frame, and
-   the cost scales with area times radius — it is one of the reliable ways to
+   the cost scales with area times radius, and it is one of the reliable ways to
    lose a smooth scroll. Kept on desktop, where it is affordable and the effect
    reads; dropped on phones, where the GPU budget is smallest, the bar is a
    sliver, and nobody will miss it. The background is opaque enough to stand on

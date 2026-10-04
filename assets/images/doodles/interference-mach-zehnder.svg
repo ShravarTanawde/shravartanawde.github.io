@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 190" width="340" height="190" role="img" aria-label="A Mach-Zehnder interferometer: one path splits into two, mirrors turn them, a second splitter recombines them into two detectors.">
+  <!-- Placeholder line art for the author's own doodle. Deliberately plain:
+       a schematic, not a style. An <img>-embedded SVG cannot see the page's
+       theme attribute, so the stroke is a mid tone that reads on both grounds,
+       with a prefers-color-scheme lift for the usual dark case. -->
+  <style>
+    .beam { fill: none; stroke: #7d8799; stroke-width: 2.2; stroke-linecap: round; }
+    .optic { stroke: #7d8799; stroke-width: 3.4; stroke-linecap: round; }
+    .det { fill: none; stroke: #7d8799; stroke-width: 2.2; }
+    @media (prefers-color-scheme: dark) {
+      .beam, .optic, .det { stroke: #98a3b8; }
+    }
+  </style>
+
+  <path class="beam" d="M20 130 H70"/>
+  <path class="beam" d="M70 130 V60"/>
+  <path class="beam" d="M70 60 H250"/>
+  <path class="beam" d="M70 130 H250"/>
+  <path class="beam" d="M250 130 V60"/>
+  <path class="beam" d="M250 60 H310"/>
+  <path class="beam" d="M250 60 V20"/>
+
+  <path class="optic" d="M58 142 L82 118"/>
+  <path class="optic" d="M238 72 L262 48"/>
+  <path class="optic" d="M58 72 L82 48"/>
+  <path class="optic" d="M238 142 L262 118"/>
+
+  <rect class="det" x="150" y="50" width="10" height="20" rx="2"/>
+  <rect class="det" x="150" y="120" width="10" height="20" rx="2"/>
+
+  <circle class="det" cx="320" cy="60" r="9"/>
+  <circle class="det" cx="250" cy="12" r="9"/>
+</svg>

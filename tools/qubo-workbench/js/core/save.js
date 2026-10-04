@@ -1,5 +1,5 @@
 /* ============================================================================
-   save.js — save codes.  model -> JSON -> deflate -> base64url -> a string the
+   save.js: save codes.  model -> JSON -> deflate -> base64url -> a string the
    user can copy, and the exact inverse.
 
    Save codes are the ONLY persistence and the ONLY "export" of state. They are
@@ -28,7 +28,7 @@ const ENVELOPE_VERSION = 1;
 
 /* CompressionStream is native in current Chrome/Safari/Firefox and in Node 18+.
    Where it is missing we still produce a working (longer) code rather than
-   failing — the flag character tells the decoder which it got. */
+   failing; the flag character tells the decoder which it got. */
 const HAS_COMPRESSION =
   typeof CompressionStream === 'function' && typeof DecompressionStream === 'function';
 
@@ -133,7 +133,7 @@ export async function decode(code) {
 
   const m = /^QW(\d+)([zp])(.*)$/.exec(s);
   if (!m) {
-    throw new SaveCodeError('That does not look like a workbench save code — they start with "QW1".', 'format');
+    throw new SaveCodeError('That does not look like a workbench save code. They start with "QW1".', 'format');
   }
   const envelope = Number(m[1]);
   const flag = m[2];
@@ -154,12 +154,12 @@ export async function decode(code) {
     if (flag === 'z') bytes = await inflate(bytes);
     json = new TextDecoder().decode(bytes);
   } catch (e) {
-    throw new SaveCodeError('That save code is damaged — it may have been cut short when copied.', 'corrupt');
+    throw new SaveCodeError('That save code is damaged. It may have been cut short when copied.', 'corrupt');
   }
 
   let model;
   try { model = JSON.parse(json); } catch (e) {
-    throw new SaveCodeError('That save code is damaged — the contents did not parse.', 'corrupt');
+    throw new SaveCodeError('That save code is damaged: the contents did not parse.', 'corrupt');
   }
 
   return normalize(model);
@@ -184,7 +184,7 @@ export function normalize(model) {
       model.schemaVersion + ', this build reads v' + SCHEMA_VERSION + ').', 'version');
   }
   if (model.convention !== 'QUBO') {
-    throw new SaveCodeError('Unexpected convention "' + model.convention + '" — models are stored as QUBO.', 'schema');
+    throw new SaveCodeError('Unexpected convention "' + model.convention + '". Models are stored as QUBO.', 'schema');
   }
   if (!Array.isArray(model.variables) || !Array.isArray(model.Q)) {
     throw new SaveCodeError('That save code is missing its variables or its Q matrix.', 'corrupt');

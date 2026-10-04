@@ -1,5 +1,5 @@
 /* ============================================================
-   home.css — front page only (index.html)
+   home.css: front page only (index.html)
    Identity cluster, sphere navigator, footer, contact modal.
    Load after global.css.
    ============================================================ */
@@ -42,7 +42,7 @@ html[data-theme="dark"] .cv { color: #0a0e18; }
 .nav-intro h2 { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.15rem, 3vw, 1.5rem); color: var(--ink); margin: .3em 0 0; letter-spacing: -0.01em; }
 
 /* The navigator is square, so whichever viewport axis is shorter has to be the
-   one that sizes it — bounded by width alone, a phone held sideways gets a
+   one that sizes it. Bounded by width alone, a phone held sideways gets a
    560px sphere in a 390px-tall window and can never see the whole thing. svh is
    the SMALL viewport height, measured with the browser's toolbars showing, so
    the sphere keeps one size instead of resizing as they slide away; the plain
@@ -56,7 +56,7 @@ html[data-theme="dark"] .cv { color: #0a0e18; }
 #bloch { width: 100%; height: 100%; display: block; touch-action: none; }
 .no-webgl #bloch { display: none; }
 
-/* projected ket labels — REAL links (work with or without WebGL) */
+/* projected ket labels: REAL links (work with or without WebGL) */
 .ket-label {
   position: absolute; transform: translate(-50%, -50%);
   font-family: var(--font-mono); font-size: 13px; text-decoration: none;
@@ -74,7 +74,7 @@ html[data-theme="dark"] .cv { color: #0a0e18; }
 .ket-label.on[data-axis="x"] { color: var(--ax-x); border-color: var(--ax-x); box-shadow: 0 0 18px -2px var(--ax-x-glow); }
 .ket-label.on[data-axis="y"] { color: var(--ax-y); border-color: var(--ax-y); box-shadow: 0 0 18px -2px var(--ax-y-glow); }
 
-/* center readout — the measurement, written honestly as a superposition */
+/* center readout: the measurement, written honestly as a superposition */
 .readout {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   text-align: center; pointer-events: none; z-index: 8;
@@ -109,8 +109,8 @@ footer .kbd { color: var(--body); }
 
 /* ---------- contact modal (Web3Forms) ---------- */
 /* flex + margin:auto, not place-items:center. Both centre the dialog, but when
-   the dialog is taller than the window — a phone in landscape, or any phone
-   with the keyboard up — centring by alignment pushes its top edge above the
+   the dialog is taller than the window (a phone in landscape, or any phone
+   with the keyboard up), centring by alignment pushes its top edge above the
    viewport where no amount of scrolling can reach it. Centring by auto margins
    keeps the overflow scrollable, so the Name field is always gettable. */
 .modal-scrim {

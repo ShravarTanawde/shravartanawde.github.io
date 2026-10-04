@@ -1,5 +1,5 @@
 /* ============================================================================
-   analysis.js — Step 3.  QAOA on this instance, simulated in the browser.
+   analysis.js: Step 3.  QAOA on this instance, simulated in the browser.
 
    EVERYTHING HERE IS GATED BEHIND THE QUBIT CAP. A dense statevector doubles
    with every qubit; above the cap nothing in this file is allowed to run, and
@@ -11,12 +11,12 @@
        per layer:  psi <- mixer(beta) . [ exp(-i*gamma*C) (*) psi ]
        F(params)  = sum_z |psi_z|^2 C[z]
 
-   The phase separator is elementwise on the diagonal cost vector — no matrix is
+   The phase separator is elementwise on the diagonal cost vector; no matrix is
    ever built. The mixer is a per-qubit Rx: mixer(beta) = prod_i (cos b I - i sin b X),
    which is Rx(2*beta) on each qubit, applied in place by walking bit-partner pairs.
 
    C[z] is the model's own energy INCLUDING the offset. A constant offset is a
-   global phase in the separator, so it changes nothing about the state — but it
+   global phase in the separator, so it changes nothing about the state, but it
    does shift F, which is exactly what makes the number here comparable with the
    number the generated code prints.
 
@@ -27,7 +27,7 @@
 import { QUBIT_CAP, costVector, quboToIsing } from './qubo.js?v=1';
 
 /*
-   A second, softer line — and it is about DEPTH, not size.
+   A second, softer line, and it is about DEPTH, not size.
 
    At p=1 everything here runs through the closed form below, which never touches
    the statevector, so it is instant right up to the 20-qubit cap. At p>1 there is
@@ -43,7 +43,7 @@ export const DEEP_P_LIMIT = 14;
 
 /* ------------------------------------------------------------------- seeds -- */
 
-/** mulberry32 — small, fast, and identical every run for a given seed. */
+/** mulberry32: small, fast, and identical every run for a given seed. */
 export function makeRng(seed) {
   let a = (seed >>> 0) || 1;
   return function () {
@@ -58,7 +58,7 @@ export function makeRng(seed) {
 
 /**
  * Everything Step 3 needs, precomputed once per model.
- * @throws {RangeError} above the cap — the caller must check first.
+ * @throws {RangeError} above the cap; the caller must check first.
  */
 export function makeSimulator(model) {
   const n = model.meta.qubitCount;
@@ -161,7 +161,7 @@ export function makeSimulator(model) {
    * How far along the road from the worst assignment to the best this state is.
    *   1.0 = the ground state exactly, 0.0 = the worst assignment.
    * Stated this way because it is well defined whatever the sign or offset of
-   * the energies — which the textbook <C>/C_max is not, once a QUBO carries a
+   * the energies, which the textbook <C>/C_max is not, once a QUBO carries a
    * constant term. The UI says this in words rather than printing a bare number.
    */
   function ratio(f) {
@@ -204,7 +204,7 @@ export const OPTIMIZERS = {
   },
   'nelder-mead': {
     id: 'nelder-mead', label: 'Nelder–Mead',
-    note: 'gradient-free simplex search — the stand-in for a COBYLA-style method'
+    note: 'gradient-free simplex search, the stand-in for a COBYLA-style method'
   }
 };
 
@@ -212,8 +212,8 @@ export function optimizerIds() { return OPTIMIZER_LIST.slice(); }
 
 /**
  * An objective the optimizers can drive. Two exist:
- *   simObjective      the statevector simulator — works at any depth
- *   analyticObjective the closed form — p=1 only, but thousands of times faster
+ *   simObjective      the statevector simulator; works at any depth
+ *   analyticObjective the closed form; p=1 only, but thousands of times faster
  * They agree to floating-point noise, so which one runs is a speed decision and
  * never a correctness one.
  */
@@ -284,7 +284,7 @@ export function optimize(objective, opts) {
     }
   } else if (method === 'spsa') {
     /* Spall's standard gain sequences. Two evaluations per step regardless of
-       how many parameters there are — which is the whole point of the method. */
+       how many parameters there are, which is the whole point of the method. */
     const a = opts.stepSize || 0.25, c = 0.1, A = iterations * 0.1, alpha = 0.602, gamma = 0.101;
     const delta = new Float64Array(params.length);
     const plus = new Float64Array(params.length), minus = new Float64Array(params.length);
@@ -364,7 +364,7 @@ export function optimize(objective, opts) {
  * so what the phase separator actually does depends on gamma TIMES the energy
  * scale. A knapsack whose coefficients run to 80 and a graph problem whose
  * coefficients are 0.5 need gammas two orders of magnitude apart to be doing the
- * same thing. A fixed starting gamma is therefore not a neutral choice — it is a
+ * same thing. A fixed starting gamma is therefore not a neutral choice. It is a
  * good one for some instances and meaningless for others.
  */
 export function coefficientScale(model) {
@@ -527,7 +527,7 @@ export function analyticP1(model) {
  *
  * The fastest term in the landscape turns once every pi/maxCoeff in gamma. Over
  * the full [0, 2pi) an instance with large coefficients oscillates dozens of
- * times, and a 96-wide grid across it would not be a coarse picture — it would
+ * times, and a 96-wide grid across it would not be a coarse picture; it would
  * be an ALIASED one, showing structure that is not there. So: sample at least
  * SAMPLES_PER_OSCILLATION per turn, and if the whole range cannot be resolved
  * within MAX_GAMMA_STEPS, show a window of it and say so.
@@ -578,7 +578,7 @@ export function landscapeP1(model, opts) {
 }
 
 /**
- * |grad F| over the same p=1 grid — the flatness diagnostic.
+ * |grad F| over the same p=1 grid: the flatness diagnostic.
  *
  * This is a LOW-GRADIENT map, and that is all it is called. Demonstrating a
  * barren plateau would mean showing gradient variance shrinking as the system
@@ -629,7 +629,7 @@ export function gradientMapP1(model, opts) {
    The landscape repeats, and saying how is more useful than drawing more of it. */
 
 export function symmetryNote(sim) {
-  const notes = ['β repeats with period π — the mixer is a rotation.'];
+  const notes = ['β repeats with period π, because the mixer is a rotation.'];
 
   /* If every energy gap is a whole multiple of some g, then exp(-i*gamma*C)
      repeats in gamma with period 2*pi/g. The offset is a global phase and drops
@@ -647,7 +647,7 @@ export function symmetryNote(sim) {
     notes.push('Every energy gap is a multiple of ' + g +
       ', so γ repeats with period 2π/' + g + (g === 1 ? '' : ' ≈ ' + period.toFixed(3)) + '.');
   } else if (allIntegerGaps) {
-    notes.push('Every assignment has the same energy — the landscape is flat.');
+    notes.push('Every assignment has the same energy, so the landscape is flat.');
   } else {
     notes.push('The energies are not all whole numbers, so γ has no short period; the sweep shows [0, 2π].');
   }
@@ -698,7 +698,7 @@ export function distribution(sim, params, opts) {
  * Best achievable ratio at each depth p, each from the same linear-ramp start
  * with the same optimizer, so the curve says something about p and not about
  * luck. Uses the brute-forced ground energy, which is only available under the
- * cap — as is everything in this file.
+ * cap, as is everything in this file.
  */
 export function ratioVsP(sim, model, opts) {
   const maxP = (opts && opts.maxP) || 3;
@@ -788,7 +788,7 @@ export function sensitivity(objective, params, opts) {
   return {
     hessian: H, eigenvalues, slices,
     /* how much more sharply the cost turns along its stiffest direction than its
-       softest — a big number means one direction matters far more than another */
+       softest; a big number means one direction matters far more than another */
     anisotropy: smallest > 1e-12 ? largest / smallest : Infinity,
     negativeDirections: eigenvalues.filter((v) => v < -1e-9).length
   };
@@ -827,8 +827,8 @@ function symmetricEigenvalues(matrix) {
 /* ------------------------------------------------ energy-scale separation ---
    Lucas's hardness signal: when the coefficients span many orders of magnitude,
    the small ones are swamped and a device (or an optimizer) struggles to resolve
-   them. Cheap to compute from h and J, and it works at ANY size — it never
-   touches the statevector — so this one is not capped.                        */
+   them. Cheap to compute from h and J, and it works at ANY size (it never
+   touches the statevector), so this one is not capped.                        */
 
 export function energyScale(model) {
   const I = quboToIsing(model);
@@ -838,7 +838,7 @@ export function energyScale(model) {
 
   if (!magnitudes.length) {
     return { level: 'ok', ratio: 1, smallest: 0, largest: 0, terms: 0,
-      message: 'No non-zero coefficients — there is nothing to separate.' };
+      message: 'No non-zero coefficients, so there is nothing to separate.' };
   }
   const largest = Math.max(...magnitudes);
   const smallest = Math.min(...magnitudes);
@@ -851,7 +851,7 @@ export function energyScale(model) {
   return {
     level, ratio, smallest, largest, terms: magnitudes.length,
     message: level === 'ok'
-      ? 'Coefficients span a factor of ' + formatRatio(ratio) + ' — a comfortable range.'
+      ? 'Coefficients span a factor of ' + formatRatio(ratio) + ', a comfortable range.'
       : 'The largest coefficient is ' + formatRatio(ratio) + ' times the smallest. ' +
         'Terms that far apart are hard to resolve together: on real hardware the small ones ' +
         'disappear into the noise, and an optimizer sees a landscape dominated by the large ones. ' +

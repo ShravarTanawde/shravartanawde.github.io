@@ -1,0 +1,383 @@
+/* ============================================================
+   learn.css: the topic map and the node panel. learn.html only.
+   Load after global.css and page.css.
+
+   Every colour here resolves to a token from global.css. The cluster hues are
+   color-mix blends of the three observable colours the site already uses, so
+   they follow the palette into dark mode on their own and the theme toggle
+   recolours the whole graph with no JavaScript and no re-render.
+   ============================================================ */
+
+:root {
+  /* One turn through the three axis hues, in CLUSTERS order, so the colour
+     walks around the map as the sectors do. foundations is the neutral centre. */
+  --cl-foundations:   var(--muted);
+  --cl-quantum-core:  var(--ax-x);
+  --cl-gates:         color-mix(in oklab, var(--ax-z) 27%, var(--ax-x));
+  --cl-entanglement:  color-mix(in oklab, var(--ax-z) 55%, var(--ax-x));
+  --cl-communication: color-mix(in oklab, var(--ax-z) 82%, var(--ax-x));
+  --cl-cryptography:  color-mix(in oklab, var(--ax-y) 9%,  var(--ax-z));
+  --cl-platforms:     color-mix(in oklab, var(--ax-y) 36%, var(--ax-z));
+  --cl-noise:         color-mix(in oklab, var(--ax-y) 64%, var(--ax-z));
+  --cl-qec:           color-mix(in oklab, var(--ax-y) 91%, var(--ax-z));
+  --cl-algorithms:    color-mix(in oklab, var(--ax-x) 18%, var(--ax-y));
+  --cl-variational:   color-mix(in oklab, var(--ax-x) 45%, var(--ax-y));
+  --cl-optimization:  color-mix(in oklab, var(--ax-x) 73%, var(--ax-y));
+
+  --graph-edge: var(--line-strong);
+  --graph-label: var(--ink);
+  --graph-band: color-mix(in srgb, var(--ink) 3%, transparent);
+  --graph-band-line: var(--line);
+}
+
+/* Cluster colour, resolved once per element and inherited by its children. */
+[data-cluster="foundations"]   { --cl: var(--cl-foundations); }
+[data-cluster="quantum-core"]  { --cl: var(--cl-quantum-core); }
+[data-cluster="gates"]         { --cl: var(--cl-gates); }
+[data-cluster="entanglement"]  { --cl: var(--cl-entanglement); }
+[data-cluster="communication"] { --cl: var(--cl-communication); }
+[data-cluster="cryptography"]  { --cl: var(--cl-cryptography); }
+[data-cluster="platforms"]     { --cl: var(--cl-platforms); }
+[data-cluster="noise"]         { --cl: var(--cl-noise); }
+[data-cluster="qec"]           { --cl: var(--cl-qec); }
+[data-cluster="algorithms"]    { --cl: var(--cl-algorithms); }
+[data-cluster="variational"]   { --cl: var(--cl-variational); }
+[data-cluster="optimization"]  { --cl: var(--cl-optimization); }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* ---------- the stage ----------
+   The map breaks out of main's reading measure: it is a figure, not prose.
+   It is also taller than the window, on purpose — the harder material being
+   further down the page is the whole idea, so it scrolls with the page rather
+   than being squeezed to fit. */
+.lstage-wrap { max-width: 1560px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px) 72px; }
+
+.lcontract {
+  max-width: 60ch; margin: 0 auto 18px; text-align: center;
+  color: var(--body); font-size: .98rem;
+}
+
+/* ---------- controls above the map ---------- */
+.lcontrols {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 12px 24px; margin: 0 0 18px;
+}
+.lcontrols[hidden] { display: none; }
+
+.lfilter { display: flex; flex-wrap: wrap; gap: 6px; }
+.lchip {
+  display: inline-flex; align-items: center; gap: 7px;
+  font: inherit; font-size: .78rem; color: var(--body);
+  background: var(--card); border: 1px solid var(--line); border-radius: 999px;
+  padding: 5px 12px; cursor: pointer;
+  transition: border-color .12s, color .12s;
+}
+.lchip-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--cl); flex: none; }
+.lchip:hover { border-color: var(--cl); color: var(--ink); }
+.lchip:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+.lchip[aria-pressed="true"] { border-color: var(--cl); color: var(--ink); box-shadow: inset 0 0 0 1px var(--cl); }
+
+.ltoggle {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: .8rem; color: var(--muted); cursor: pointer;
+}
+.ltoggle input { accent-color: var(--ax); width: 16px; height: 16px; }
+.ltoggle input:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+
+/* The map is wide before it is tall. Below the width it needs, this one box
+   scrolls sideways; the page body never does. */
+.lstage { overflow-x: auto; overscroll-behavior-x: contain; }
+.lstage svg.lgraph { display: block; width: 100%; height: auto; min-width: 1040px; }
+
+/* ---------- level bands ----------
+   The signature of the whole layout: one line per level, read straight across.
+   No energy axis and no arrow — energy increases upward in physics and the easy
+   level is on top here, because a page is read downward. The lines carry the
+   idea without making a claim that is the wrong way up. */
+.gband-tint { fill: var(--graph-band); }
+.gband-line { stroke: var(--graph-band-line); stroke-width: 1; }
+.gband-label {
+  font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .08em;
+  text-transform: uppercase; fill: var(--muted);
+}
+.gband-start { font-family: var(--font-display); font-size: 13px; font-weight: 600; fill: var(--ax); }
+
+/* ---------- edges ----------
+   Two types, and only two. Solid is a prerequisite, dashed is a related topic.
+   No arrowheads: every prerequisite runs downward by construction, so the
+   direction is already on the page. */
+.gedge { fill: none; stroke: var(--graph-edge); stroke-width: 1.4; }
+
+/* Implied by a longer route through the same prerequisites. Hidden until the
+   route it belongs to is lit, and solid when it is: it is a prerequisite edge,
+   not a third kind of line. */
+.gedge.is-redundant { opacity: 0; }
+
+/* Related links are off until asked for, by hover or by the toggle. */
+.gedge-related { stroke-dasharray: 6 6; opacity: 0; }
+.lgraph.show-related .gedge-related { opacity: .7; }
+
+.lgraph.is-highlighting .gedge.is-far { opacity: .07; }
+.lgraph:not(.show-related) .gedge-related.is-far { opacity: 0; }
+.lgraph.is-highlighting .gedge.is-near { stroke: var(--ax); stroke-width: 2.4; opacity: 1; }
+.lgraph.is-highlighting .gedge.is-next { stroke: var(--muted); stroke-width: 1.8; opacity: .8; }
+.lgraph.is-pathing .gedge.is-redundant.is-near { opacity: 1; }
+/* ...and only there. A hover is a glance, not a route; bringing an implied
+   edge back for it would put a line on the page that is not there a moment
+   later, for no reason the reader asked for. */
+.lgraph:not(.is-pathing) .gedge.is-redundant { opacity: 0; }
+
+/* ---------- nodes ----------
+   The states have to be told apart without relying on hue, because twelve
+   cluster colours are already carrying as much as colour can carry:
+     written, unvisited  filled disc
+     not written yet     hollow disc, dashed edge
+     a starting point    larger disc, cut out from the page with a heavy rim
+     visited             filled disc inside a thin ring
+     hover / focus       the disc grows and the ring thickens
+     selected            a solid ring at full weight
+     dimmed              faded out of the way
+*/
+.gnode { cursor: pointer; }
+.gnode-hit { fill: transparent; stroke: none; }
+.gnode-dot {
+  fill: var(--cl); stroke: none;
+  transform-box: fill-box; transform-origin: center;
+  transition: transform .12s ease;
+}
+.gnode-ring { fill: none; stroke: none; stroke-width: 2; }
+
+.gnode.is-stub .gnode-dot { fill: var(--card); stroke: var(--cl); stroke-width: 2; stroke-dasharray: 3.2 3.2; }
+.gnode.is-root .gnode-dot { stroke: var(--bg); stroke-width: 3.5; }
+.gnode.is-root.is-stub .gnode-dot { stroke: var(--cl); stroke-width: 2.6; stroke-dasharray: 4 4; }
+.gnode.is-visited .gnode-ring { stroke: var(--cl); opacity: .45; }
+
+.gnode:hover .gnode-dot,
+.gnode:focus-visible .gnode-dot { transform: scale(1.28); }
+.gnode:hover .gnode-ring { stroke: var(--cl); opacity: 1; }
+
+.gnode:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 3px; border-radius: 50%; }
+.gnode:focus-visible .gnode-ring { stroke: var(--accent); opacity: 1; stroke-width: 2.6; }
+
+.gnode.is-selected .gnode-ring { stroke: var(--cl); opacity: 1; stroke-width: 3.2; }
+.gnode.is-selected .gnode-dot { transform: scale(1.28); }
+
+.lgraph.is-highlighting .gnode.is-far { opacity: .16; }
+.lgraph.is-highlighting .gnode.is-next .gnode-ring { stroke: var(--muted); opacity: .7; }
+
+/* ---------- labels ----------
+   Always drawn, never hover-only: a map you have to hover 76 times is a puzzle.
+   They alternate above and below the level line, which is what lets a level
+   hold twice as many topics without a collision. The size is fixed in user
+   units rather than reading off --size, because the collision-free layout is
+   computed against this exact number; the panel's reading settings apply to
+   the prose, which is where they matter. */
+.glabel {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 500;
+  fill: var(--graph-label);
+  cursor: pointer;
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+.glabel.is-far { opacity: .16; }
+.glabel.is-selected { font-weight: 700; }
+
+/* A label whose topic is not written yet is set lighter, so a first glance
+   reads "most of this is still coming" without anyone having to be told. */
+.glabel[data-stub] { fill: var(--muted); font-weight: 400; }
+
+/* ---------- prerequisites above the fold ---------- */
+.labove {
+  position: fixed; top: 74px; left: 50%; transform: translateX(-50%);
+  z-index: 50; font: inherit; font-size: .78rem; color: var(--ink);
+  background: var(--card); border: 1px solid var(--line-strong); border-radius: 999px;
+  box-shadow: var(--shadow); padding: 6px 14px; cursor: pointer;
+}
+.labove[hidden] { display: none; }
+.labove:hover { border-color: var(--accent); color: var(--accent); }
+.labove:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+
+/* ---------- foot ---------- */
+.lstage-foot {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 16px; margin-top: 22px;
+}
+.lstage-note { margin: 0; max-width: 62ch; font-size: .8rem; color: var(--muted); text-align: left; }
+
+.lreset {
+  font: inherit; font-size: .82rem; color: var(--muted); background: none;
+  border: 1px solid var(--line); border-radius: 999px; padding: 5px 13px; cursor: pointer;
+}
+.lreset:hover { color: var(--accent); border-color: var(--accent); }
+.lreset:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+
+/* ---------- list fallback (phones) ----------
+   Grouped by level, not by cluster: read top to bottom and it is a defensible
+   order to learn things in. */
+.llist { text-align: left; display: grid; gap: 28px; }
+.llist-group h2 {
+  font-family: var(--font-display); font-size: 1rem; color: var(--ink);
+  margin: 0 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--line-strong);
+}
+.llist-group[data-level="0"] h2 { border-bottom-color: var(--ax); }
+.llist-group ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.llist-item { padding-left: 14px; border-left: 2px solid var(--line); }
+.llist-item.is-visited { border-left-color: var(--cl); }
+.llist-item.is-stub .llist-link { color: var(--muted); }
+.llist-link { font-family: var(--font-display); font-size: .95rem; color: var(--ink); text-decoration: none; }
+.llist-link:hover { color: var(--accent); text-decoration: underline; }
+.llist-link:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 3px; }
+.llist-tag {
+  display: inline-block; margin-left: 8px; font-family: var(--font-mono); font-size: .64rem;
+  letter-spacing: .04em; text-transform: uppercase; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px;
+}
+.llist-prereq { margin: 3px 0 0; font-size: .8rem; color: var(--muted); }
+.llist-prereq a { color: var(--muted); }
+.llist-prereq a:hover { color: var(--accent); }
+
+/* ---------- node panel ---------- */
+.npanel {
+  position: fixed; inset: 0; z-index: 70;
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  display: flex; justify-content: flex-end;
+}
+.npanel[hidden] { display: none; }
+
+.npanel-sheet {
+  position: relative;
+  width: min(560px, 100%); height: 100%; overflow-y: auto; overscroll-behavior: contain;
+  background: var(--card); border-left: 1px solid var(--line-strong);
+  box-shadow: var(--shadow);
+  padding: 28px clamp(20px, 4vw, 36px) 56px;
+  text-align: left;
+}
+
+.npanel-close {
+  position: absolute; top: 18px; right: clamp(20px, 4vw, 36px);
+  font: inherit; font-size: .8rem; color: var(--muted);
+  background: var(--card); border: 1px solid var(--line-strong); border-radius: 999px;
+  padding: 5px 13px; cursor: pointer;
+}
+.npanel-close:hover { color: var(--accent); border-color: var(--accent); }
+.npanel-close:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+
+.npanel-cluster {
+  font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ax); margin: 0 0 6px;
+}
+.npanel-title {
+  font-family: var(--font-display); font-size: 1.45rem; line-height: 1.25;
+  color: var(--ink); margin: 0 0 18px; max-width: 22ch;
+}
+.npanel-title:focus { outline: none; }
+.npanel-title:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 4px; border-radius: 6px; }
+
+.npanel-body { color: var(--body); max-width: var(--measure); }
+.npanel-body p { margin: 0 0 1em; }
+.npanel-placeholder { color: var(--muted); font-size: .9rem; }
+.npanel-stub-lead { color: var(--ink); font-weight: 500; }
+.npanel-stub-note { color: var(--muted); font-size: .92rem; }
+.npanel-back { color: var(--accent); }
+
+.node-doodle {
+  display: block; width: 100%; max-width: 380px; height: auto;
+  margin: 0 0 20px; border: 1px solid var(--line); border-radius: 12px;
+  background: var(--bg); padding: 10px;
+}
+
+/* ---------- simulation mount ---------- */
+.npanel-sim { margin: 8px 0 4px; }
+.npanel-sim[hidden] { display: none; }
+.sim-unavailable { color: var(--muted); font-size: .88rem; margin: 0; }
+
+.sim {
+  border: 1px solid var(--line); border-radius: 14px; background: var(--bg);
+  padding: 16px;
+}
+.sim-figure { display: block; width: 100%; height: auto; }
+.sim-controls { display: grid; gap: 14px; margin-top: 14px; }
+.sim-row { display: grid; gap: 5px; }
+.sim-row label {
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .05em;
+  text-transform: uppercase; color: var(--muted);
+  display: flex; justify-content: space-between; gap: 12px;
+}
+.sim-row label .sim-value { font-variant-numeric: tabular-nums; color: var(--ink); text-transform: none; letter-spacing: 0; }
+.sim-row input[type="range"] { width: 100%; accent-color: var(--ax); }
+.sim-row input[type="range"]:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 3px; }
+.sim-readout {
+  display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 14px 0 0;
+  font-family: var(--font-mono); font-size: .8rem; color: var(--body);
+}
+.sim-readout b { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+.sim-note { margin: 12px 0 0; font-size: .82rem; color: var(--muted); }
+
+/* The interferometer schematic. The only thing JavaScript touches is --lit on
+   the two detectors, which is a number, not a colour. */
+.mzi-beam { fill: none; stroke: var(--line-strong); stroke-width: 2; stroke-linecap: round; }
+.mzi-bs { stroke: var(--ax); stroke-width: 3.4; stroke-linecap: round; }
+.mzi-mirror { stroke: var(--ink); stroke-width: 3.4; stroke-linecap: round; }
+.mzi-plate { fill: color-mix(in srgb, var(--ax) 22%, transparent); stroke: var(--ax); stroke-width: 1.2; }
+.mzi-detector {
+  fill: var(--ax); fill-opacity: var(--lit, 0);
+  stroke: var(--line-strong); stroke-width: 1.6;
+  transition: fill-opacity .1s linear;
+}
+@media (prefers-reduced-motion: reduce) { .mzi-detector { transition: none; } }
+
+/* ---------- neighbours and the way out ---------- */
+.npanel-links { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 18px; }
+.npanel-links[hidden] { display: none; }
+.npanel-links h3 {
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted); margin: 14px 0 6px;
+}
+.npanel-links h3:first-child { margin-top: 0; }
+.npanel-links ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 5px; }
+.npanel-links li { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.npanel-links a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line-strong); }
+.npanel-links a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.npanel-links a:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 3px; }
+.npanel-links a.is-stub { color: var(--muted); border-bottom-style: dashed; }
+.npanel-unwritten { font-size: .72rem; color: var(--muted); }
+
+/* The handoff to a tool is deliberately not shaped like a topic link: it leaves
+   the map for a different part of the site, and should look like it. */
+.npanel-tool { margin-top: 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.npanel-tool[hidden] { display: none; }
+.npanel-toollink {
+  font-family: var(--font-display); font-size: .88rem; font-weight: 500;
+  color: var(--ax-y); text-decoration: none;
+  border: 1.5px solid var(--ax-y); border-radius: 10px; padding: 8px 14px;
+}
+.npanel-toollink:hover { background: color-mix(in srgb, var(--ax-y) 12%, transparent); }
+.npanel-toollink:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 2px; }
+.npanel-toolnote, .npanel-toolpending { font-size: .76rem; color: var(--muted); }
+
+/* ---------- narrow ---------- */
+@media (max-width: 620px) {
+  .lstage-wrap { padding-bottom: 48px; }
+  .lstage { overflow-x: visible; }
+  .npanel { background: var(--card); }
+  .npanel-sheet { width: 100%; border-left: none; box-shadow: none; padding-top: 22px; }
+  .lstage-foot { flex-direction: column; align-items: flex-start; }
+}
+
+@media (pointer: coarse) {
+  .lreset, .npanel-close, .lchip { min-height: 44px; }
+  .labove { min-height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gnode-dot { transition: none; }
+  .lchip { transition: none; }
+}

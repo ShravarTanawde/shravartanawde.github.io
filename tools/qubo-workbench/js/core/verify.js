@@ -1,16 +1,16 @@
 /* ============================================================================
-   verify.js — does this QUBO actually encode the problem?
+   verify.js: does this QUBO actually encode the problem?
 
    Three layers, deliberately separate, because they are trustworthy in
    different ways and at different sizes:
 
-     1. STRUCTURAL  — cheap invariants, run at ANY size. No solving. These are
+     1. STRUCTURAL:   cheap invariants, run at ANY size. No solving. These are
                       the only checks that exist above the cap, so they carry the
                       whole weight there and are run unconditionally.
-     2. PENALTY     — is lambda at or above the closed-form safe bound? Also runs
+     2. PENALTY:      is lambda at or above the closed-form safe bound? Also runs
                       at any size. This is the correctness story for instances
                       nothing can brute-force: the bound is a proof, not a guess.
-     3. BRUTE FORCE — under the cap only. Enumerate all 2^n bitstrings, find the
+     3. BRUTE FORCE:  under the cap only. Enumerate all 2^n bitstrings, find the
                       ground state, and compare it with the true optimum computed
                       independently in the PROBLEM's own space. This is the only
                       layer that can say "yes, this is right" rather than "nothing
@@ -26,8 +26,8 @@ import {
 } from './qubo.js?v=1';
 import { problemFor } from './problems.js?v=1';
 
-/* How many co-optimal states to keep for display. Degeneracy is normal — the
-   slack encoding alone can represent the same number two ways — so the count
+/* How many co-optimal states to keep for display. Degeneracy is normal (the
+   slack encoding alone can represent the same number two ways), so the count
    matters more than the list. */
 const MAX_GROUND_STATES = 64;
 
@@ -35,7 +35,7 @@ const MAX_GROUND_STATES = 64;
    is too large to enumerate. Deterministic, so a failure is reproducible. */
 const REFERENCE_SAMPLES = 300;
 
-/** A deterministic pseudo-random bitstring — seeded by its own index. */
+/** A deterministic pseudo-random bitstring, seeded by its own index. */
 function sampleBits(n, seed) {
   const bits = new Uint8Array(n);
   let s = (seed * 2654435761 + 1) >>> 0;
@@ -62,7 +62,7 @@ function energyTolerance(magnitude) {
 /* ------------------------------------------------------------- 1. structural */
 
 /**
- * Cheap invariants. Returns a list of {level, label, detail}, passes included —
+ * Cheap invariants. Returns a list of {level, label, detail}, passes included:
  * the panel shows the ticks as well as the crosses, because "nine things were
  * checked" is the reassuring part.
  *   level: 'ok' | 'warn' | 'error'
@@ -91,7 +91,7 @@ export function structuralChecks(model) {
   if (orphans.length) {
     add('error', 'Every variable appears in the energy',
       orphans.slice(0, 6).join(', ') + (orphans.length > 6 ? ' and ' + (orphans.length - 6) + ' more' : '') +
-      ' appear nowhere — they cannot change the energy.');
+      ' appear nowhere, so they cannot change the energy.');
   } else {
     add('ok', 'Every variable appears in the energy', 'no free variables');
   }
@@ -115,7 +115,7 @@ export function structuralChecks(model) {
      which recomputes E(y) straight from the problem data without ever touching
      Q; if the two disagree on any bitstring, the expansion is wrong.
 
-     Exhaustive on small instances, and a deterministic random sample otherwise —
+     Exhaustive on small instances, and a deterministic random sample otherwise,
      so this is one of the few real correctness checks that still runs ABOVE the
      cap, where nothing can be brute-forced. */
   if (problemHas(model, 'referenceEnergy')) {
@@ -130,7 +130,7 @@ export function structuralChecks(model) {
     }
     if (worst > 1e-9) {
       add('error', 'Q matches the Hamiltonian as written',
-        'they differ by ' + worst + ' at ' + worstAt + ' — the expansion into Q is wrong.');
+        'they differ by ' + worst + ' at ' + worstAt + '. The expansion into Q is wrong.');
     } else {
       add('ok', 'Q matches the Hamiltonian as written',
         exhaustive ? 'checked on all ' + total + ' assignments' : 'checked on ' + total + ' sampled assignments');
@@ -146,7 +146,7 @@ export function structuralChecks(model) {
       if (g.members.some((k) => !Number.isInteger(k) || k < 0 || k >= n)) { problems.push('a group naming a variable that does not exist'); continue; }
       if (new Set(g.members).size !== g.members.length) { problems.push('a group naming the same variable twice'); continue; }
       /* Two "exactly one" groups sharing a variable would be two constraints
-         fighting over it — always a mistake in these templates. */
+         fighting over it, always a mistake in these templates. */
       for (const k of g.members) {
         if (claimed.has(k)) problems.push('variable ' + k + ' is in two groups at once');
         claimed.set(k, g);
@@ -171,7 +171,7 @@ export function structuralChecks(model) {
   if (!Number.isInteger(model.offset)) fractional++;
   if (fractional) {
     add('warn', 'Coefficients are whole numbers',
-      fractional + ' coefficient(s) are fractional. Nothing has been rounded — they are used exactly as they are.');
+      fractional + ' coefficient(s) are fractional. Nothing has been rounded; they are used exactly as they are.');
   } else {
     add('ok', 'Coefficients are whole numbers', 'exact integer arithmetic throughout');
   }
@@ -214,14 +214,14 @@ export function penaltyCheck(model) {
         ? 'λ = ' + p.lambda + ' was set by hand and is above the safe bound of ' + p.bound + '.'
         : 'λ = ' + p.lambda + ' comes from the closed-form bound (' + problem.boundText + ' = ' + p.bound + ').')
       : 'λ = ' + p.lambda + ' is ' + (strict ? 'not above' : 'below') + ' the safe bound of ' + p.bound + ' (' + problem.boundText +
-        '). Nothing guarantees the ground state respects the constraints — treat any result as unsound.'
+        '). Nothing guarantees the ground state respects the constraints. Treat any result as unsound.'
   };
 }
 
 /* ------------------------------------------------------------ 3. brute force */
 
 /**
- * Enumerate every bitstring. Under the cap only — refuse loudly rather than
+ * Enumerate every bitstring. Under the cap only; refuse loudly rather than
  * freeze the tab.
  * @returns {{groundEnergy:number, degeneracy:number, states:Array, sampleCapped:boolean}}
  */
@@ -255,7 +255,7 @@ export function bruteForce(model) {
 
 /**
  * Step 2 shows the same energy rewritten over spins. That rewrite is pure
- * algebra, so it either holds everywhere or it is wrong — and a wrong one would
+ * algebra, so it either holds everywhere or it is wrong, and a wrong one would
  * be invisible, shifting every energy by a constant and leaving the generated
  * code disagreeing with the browser.
  *
@@ -282,7 +282,7 @@ export function isingCheck(model, ising) {
     ? {
       level: 'error', worst, checked,
       label: 'Spin energies reproduce the QUBO exactly',
-      detail: 'they differ by ' + worst + ' at ' + worstAt + ' — the conversion has lost something, most likely the offset.'
+      detail: 'they differ by ' + worst + ' at ' + worstAt + '. The conversion has lost something, most likely the offset.'
     }
     : {
       level: 'ok', worst, checked,
@@ -299,7 +299,7 @@ export function isingCheck(model, ising) {
  *
  * `verdict` is one of:
  *   'verified'    brute force confirms the ground state is the true optimum
- *   'broken'      brute force says it is NOT — the formulation is wrong here
+ *   'broken'      brute force says it is NOT: the formulation is wrong here
  *   'unverified'  above the cap: structure and the penalty bound are all we have
  *   'unsound'     a structural error, or a penalty below the bound
  */
@@ -333,7 +333,7 @@ export function verify(model) {
       ? 'Sound by construction, not checked by search'
       : 'Below the safe penalty bound, and too large to check';
     result.detail = penalty.adequate
-      ? 'At ' + n + ' qubits there are ' + '2^' + n + ' assignments — far too many to enumerate here. ' +
+      ? 'At ' + n + ' qubits there are ' + '2^' + n + ' assignments, far too many to enumerate here. ' +
         'The structural checks passed and λ is above the closed-form bound, which is what makes this ' +
         'formulation correct by construction. Generate the code and run it elsewhere.'
       : penalty.message;
@@ -352,8 +352,8 @@ export function verify(model) {
   });
 
   /* Every co-optimal state we looked at has to be a feasible, optimal answer.
-     Degeneracy is normal here — the slack encoding alone can spell the same
-     number two ways — so what matters is that they all decode to the truth. */
+     Degeneracy is normal here (the slack encoding alone can spell the same
+     number two ways), so what matters is that they all decode to the truth. */
   const anyInfeasible = decoded.some((s) => !s.decoded.feasible);
   const sameObjective = decoded.every((s) => Math.abs(s.decoded.objective - truth.objective) <= energyTolerance(truth.objective));
   const recovers = !anyInfeasible && sameObjective;
@@ -370,7 +370,7 @@ export function verify(model) {
   };
 
   if (problem.feasibilityProblem && truth.objective > 0) {
-    /* Nothing was being optimised — the question was whether a solution exists,
+    /* Nothing was being optimised; the question was whether a solution exists,
        and it does not. The formulation is still the right one: the
        reference-energy check above is what says so, and the ground state's
        energy is exactly the smallest number of violations any assignment can
@@ -378,7 +378,7 @@ export function verify(model) {
     result.verdict = 'no_solution';
     result.headline = 'No solution exists for this instance';
     result.detail = truth.detail.charAt(0).toUpperCase() + truth.detail.slice(1) +
-      '. The formulation is sound — the checks above confirm Q is the Hamiltonian as written — ' +
+      '. The formulation is sound (the checks above confirm Q is the Hamiltonian as written), ' +
       'so the lowest energy it can reach, ' + formatNum(bf.groundEnergy) +
       ', is the tool telling you the answer is no.' +
       (penalty.adequate ? '' : ' Note that λ is also below the safe bound.');
@@ -395,7 +395,7 @@ export function verify(model) {
         : '');
   } else if (recovers && !penalty.adequate) {
     /* The bound is sufficient, not necessary. A small lambda can still happen to
-       work on a particular instance — but only by luck, and only here. */
+       work on a particular instance, but only by luck, and only here. */
     result.verdict = 'lucky';
     result.headline = 'Correct on this instance, but not guaranteed';
     result.detail = 'The ground state does recover ' + truth.summary + '. But λ = ' + penalty.lambda +
@@ -408,7 +408,7 @@ export function verify(model) {
       : 'The ground state is not the true optimum';
     const g = decoded[0];
     result.detail = 'Lowest energy is ' + formatNum(bf.groundEnergy) + ', at ' + g.decoded.summary +
-      ' — ' + g.decoded.parts.map((p) => p.k + ' ' + p.v).join(', ') + '. The true optimum is ' +
+      ' (' + g.decoded.parts.map((p) => p.k + ' ' + p.v).join(', ') + '. The true optimum is ' +
       truth.summary + ' (' + truth.detail + ').' +
       (penalty.adequate ? '' : ' λ = ' + penalty.lambda + ' is below the safe bound of ' + penalty.bound + ', which is why.');
   }

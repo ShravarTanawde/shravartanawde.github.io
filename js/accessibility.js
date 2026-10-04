@@ -1,4 +1,4 @@
-/* ============ reading panel — all pages ============ */
+/* ============ reading panel (all pages) ============ */
 (function () {
   var root = document.documentElement;
   var panel = document.getElementById('aaPanel');
@@ -28,4 +28,12 @@
   function onKey(e) { if (e.key === 'Escape') closeP(true); }
   function onOut(e) { if (!panel.contains(e.target) && e.target !== btn) closeP(false); }
   btn.addEventListener('click', function () { open ? closeP(false) : openP(); });
+
+  /* learn.html injects a topic's text into the page long after load. It says so
+     with this event; re-applying the saved settings makes sure the new subtree
+     is typeset like the rest. The values are custom properties on <html>, so in
+     the ordinary case this changes nothing and simply costs nothing — it is the
+     repair that matters, for anything that has reset them in between.
+     This listener is the only thing this file knows about the learn graph. */
+  document.addEventListener('learn:content-rendered', function () { selects.forEach(apply); });
 })();

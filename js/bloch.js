@@ -1,4 +1,4 @@
-/* ============ Bloch sphere navigator — front page only ============ */
+/* ============ Bloch sphere navigator (front page only) ============ */
 (function () {
   var wrap = document.getElementById('sphereWrap');
   var canvas = document.getElementById('bloch');
@@ -23,14 +23,14 @@
   function css(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
   function colr(v) { return new THREE.Color(css(v) || '#888'); }
 
-  // clear glass sphere — inner shell (BackSide + no depth write, so it never hides the axes)
+  // clear glass sphere: inner shell (BackSide + no depth write, so it never hides the axes)
   var shell = new THREE.Mesh(
     new THREE.SphereGeometry(0.996, 48, 32),
     new THREE.MeshBasicMaterial({ color: colr('--accent'), transparent: true, opacity: 0.08, side: THREE.BackSide, depthWrite: false })
   );
   group.add(shell);
 
-  // crisp silhouette rim — always faces the camera, so the sphere reads as a clean edge
+  // crisp silhouette rim; always faces the camera, so the sphere reads as a clean edge
   var rimGeo = new THREE.BufferGeometry(); var rimPts = [];
   for (var a = 0; a <= 96; a++) { var t = a / 96 * Math.PI * 2; rimPts.push(Math.cos(t), Math.sin(t), 0); }
   rimGeo.setAttribute('position', new THREE.Float32BufferAttribute(rimPts, 3));
@@ -40,12 +40,12 @@
   /* A sphere's silhouette under perspective is NOT a circle of the sphere's own
      radius drawn through its centre. The horizon the camera actually sees is
      the tangent circle: smaller (R·√(d²−R²)/d) but nearer (by R²/d), and the
-     nearness wins — the true outline projects LARGER than the naive circle, by
+     nearness wins: the true outline projects LARGER than the naive circle, by
      2.7% at this camera distance.
 
      Drawn the naive way the rim under-reports the sphere, and the equator gives
      it away: a great circle lies ON the surface, so when it swings edge-on its
-     widest point touches the silhouette exactly — and so appeared to bulge
+     widest point touches the silhouette exactly, and so appeared to bulge
      outside the rim. Scaling the rim to the real horizon puts the equator back
      inside it, touching at the edge-on extreme, which is the honest picture.
 
@@ -54,7 +54,7 @@
   var camDist = camera.position.length();
   rim.scale.setScalar(camDist / Math.sqrt(camDist * camDist - 1));
 
-  // equator great circle — subtle depth cue that tilts as you drag
+  // equator great circle: subtle depth cue that tilts as you drag
   var ringGeo = new THREE.BufferGeometry(); var rpts = [];
   for (var a2 = 0; a2 <= 96; a2++) { var t2 = a2 / 96 * Math.PI * 2; rpts.push(Math.cos(t2), 0, Math.sin(t2)); }
   ringGeo.setAttribute('position', new THREE.Float32BufferAttribute(rpts, 3));
@@ -79,7 +79,7 @@
     });
   });
 
-  // state vector (arrow) — starts pointing up
+  // state vector (arrow), starts pointing up
   var vecDir = new THREE.Vector3(0.4, 0.55, 0.72).normalize();
   var vecGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), vecDir.clone()]);
   var vecMat = new THREE.LineBasicMaterial({ color: colr('--vector'), transparent: true, opacity: 0.95 });
@@ -95,7 +95,7 @@
     front: new THREE.Vector3(0, 0, 1), back: new THREE.Vector3(0, 0, -1)
   };
 
-  // Numerator only — the √2 denominator is static markup under the fraction bar.
+  // Numerator only. The √2 denominator is static markup under the fraction bar.
   var FORMULA = {
     z: { obs: 'Z basis', num: '|Project⟩ + |Experience⟩', dest: 'Projects & Experience' },
     x: { obs: 'X basis', num: '|Simulations⟩ + |Learn⟩', dest: 'Simulations & Learn' },
@@ -192,12 +192,12 @@
     })(performance.now());
   }
   /* Cross-document view transitions (css/global.css) do the sphere-into-the-topbar
-     morph on their own, and far better than script can — they animate across the
+     morph on their own, and far better than script can, since they animate across the
      document swap. Where they are missing, fly the sphere to the bar ourselves first
      and navigate when it lands; the next page then paints with its mini sphere
      already in that spot, which reads as one continuous movement.
 
-     Detection is deliberately generous — CSSViewTransitionRule is the IDL interface
+     Detection is deliberately generous. CSSViewTransitionRule is the IDL interface
      for the `@view-transition` at-rule, and pageswap shipped alongside it. Either
      signal disables the fallback, because a false negative would run our animation
      on top of the browser's, which looks far worse than not running it at all.
@@ -231,7 +231,7 @@
     flyToTopbar(function () { window.location.href = dest; });
   }
 
-  // Back/forward restores this page from the bfcache with its JS state intact — the
+  // Back/forward restores this page from the bfcache with its JS state intact; the
   // script does not re-run. Without this, `measuring` is still true from the
   // measurement that navigated away and measureTo() swallows every later click,
   // and the fly-to-topbar transform is still on the sphere.
@@ -271,7 +271,7 @@
       v.project(camera);
       /* Clamped to the box. A pole dragged to the far edge projects to about
          92% of the width, and half of "|Simulations⟩" past that hangs out over
-         the page — which a narrow screen answers with a horizontal scrollbar
+         the page, which a narrow screen answers with a horizontal scrollbar
          across the whole document. */
       var half = l._half || 0;
       var x = (v.x * 0.5 + 0.5) * s;
@@ -305,7 +305,7 @@
     renderer.render(scene, camera);
   }
   /* Rotating a phone fires both of these, and iOS is known to report the new
-     box a beat after the event — sizing the sphere from the pre-rotation width
+     box a beat after the event, sizing the sphere from the pre-rotation width
      and leaving it wrong until something else nudges it. Three passes: now, next
      frame, and once the dust has settled. resize() is cheap and idempotent, and
      the settle pass is debounced so dragging a desktop window does not queue a

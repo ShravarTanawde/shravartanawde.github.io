@@ -36,6 +36,7 @@
 
 <link rel="stylesheet" href="css/global.css?v=5">
 <link rel="stylesheet" href="css/page.css?v=5">
+<link rel="stylesheet" href="css/learn.css?v=2">
 </head>
 <body>
 
@@ -83,12 +84,37 @@
       <a class="navlink" href="tools.html">Tools & Software</a>
   </nav>
 
-  <main>
+  <main class="lintro">
     <p class="obs-eyebrow">X basis · measured</p>
     <h1>Simulations & Learn</h1>
     <p class="kets">|<b>Simulations</b>⟩ &nbsp;·&nbsp; |<b>Learn</b>⟩</p>
-    <p class="lead">This section is being written. Measuring this basis will bring you here — the content lands soon.</p>
   </main>
+
+  <section class="lstage-wrap" aria-labelledby="mapHeading">
+    <h2 id="mapHeading" class="visually-hidden">Topic map</h2>
+
+    <!-- The contract line. Static markup, always visible, never a tooltip: it is
+         what tells a reader that the level is a choice rather than a limit. -->
+    <p class="lcontract">Topics I work with, explained at an introductory level.</p>
+
+    <div id="graphControls" class="lcontrols">
+      <div id="graphFilter"></div>
+      <div id="graphToggles"></div>
+    </div>
+
+    <div id="graphStage" class="lstage"></div>
+
+    <noscript>
+      <p class="lcontract">The topic map needs JavaScript to draw itself. Everything on it is
+        explanatory text and small interactive figures; nothing is sent anywhere.</p>
+    </noscript>
+
+    <div class="lstage-foot">
+      <p class="lstage-note">Solid lines are prerequisites and always run downward.
+        Dashed lines are related topics, shown on hover or with the toggle above.</p>
+      <div id="progressReset"></div>
+    </div>
+  </section>
 
   <!-- Reading settings popover -->
   <div id="aaPanel" class="panel" role="dialog" aria-label="Reading settings" hidden>
@@ -110,7 +136,8 @@
   </div>
 
   <script src="js/theme.js?v=4"></script>
-  <script src="js/accessibility.js?v=4"></script>
+  <script src="js/accessibility.js?v=5"></script>
   <script src="js/axis.js?v=4"></script>
+  <script type="module" src="js/learn/main.js?v=2"></script>
 </body>
 </html>

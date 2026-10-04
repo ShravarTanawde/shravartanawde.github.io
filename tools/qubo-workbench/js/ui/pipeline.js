@@ -1,5 +1,5 @@
 /* ============================================================================
-   pipeline.js — step orchestration.
+   pipeline.js: step orchestration.
 
    Four steps, one model. This module owns:
      * which step is on screen,
@@ -10,12 +10,12 @@
    are handed the model when they become current, so a step's own module never
    has to know the rail exists.
 
-   The cap rule (CLAUDE.md constraint 5) is applied in exactly one place here —
-   `reachable()` — and nowhere else:
+   The cap rule (CLAUDE.md constraint 5) is applied in exactly one place here,
+   `reachable()`, and nowhere else:
      Step 1 Formulate  always
      Step 2 Ising      needs a model; cheap at any size, so never capped
      Step 3 Analyze    needs a model AND <= QUBIT_CAP qubits
-     Step 4 Code       needs a model; NEVER capped — it is the over-limit offering
+     Step 4 Code       needs a model; NEVER capped; it is the over-limit offering
 
    A step also stays locked until its own module registers an implementation, so
    a half-built step is a visibly closed door rather than an empty room.
@@ -72,7 +72,7 @@ function blockedReason(id) {
   if (!state.model) return 'Build a QUBO in Step 1 first.';
   if (id === 3 && capLevel(state.model.meta.qubitCount) === 'over') {
     return state.model.meta.qubitCount + ' qubits is above the ' +
-      'in-browser limit — simulation and landscape analysis are off. Step 4 still works.';
+      'in-browser limit, so simulation and landscape analysis are off. Step 4 still works.';
   }
   return null;
 }
@@ -94,7 +94,7 @@ export function registerStep(id, panel, onEnter, opts) {
 
 /* ----------------------------------------------------------------- scrolling
    Changing step changes the whole page under you. Landing part-way down the new
-   panel — wherever the last one happened to leave the scroll position — makes it
+   panel (wherever the last one happened to leave the scroll position) makes it
    feel like nothing happened, so every step change puts you at the top of the
    step you asked for.
 
@@ -189,7 +189,7 @@ function refreshStepNavs() {
 /* --------------------------------------------------- the corner control ----
    A step can be several screens long. This sits out of the way until you have
    scrolled past the top of one, and takes you back to the start of the step you
-   are in — not the top of the document, which would be the rail you have
+   are in, not the top of the document, which would be the rail you have
    already used.                                                              */
 
 function buildTopButton() {
@@ -241,7 +241,7 @@ export function goTo(id) {
   const h = state.handlers.get(id);
   if (h && h.onEnter) h.onEnter(state.model);
   if (h) {
-    /* Focus first WITHOUT moving the page, then scroll deliberately — so the
+    /* Focus first WITHOUT moving the page, then scroll deliberately, so the
        keyboard and the viewport end up in the same place, and the scroll is ours
        rather than whatever focus() decides to do. Every route into a step comes
        through here: the rail, the step-end nav, and a loaded save code. */
@@ -255,7 +255,7 @@ export function goTo(id) {
 
 /**
  * Step 1 calls this whenever it has built (or loaded) a model. Everything
- * downstream — the readout, the banner, which steps unlock — falls out of it.
+ * downstream (the readout, the banner, which steps unlock) falls out of it.
  */
 export function setModel(model) {
   state.model = model;
@@ -290,7 +290,7 @@ function refreshRail() {
    verdict is computed here rather than inside the form, so the form never has a
    say in whether its own output is correct.                                  */
 
-/* 'set' is the same rows-table widget as 'form', with different columns — the
+/* 'set' is the same rows-table widget as 'form', with different columns; the
    two names distinguish a list of things from a thing with extra fields, not two
    implementations. */
 const INPUT_MODES = { form: initForm, set: initForm, graph: initGraph };
@@ -334,7 +334,7 @@ function wireStep1() {
 
     if (out.constraint) {
       clear(out.constraint);
-      out.constraint.appendChild(el('b', { text: problem.title + ' — ' }));
+      out.constraint.appendChild(el('b', { text: problem.title + ': ' }));
       out.constraint.appendChild(document.createTextNode(
         problem.constraintText + '. Penalty: ' + problem.boundText + '.'));
     }
@@ -376,8 +376,8 @@ function wireStep2() {
 
    The work is broken up and yielded between features rather than run in one
    block. At p=1 everything routes through the closed form and the whole set is
-   near-instant even at the cap; the one genuinely expensive piece — the
-   ratio-vs-p curve past p=1 — is offered rather than assumed above
+   near-instant even at the cap; the one genuinely expensive piece (the
+   ratio-vs-p curve past p=1) is offered rather than assumed above
    DEEP_P_LIMIT qubits. Yielding costs nothing and means the page never locks up
    on the instance that turns out to be the slow one.                          */
 
@@ -466,7 +466,7 @@ async function runAnalysis(model, host, status) {
 
   for (let i = 0; i < steps.length; i++) {
     const [id, run] = steps[i];
-    if (status) status.textContent = 'Working — ' + (i + 1) + ' of ' + steps.length + '…';
+    if (status) status.textContent = 'Working: ' + (i + 1) + ' of ' + steps.length + '…';
     await yieldToBrowser();
     const node = run();
     node.setAttribute('data-feature', id);
@@ -510,7 +510,7 @@ function wireStep3() {
 
   registerStep(3, document.getElementById('panel-3'), (model) => {
     if (!model) return;
-    /* Every analysis here is gated behind the cap — that gate is in
+    /* Every analysis here is gated behind the cap; that gate is in
        blockedReason(), so reaching this point already means we are under it. */
     if (gate) gate.hidden = true;
     if (shownFor === model) return;          // don't recompute on a revisit
@@ -525,7 +525,7 @@ function wireStep3() {
 
 /**
  * The parameters to write into the emitted program. Step 3 supplies them when it
- * has run; otherwise they are found here (cheap — p=1 has a closed form), and
+ * has run; otherwise they are found here (cheap, since p=1 has a closed form), and
  * above the cap there is nothing to find, so the ramp is emitted as a start.
  */
 function codegenContext(model) {
@@ -570,11 +570,11 @@ function wireStep4() {
     const note = host.querySelector('#wbCopyNote');
     if (copy) {
       copy.addEventListener('click', async () => {
-        /* Clipboard only — nothing is uploaded, and there is no fallback that
+        /* Clipboard only: nothing is uploaded, and there is no fallback that
            would send the code anywhere. */
         try {
           await navigator.clipboard.writeText(result.code);
-          if (note) note.textContent = 'Copied — paste it into a fresh notebook.';
+          if (note) note.textContent = 'Copied. Paste it into a fresh notebook.';
         } catch (e) {
           if (note) note.textContent = 'Could not reach the clipboard; select the code below instead.';
           const pre = host.querySelector('#wbCode');
@@ -589,7 +589,7 @@ function wireStep4() {
 
 /* --------------------------------------------------------- save and resume --
    A save code is the only persistence the tool has. It carries the whole model,
-   so pasting one back restores the instance AND everything downstream of it —
+   so pasting one back restores the instance AND everything downstream of it,
    which is what makes it a checkpoint rather than a bookmark: the step rail
    opens up again exactly as far as the instance allows, and you can drop
    straight into the middle of the pipeline.                                  */
@@ -609,7 +609,7 @@ function wireSaveLoad() {
 
   saveBtn.addEventListener('click', async () => {
     const model = state.model;
-    if (!model) { say('Build something first — there is nothing to save yet.', 'warn'); return; }
+    if (!model) { say('Build something first; there is nothing to save yet.', 'warn'); return; }
     try {
       const code = await save.encode(model);
       field.value = code;
@@ -656,7 +656,7 @@ function applyLoadedModel(model) {
     const problem = PROBLEM_LIST.find((p) => p.id === model.problemType);
     note.dataset.level = 'ok';
     note.textContent = 'Loaded a ' + (problem ? problem.title.toLowerCase() : model.problemType) +
-      ' instance, ' + model.meta.qubitCount + ' qubits. Every step it is big enough for is open — ' +
+      ' instance, ' + model.meta.qubitCount + ' qubits. Every step it is big enough for is open, but ' +
       'the form above still shows what you last typed, not this.';
   }
   refreshRail();

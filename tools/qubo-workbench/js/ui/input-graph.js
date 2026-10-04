@@ -1,12 +1,12 @@
 /* ============================================================================
-   input-graph.js — describing a graph.
+   input-graph.js: describing a graph.
 
    The edge list is the PRIMARY input: it is the fastest thing to type, the
    easiest to paste from somewhere else, and it scales to graphs far larger than
    a grid could show. The adjacency grid is a secondary view of the same graph,
    for when a matrix is easier to read than a list.
 
-   Both views edit ONE piece of state — {vertices, edges} — so they cannot
+   Both views edit ONE piece of state ({vertices, edges}), so they cannot
    disagree. Switching views rewrites the other view from that state; it never
    merges two half-edited versions.
 
@@ -22,7 +22,7 @@ import { createFooter, createFields, buildOnEnter } from './input-form.js?v=1';
 export function graphToText(graph) {
   const parts = graph.edges.map(([u, v]) => graph.vertices[u] + '-' + graph.vertices[v]);
   /* A vertex with no edges would vanish from a pure edge list, so it is written
-     on its own — the same form the parser accepts. */
+     on its own, the same form the parser accepts. */
   const touched = new Set();
   for (const [u, v] of graph.edges) { touched.add(u); touched.add(v); }
   graph.vertices.forEach((name, i) => { if (!touched.has(i)) parts.push(name); });
@@ -37,7 +37,7 @@ export function initGraph(host, problem, onBuild) {
   })();
   let view = 'list';
 
-  /* Some graph templates need a scalar as well as the graph — colouring needs a
+  /* Some graph templates need a scalar as well as the graph: colouring needs a
      colour count, clique needs K. They are declared the same way form-mode
      fields are, and rendered by the same code. */
   const fieldValues = {};
@@ -76,7 +76,7 @@ export function initGraph(host, problem, onBuild) {
     'One edge per entry, separated by commas or new lines. ',
     el('code', { class: 'wb-tok', text: '0-1' }), ' joins two vertices; ',
     el('code', { class: 'wb-tok', text: '0-1-2' }), ' is a chain; a name on its own, like ',
-    el('code', { class: 'wb-tok', text: '7' }), ', adds a vertex with no edges. Labels can be words — ',
+    el('code', { class: 'wb-tok', text: '7' }), ', adds a vertex with no edges. Labels can be words, ',
     'just not ones containing a dash or a colon.'
   ]);
 
@@ -104,7 +104,7 @@ export function initGraph(host, problem, onBuild) {
     }
     summary.appendChild(document.createTextNode(
       graph.vertices.length + ' vertex/vertices, ' + graph.edges.length + ' edge(s)' +
-      (duplicates ? ' — ' + duplicates + ' repeated edge(s) folded together' : '') + '.'));
+      (duplicates ? ', with ' + duplicates + ' repeated edge(s) folded together' : '') + '.'));
   }
 
   const listView = el('div', { class: 'wb-field wb-field-wide' }, [
@@ -128,7 +128,7 @@ export function initGraph(host, problem, onBuild) {
       }
     });
     gridView.appendChild(el('p', { class: 'wb-field-note', text:
-      'Tick a cell to join two vertices. The grid is symmetric — an edge is one fact, ' +
+      'Tick a cell to join two vertices. The grid is symmetric: an edge is one fact, ' +
       'so the mirrored cell follows on its own.' }));
     gridView.appendChild(grid.node);
   }

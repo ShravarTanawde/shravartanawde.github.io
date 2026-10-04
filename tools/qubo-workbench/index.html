@@ -91,17 +91,17 @@
       <p class="obs-eyebrow">Y basis · tools</p>
       <h1>QUBO / QAOA Workbench</h1>
       <p class="lead">Pick a combinatorial problem, fill in an instance, and watch it turn into
-        a <span data-def="qubo">QUBO</span> you can check — then into an <span data-def="ising">Ising Hamiltonian</span>, a <span data-def="qaoa">QAOA</span> landscape, and finally a
+        a <span data-def="qubo">QUBO</span> you can check, then into an <span data-def="ising">Ising Hamiltonian</span>, a <span data-def="qaoa">QAOA</span> landscape, and finally a
         block of PennyLane you can paste into a fresh notebook and run.</p>
       <p class="lead">Everything happens in this tab. Nothing is uploaded, nothing is fetched,
-        and there is no account — the only thing that leaves the page is code you copy.</p>
+        and there is no account. The only thing that leaves the page is code you copy.</p>
     </header>
 
     <div class="wb-callout" data-level="note">
       <span class="ico" aria-hidden="true">i</span>
       <p class="title">Where the limits are</p>
       <p>A statevector doubles with every qubit, so simulation, brute-force checking and the
-        landscape view stop at <strong data-def="statevector">20 qubits</strong>. Code generation never stops — above the
+        landscape view stop at <strong data-def="statevector">20 qubits</strong>. Code generation never stops: above the
         line you still get the full formulation and a program to run elsewhere. Penalty weights
         come from published closed-form bounds, so a formulation the tool cannot brute-force is
         still correct by construction.</p>
@@ -111,7 +111,7 @@
       <summary>Save this instance, or resume one</summary>
       <div class="wb-save-body">
         <p>A save code carries the whole formulation, so pasting one back reopens every step it is
-          big enough for — you can come back to the middle of the pipeline, not just the start.
+          big enough for, so you can come back to the middle of the pipeline, not just the start.
           It is a string of text and nothing else: no account, no upload, nothing stored anywhere
           but wherever you paste it.</p>
         <label class="vh" for="wbSaveCode">Save code</label>
@@ -160,7 +160,7 @@
         <p>Every problem here ends up as the same object: a square matrix <code class="wb-tok">Q</code>
           over binary variables, plus a constant offset. Minimising</p>
         <div class="wb-formula">E(y) = Σ_k Q[k][k]·y_k  +  Σ_{k&lt;l} Q[k][l]·y_k·y_l  +  offset        y_k ∈ {0,1}</div>
-        <p>over all assignments of the bits is the problem. Constraints do not appear separately —
+        <p>over all assignments of the bits is the problem. Constraints do not appear separately;
           they are folded in as <span data-def="penalty">penalty terms weighted by λ</span>, chosen large enough that breaking a
           constraint can never pay for itself. Every λ below is the published <span data-def="bound">closed-form bound</span>
           for that problem, so the formulation is sound even at sizes nothing here can check.</p>
@@ -192,7 +192,7 @@
       </div>
       <div class="wb-panel-body">
         <p>The same energy, rewritten over spins <code class="wb-tok">s = 2y − 1</code>. Nothing is
-          being solved here and nothing is lost — it is a change of variables, and the point of the
+          being solved here and nothing is lost. It is a change of variables, and the point of the
           step is that you can see it is one. These three things are what a simulator or a device
           actually takes: the local fields <code class="wb-tok">h</code>, the couplings
           <code class="wb-tok">J</code>, and the <span data-def="offset">constant offset</span>.</p>
@@ -208,7 +208,7 @@
       <div class="wb-panel-body">
         <p>QAOA, simulated here in the tab. The circuit is built from the Hamiltonian in Step 2,
           run on a hand-written <span data-def="statevector">statevector</span>, and measured against the <span data-def="groundState">true optimum</span> that Step 1
-          <span data-def="bruteForce">brute-forced</span> — which is why none of this exists above the cap: there is nothing to
+          <span data-def="bruteForce">brute-forced</span>, which is why none of this exists above the cap: there is nothing to
           measure against, and nothing small enough to simulate.</p>
 
         <!-- Shown only if something reaches this panel over the cap. The rail
@@ -233,7 +233,7 @@
       <div class="wb-panel-body">
         <p>A self-contained cell: it installs what it needs, defines this instance inline, seeds
           its own randomness and prints a result. Paste it into a fresh notebook and it runs, with
-          nothing to fill in. This step is never capped — above the limit it is the whole offering,
+          nothing to fill in. This step is never capped. Above the limit it is the whole offering,
           and it is marked as unverified rather than withheld.</p>
         <div id="wbCodegen"></div>
       </div>
@@ -241,7 +241,7 @@
 
     <footer class="wb-foot">
       <p>Generated code targets <b id="wbFooterVersion">PennyLane</b>. That pin is checked by
-        executing the emitted programs against a real release, not by reading a version number —
+        executing the emitted programs against a real release, not by reading a version number,
         so a deprecation inside a minor release is caught rather than missed.</p>
       <p>Everything on this page ran in your browser. Nothing was uploaded, nothing was fetched,
         and the only thing that leaves is code you copy.</p>
@@ -269,7 +269,7 @@
   </div>
 
   <script src="../../js/theme.js?v=4"></script>
-  <script src="../../js/accessibility.js?v=4"></script>
+  <script src="../../js/accessibility.js?v=5"></script>
   <script src="../../js/axis.js?v=4"></script>
 
   <!-- The tool itself is ES modules, so it needs to be served over http(s), not

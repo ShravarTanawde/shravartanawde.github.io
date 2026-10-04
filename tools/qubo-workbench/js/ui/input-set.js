@@ -1,10 +1,10 @@
 /* ============================================================================
-   input-set.js — the two table widgets every input mode is built out of.
+   input-set.js: the two table widgets every input mode is built out of.
 
      createRowsTable()      a set of things, one per row, typed columns.
                             Knapsack's items and number partitioning's numbers
                             are the same widget with different columns.
-     createAdjacencyGrid()  a square, symmetric 0/1 grid — the secondary way to
+     createAdjacencyGrid()  a square, symmetric 0/1 grid, the secondary way to
                             describe a graph, for when an edge list is harder to
                             read than a matrix.
 
@@ -21,7 +21,7 @@ import { el, clear } from './render.js?v=1';
  * @param {Array<{key,label,type,step?,min?,placeholder?,width?}>} opts.columns
  * @param {Array<object>} opts.rows          mutated in place; values are strings as typed
  * @param {string} opts.addLabel             text for the add button
- * @param {string} opts.rowNoun              "item" / "number" — used in the aria labels
+ * @param {string} opts.rowNoun              "item" / "number", used in the aria labels
  * @param {() => void} opts.onChange
  * @returns {{node:HTMLElement, addRow:Function, render:Function}}
  */
@@ -49,7 +49,7 @@ export function createRowsTable(opts) {
     });
     remove.addEventListener('click', () => {
       rows.splice(index, 1);
-      /* Never leave the table with nothing in it — an empty table offers the
+      /* Never leave the table with nothing in it; an empty table offers the
          user no way back in. */
       if (!rows.length) rows.push(blankRow(columns));
       render();
@@ -104,7 +104,7 @@ function blankRow(columns) {
 
 /**
  * A square symmetric grid of checkboxes over `graph.vertices`. Ticking (u,v)
- * ticks (v,u) too — an undirected edge is one fact, not two — and the diagonal
+ * ticks (v,u) too (an undirected edge is one fact, not two), and the diagonal
  * is disabled, because a self-loop means nothing to any template here.
  *
  * @param {object} opts
@@ -137,7 +137,7 @@ export function createAdjacencyGrid(opts) {
       const tr = el('tr', null, [el('th', { scope: 'row', text: name })]);
       vertices.forEach((other, v) => {
         if (u === v) {
-          tr.appendChild(el('td', { class: 'diag', title: 'a vertex is never joined to itself', text: '—' }));
+          tr.appendChild(el('td', { class: 'diag', title: 'a vertex is never joined to itself', text: '–' }));
           return;
         }
         const box = el('input', {

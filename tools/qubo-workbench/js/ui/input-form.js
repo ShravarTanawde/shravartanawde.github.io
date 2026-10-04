@@ -1,5 +1,5 @@
 /* ============================================================================
-   input-form.js — the form-type input mode, plus the controls every mode shares.
+   input-form.js: the form-type input mode, plus the controls every mode shares.
 
    Two exports:
 
@@ -9,14 +9,14 @@
                      three times over.
      initForm()      the form mode itself: a table of rows (from input-set.js)
                      plus any scalar fields the template declares. Knapsack and
-                     number partitioning both use it — they differ only in their
+                     number partitioning both use it; they differ only in their
                      columns.
 
    The two rules the footer exists to keep:
 
      * The penalty field is AUTO until the user types in it. Auto means "the
        closed-form bound for the numbers currently on screen", so editing an
-       input moves it. Once overridden it stops moving and says so — a
+       input moves it. Once overridden it stops moving and says so: a
        deliberate choice is never silently overwritten, and a stale bound is
        never silently left sitting in the box.
 
@@ -106,7 +106,7 @@ export function createFooter(problem, readBody, onBuild) {
           : 'Auto: ' + problem.boundText + '. λ = ' + auto + ' is a convenient scale.'));
     } else if (safe) {
       lambdaNote.appendChild(document.createTextNode(
-        'Set by hand. ' + (strict ? 'Above' : 'At or above') + ' the safe bound of ' + bound + ' — fine.'));
+        'Set by hand. ' + (strict ? 'Above' : 'At or above') + ' the safe bound of ' + bound + '. Fine.'));
     } else {
       lambdaNote.appendChild(el('b', { text: 'Below the safe bound of ' + bound + '.' }));
       lambdaNote.appendChild(document.createTextNode(
@@ -182,7 +182,7 @@ export function createFooter(problem, readBody, onBuild) {
 }
 
 /**
- * The scalar inputs a template declares in `input.fields` — knapsack's capacity,
+ * The scalar inputs a template declares in `input.fields`: knapsack's capacity,
  * colouring's colour count, clique's K. Shared, because a graph problem can need
  * one just as much as a form problem can.
  *

@@ -1,5 +1,5 @@
 /* ============================================================================
-   render.js — the tool's only DOM writers.
+   render.js: the tool's only DOM writers.
 
    Every module that puts numbers on screen comes through here, so formatting
    (how a coefficient is rounded, how a byte count is worded) is decided once.
@@ -16,7 +16,7 @@ import { isingCheck } from '../core/verify.js?v=1';
 /**
  * el('div', {class:'x', text:'hi'}, [childNode, 'string'])
  * `text` sets textContent; every other key is set as an attribute. There is no
- * innerHTML path anywhere in this file — a problem name or an item label is
+ * innerHTML path anywhere in this file. A problem name or an item label is
  * user input and is only ever written as text.
  */
 export function el(tag, props, children) {
@@ -55,7 +55,7 @@ export function bitsToStringFor(z, n) {
 
 /**
  * A coefficient as it should appear in a matrix cell or a formula.
- * Integers stay bare (they usually are — the encodings are integral), and
+ * Integers stay bare (they usually are, since the encodings are integral), and
  * anything else is trimmed rather than padded, so a column of numbers reads as
  * numbers and not as a wall of zeroes.
  */
@@ -133,8 +133,8 @@ export function renderBoundaryNotice(host, qubitCount) {
   host.appendChild(el('p', {
     class: 'title',
     text: level === 'over'
-      ? qubitCount + ' qubits — code generation only'
-      : qubitCount + ' qubits — approaching the limit'
+      ? qubitCount + ' qubits: code generation only'
+      : qubitCount + ' qubits: approaching the limit'
   }));
   host.appendChild(el('p', { text: BOUNDARY_COPY[level] }));
   return level;
@@ -182,7 +182,7 @@ export function renderLedger(host, model) {
     for (const g of model.groups.slice(0, 12)) {
       list.appendChild(el('li', null, [
         el('b', { text: g.label }),
-        el('span', { class: 'wb-mono wb-muted', text: ' — ' + g.members.map((k) => model.variables[k].sym).join(', ') })
+        el('span', { class: 'wb-mono wb-muted', text: ': ' + g.members.map((k) => model.variables[k].sym).join(', ') })
       ]));
     }
     host.appendChild(el('div', { class: 'wb-groups-wrap' }, [
@@ -199,7 +199,7 @@ export function renderLedger(host, model) {
 }
 
 /* ------------------------------------------------------------- the matrix --
-   Upper-triangular, so the lower half is left blank rather than mirrored — the
+   Upper-triangular, so the lower half is left blank rather than mirrored: the
    blank IS the convention, and mirroring it would suggest the pair coefficient
    is counted twice.
 
@@ -210,7 +210,7 @@ export function renderLedger(host, model) {
 /* Past this many variables a grid stops being a picture and becomes a wall:
    33x33 is already over a thousand cells, and nobody reads a coefficient out of
    it. Above the line we describe the matrix instead of drawing it. The instance
-   is still perfectly usable — codegen is never capped — so this is a display
+   is still perfectly usable (codegen is never capped), so this is a display
    decision, not another limit. */
 const MATRIX_DRAW_LIMIT = 32;
 
@@ -234,7 +234,7 @@ export function renderMatrix(host, model) {
     const density = nonzero / (n * (n + 1) / 2);
     host.appendChild(el('div', { class: 'wb-callout', 'data-level': 'note' }, [
       el('span', { class: 'ico', 'aria-hidden': 'true', text: 'i' }),
-      el('p', { class: 'title', text: n + '×' + n + ' — too large to draw usefully' }),
+      el('p', { class: 'title', text: n + '×' + n + ' is too large to draw usefully' }),
       el('p', { text:
         nonzero + ' non-zero coefficients of a possible ' + (n * (n + 1) / 2) +
         ' (' + Math.round(density * 100) + '% filled), ranging from ' + formatCoeff(lowest) +
@@ -243,7 +243,7 @@ export function renderMatrix(host, model) {
     ]));
     host.appendChild(el('p', { class: 'wb-offset' }, [
       'constant offset ', el('b', { text: formatCoeff(model.offset) }),
-      ' — added to every energy, and carried through to the Ising form and the generated code.'
+      ', added to every energy, and carried through to the Ising form and the generated code.'
     ]));
     return host;
   }
@@ -279,9 +279,9 @@ export function renderMatrix(host, model) {
 
   host.appendChild(el('p', { class: 'wb-legend' }, [
     el('span', { class: 'swatch', 'data-sign': 'neg', 'aria-hidden': 'true' }),
-    'lowers the energy — a reward',
+    'lowers the energy (a reward)',
     el('span', { class: 'swatch', 'data-sign': 'pos', 'aria-hidden': 'true' }),
-    'raises it — a penalty',
+    'raises it (a penalty)',
     el('span', { class: 'sep', text: '·' }),
     'blank cells are below the diagonal; every pair is counted once'
   ]));
@@ -289,7 +289,7 @@ export function renderMatrix(host, model) {
   host.appendChild(el('p', { class: 'wb-offset' }, [
     'constant offset ',
     el('b', { text: formatCoeff(model.offset) }),
-    ' — added to every energy, and carried through to the Ising form and the generated code.'
+    ', added to every energy, and carried through to the Ising form and the generated code.'
   ]));
   return host;
 }
@@ -298,7 +298,7 @@ export function renderMatrix(host, model) {
    Four outcomes, and the difference between them is the whole point:
      verified    brute force confirms it
      lucky       right here, but the penalty is below the bound, so not in general
-     no_solution the instance has no answer — which IS the answer, not a failure
+     no_solution the instance has no answer, which IS the answer, not a failure
      unverified  too big to check; structure + the closed-form bound are the case
      broken      demonstrably wrong
      unsound     a structural failure, or a penalty with nothing behind it       */
@@ -391,7 +391,7 @@ export function renderVerdict(host, result, model) {
    Step 2: the Ising form.
 
    A bridge, not a feature. It exists to show that the same energy, rewritten
-   over spins, is the same energy — and to hand over the three numbers a
+   over spins, is the same energy, and to hand over the three numbers a
    simulator or a device actually takes: h, J, and the offset.
 
    The offset gets its own line rather than a footnote. It is the part everyone
@@ -432,8 +432,8 @@ export function renderIsing(host, model) {
     el('span', { class: 'k', text: 'constant offset' }),
     el('b', { text: formatCoeff(I.offset) }),
     el('span', { class: 'wb-muted', text:
-      'Every energy above is shifted by this. A device never sees it — it does not ' +
-      'change which state is lowest — but every number the tool or the generated code ' +
+      'Every energy above is shifted by this. A device never sees it (it does not ' +
+      'change which state is lowest), but every number the tool or the generated code ' +
       'prints includes it.' })
   ]));
 
@@ -459,7 +459,7 @@ export function renderIsing(host, model) {
   host.appendChild(el('h4', { class: 'wb-h4', text: 'Couplings J' }));
   if (!live.length) {
     host.appendChild(el('p', { class: 'wb-muted', text:
-      'None — this instance has no interacting pairs, so every qubit is independent.' }));
+      'None. This instance has no interacting pairs, so every qubit is independent.' }));
   } else {
     host.appendChild(el('div', { class: 'wb-scroll' }, [
       el('table', { class: 'wb-table wb-ising' }, [
@@ -513,7 +513,7 @@ function fact(k, v, note) {
    Step 4: the generated program.
 
    This is the artifact the visitor leaves with, and above the cap it is the only
-   thing the tool produces — so the panel never hides anything behind a limit.
+   thing the tool produces, so the panel never hides anything behind a limit.
    The extras are off by default on purpose: the small default is the version
    that has actually been executed end to end against a real PennyLane release.
    ============================================================================ */
@@ -546,8 +546,8 @@ export function renderCodegen(host, result, opts) {
       el('div', null, [
         el('b', { text: 'The program carries its own cross-check' }),
         el('span', { class: 'wb-muted', text:
-          'It prints ⟨C⟩ at the parameters found here — ' + formatCoeff(o.expectation, 6) +
-          ' — next to the value it computes itself. Those two agreeing is what makes this code ' +
+          'It prints ⟨C⟩ at the parameters found here (' + formatCoeff(o.expectation, 6) +
+          ') next to the value it computes itself. Those two agreeing is what makes this code ' +
           'trustworthy; the optimisation it then runs uses PennyLane’s own optimizer, so that ' +
           'number is its own.' })
       ])
@@ -568,7 +568,7 @@ export function renderCodegen(host, result, opts) {
       if (box.checked) box.setAttribute('checked', '');
       return el('div', { class: 'wb-toggle' }, [
         box,
-        el('label', { for: id }, [el('b', { text: label }), el('span', { text: ' — ' + note })])
+        el('label', { for: id }, [el('b', { text: label }), el('span', { text: ': ' + note })])
       ]);
     })
   ]);
@@ -586,7 +586,7 @@ export function renderCodegen(host, result, opts) {
   host.appendChild(pre);
 
   host.appendChild(el('p', { class: 'wb-muted wb-bf-note', text:
-    'Paste it into a fresh notebook and run it — there is nothing to fill in. The pip line is ' +
+    'Paste it into a fresh notebook and run it; there is nothing to fill in. The pip line is ' +
     'included and the version is pinned, because a program that needs an edit before it runs is ' +
     'not really finished.' }));
   return host;

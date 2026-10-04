@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 160" width="320" height="160" role="img" aria-label="One qubit entering a copier and two leaving it, with the copier struck out.">
+  <!-- Placeholder line art for the author's own doodle. Deliberately plain:
+       a schematic, not a style. An <img>-embedded SVG cannot see the page's
+       theme attribute, so the stroke is a mid tone that reads on both grounds,
+       with a prefers-color-scheme lift for the usual dark case. -->
+  <style>
+    .ink { fill: none; stroke: #7d8799; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .solid { fill: #7d8799; stroke: none; }
+    .strike { stroke: #7d8799; stroke-width: 3.4; stroke-linecap: round; }
+    @media (prefers-color-scheme: dark) {
+      .ink, .strike { stroke: #98a3b8; }
+      .solid { fill: #98a3b8; }
+    }
+  </style>
+
+  <circle class="solid" cx="24" cy="80" r="6"/>
+  <path class="ink" d="M34 80 H104"/>
+  <path class="ink" d="M96 74 L104 80 L96 86"/>
+
+  <rect class="ink" x="112" y="48" width="72" height="64" rx="9"/>
+
+  <path class="ink" d="M184 66 H246"/>
+  <path class="ink" d="M238 60 L246 66 L238 72"/>
+  <circle class="solid" cx="256" cy="66" r="6"/>
+
+  <path class="ink" d="M184 94 H246"/>
+  <path class="ink" d="M238 88 L246 94 L238 100"/>
+  <circle class="solid" cx="256" cy="94" r="6"/>
+
+  <path class="strike" d="M102 38 L194 122"/>
+  <path class="strike" d="M194 38 L102 122"/>
+</svg>

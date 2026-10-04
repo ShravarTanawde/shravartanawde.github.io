@@ -1,4 +1,4 @@
-/* ============ polarization theme toggle — all pages ============ */
+/* ============ polarization theme toggle (all pages) ============ */
 (function () {
   var root = document.documentElement;
   var spin = document.getElementById('spin');

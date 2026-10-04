@@ -1,5 +1,5 @@
 /* ============================================================================
-   workbench.css — tools/qubo-workbench/ only.
+   workbench.css: tools/qubo-workbench/ only.
    Load after global.css and page.css. Every colour here comes from a global
    token, so the tool follows the site's two themes and the reading panel
    without owning a palette of its own.
@@ -33,9 +33,9 @@ main.wb-page {
 /* ---------------------------------------------------------------- callouts --
    Three severities, distinguished by an icon glyph and a label as well as by
    colour, so the meaning survives greyscale and colour-blindness.
-     note  — neutral, explains a rule
-     warn  — approaching the cap, or an override the user made on purpose
-     stop  — over the cap: a feature is switched off
+     note    neutral, explains a rule
+     warn    approaching the cap, or an override the user made on purpose
+     stop    over the cap: a feature is switched off
 */
 .wb-callout {
   display: grid; grid-template-columns: auto 1fr; gap: 4px 12px;
@@ -68,8 +68,8 @@ html[data-theme="dark"] .wb-callout[data-level="stop"] .ico { color: #fda29b; }
 .wb-callout[hidden] { display: none; }
 
 /* -------------------------------------------------------------- the step rail
-   Four steps, always all four visible. A locked step is not hidden — seeing
-   what comes next is half of what the rail is for — it is just not reachable,
+   Four steps, always all four visible. A locked step is not hidden (seeing
+   what comes next is half of what the rail is for); it is just not reachable,
    and says why on hover/focus via its title.
    The rail is a <nav> of <button>s: steps are in-page state, not documents. */
 
@@ -188,7 +188,7 @@ code.wb-tok {
 }
 
 /* ============================================================================
-   Step 1 — template picker, the input form, the matrix, the ledger, the verdict
+   Step 1: template picker, the input form, the matrix, the ledger, the verdict
    ============================================================================ */
 
 .wb-h3 {
@@ -371,7 +371,7 @@ html[data-theme="dark"] .wb-check[data-level="error"] .mark { color: #fda29b; }
 .wb-bf-note { font-size: .8rem; margin: 10px 0 0; }
 
 /* ============================================================================
-   Phase 2 — the graph input modes
+   Phase 2: the graph input modes
    ============================================================================ */
 
 .wb-constraint {
@@ -380,7 +380,7 @@ html[data-theme="dark"] .wb-check[data-level="error"] .mark { color: #fda29b; }
 }
 .wb-constraint b { color: var(--ink); font-weight: 600; }
 
-/* view switch between the edge list and the grid — same graph, two readings */
+/* view switch between the edge list and the grid: same graph, two readings */
 .wb-tabs { display: inline-flex; gap: 4px; padding: 4px; margin: 0 0 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
 .wb-tab {
   font: inherit; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .03em;
@@ -414,7 +414,7 @@ html[data-theme="dark"] .wb-tab[aria-pressed="true"] { box-shadow: none; border:
 }
 
 /* ============================================================================
-   Phase 3 — indexed families: the one-hot groups beside the ledger
+   Phase 3: indexed families: the one-hot groups beside the ledger
    ============================================================================ */
 
 .wb-groups-wrap { margin: 16px 0 0; }
@@ -428,7 +428,7 @@ html[data-theme="dark"] .wb-tab[aria-pressed="true"] { box-shadow: none; border:
 .wb-groups span { font-size: .76rem; }
 
 /* ============================================================================
-   Phase 4 — Step 2, the Ising bridge
+   Phase 4: Step 2, the Ising bridge
    ============================================================================ */
 
 .wb-h4 {
@@ -464,7 +464,7 @@ html[data-theme="dark"] .wb-tab[aria-pressed="true"] { box-shadow: none; border:
 }
 
 /* ============================================================================
-   Phase 5 — Step 3: charts and the eight analysis views
+   Phase 5, Step 3: charts and the eight analysis views
    ============================================================================ */
 
 .wb-status { font-family: var(--font-mono); font-size: .74rem; color: var(--muted); min-height: 1.2em; margin: 0 0 8px; }
@@ -486,7 +486,7 @@ html[data-theme="dark"] .wb-tab[aria-pressed="true"] { box-shadow: none; border:
   border: 1px solid var(--line); border-radius: 12px; background: var(--bg); padding: 6px;
 }
 
-/* chart internals — all stroke/fill from tokens so both themes work */
+/* chart internals: all stroke/fill from tokens so both themes work */
 .ch-grid { stroke: var(--line); stroke-width: 1; }
 .ch-axis { stroke: var(--line-strong); stroke-width: 1.2; }
 .ch-frame { fill: none; stroke: var(--line-strong); stroke-width: 1; }
@@ -514,7 +514,7 @@ html[data-theme="dark"] .wb-tab[aria-pressed="true"] { box-shadow: none; border:
 @media (prefers-reduced-motion: reduce) { .wb-chart * { transition: none !important; } }
 
 /* ============================================================================
-   Phase 6 — Step 4: the generated program
+   Phase 6, Step 4: the generated program
    ============================================================================ */
 
 .wb-toggles { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin: 0 0 18px; background: var(--bg); }
@@ -542,7 +542,7 @@ a.wb-btn { text-decoration: none; display: inline-flex; align-items: center; }
 @media (pointer: coarse) { .wb-toggle input { width: 20px; height: 20px; } }
 
 /* ============================================================================
-   Phase 7 — save codes and hover definitions
+   Phase 7: save codes and hover definitions
    ============================================================================ */
 
 .wb-save { border: 1px solid var(--line); border-radius: 12px; background: var(--card); margin: 0 0 18px; }
@@ -584,7 +584,7 @@ a.wb-btn { text-decoration: none; display: inline-flex; align-items: center; }
 @media (pointer: coarse) { .wb-def-bubble { max-width: min(300px, 86vw); } }
 
 /* ============================================================================
-   Phase 7 — reduced motion, and the print view
+   Phase 7: reduced motion, and the print view
    ============================================================================
    global.css already kills transitions under prefers-reduced-motion. These are
    the tool's own: nothing here animates by default, so this is a backstop for
@@ -633,7 +633,7 @@ a.wb-btn { text-decoration: none; display: inline-flex; align-items: center; }
 }
 
 /* Out of the way until you have scrolled past the top of a step, then a way
-   back to the start of THAT step — not the top of the document, which is the
+   back to the start of THAT step, not the top of the document, which is the
    rail you have already used. */
 .wb-totop {
   position: fixed; right: clamp(14px, 3vw, 26px); bottom: clamp(14px, 3vw, 26px); z-index: 50;

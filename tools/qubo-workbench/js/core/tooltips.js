@@ -1,5 +1,5 @@
 /* ============================================================================
-   tooltips.js — inline hover/focus definitions.
+   tooltips.js: inline hover/focus definitions.
 
    One data map, and markup opts in with a single attribute:
 
@@ -23,7 +23,7 @@ export const DEFINITIONS = {
   ising: {
     term: 'Ising',
     text: 'The same energy written over spins s = ±1 instead of bits y = 0/1, via s = 2y − 1. ' +
-      'It is a change of variables, not a different problem — but it is the form a quantum device ' +
+      'It is a change of variables, not a different problem, but it is the form a quantum device ' +
       'or simulator actually takes.'
   },
   penalty: {
@@ -46,7 +46,7 @@ export const DEFINITIONS = {
   },
   ancilla: {
     term: 'ancilla qubit',
-    text: 'A qubit that is not part of the answer — it exists to make the encoding work. Slack ' +
+    text: 'A qubit that is not part of the answer; it exists to make the encoding work. Slack ' +
       'bits are ancillas. They cost exactly as much to simulate as the ones you care about, ' +
       'which is why the ledger counts them separately.'
   },
@@ -59,7 +59,7 @@ export const DEFINITIONS = {
   offset: {
     term: 'constant offset',
     text: 'A number added to every energy. It changes nothing about WHICH assignment is lowest, ' +
-      'so it is easy to drop — and dropping it silently shifts every value the tool and the ' +
+      'so it is easy to drop, and dropping it silently shifts every value the tool and the ' +
       'generated code print, by the same amount, until they disagree.'
   },
   costHamiltonian: {
@@ -69,7 +69,7 @@ export const DEFINITIONS = {
   },
   mixerHamiltonian: {
     term: 'mixer Hamiltonian',
-    text: 'The other half of a QAOA layer — a rotation on every qubit that moves amplitude ' +
+    text: 'The other half of a QAOA layer: a rotation on every qubit that moves amplitude ' +
       'between bitstrings. Without it the phases would never turn into probabilities.'
   },
   qaoa: {
@@ -81,7 +81,7 @@ export const DEFINITIONS = {
   depth: {
     term: 'depth p',
     text: 'How many cost-then-mixer layers the circuit has. More layers means more parameters ' +
-      'and, usually, better results — and no honest two-dimensional picture of the landscape, ' +
+      'and, usually, better results, and no honest two-dimensional picture of the landscape, ' +
       'because there are more than two parameters to picture.'
   },
   approximationRatio: {
@@ -92,7 +92,7 @@ export const DEFINITIONS = {
   },
   groundState: {
     term: 'ground state',
-    text: 'The lowest-energy assignment — the actual answer to the problem, once the ' +
+    text: 'The lowest-energy assignment: the actual answer to the problem, once the ' +
       'formulation is right. Found here by checking all 2ⁿ of them, which is exactly why there ' +
       'is a cap.'
   },
@@ -117,7 +117,7 @@ export const DEFINITIONS = {
   bruteForce: {
     term: 'brute force',
     text: 'Evaluating the energy of every one of the 2ⁿ assignments and keeping the lowest. ' +
-      'Slow but certain — it is what lets the tool say "this formulation recovers the true ' +
+      'Slow but certain. It is what lets the tool say "this formulation recovers the true ' +
       'optimum" rather than "nothing looks wrong".'
   }
 };
@@ -145,7 +145,7 @@ function upgrade(node, entry) {
   node.setAttribute('role', 'button');
   node.setAttribute('tabindex', '0');
   node.setAttribute('aria-expanded', 'false');
-  node.setAttribute('aria-label', entry.term + ' — definition');
+  node.setAttribute('aria-label', entry.term + ': definition');
 
   const bubble = document.createElement('span');
   bubble.className = 'wb-def-bubble';
@@ -197,5 +197,5 @@ function closeAll() {
   }
 }
 
-/** The terms this build defines — used by the tests to keep the map honest. */
+/** The terms this build defines, used by the tests to keep the map honest. */
 export function definedTerms() { return Object.keys(DEFINITIONS); }

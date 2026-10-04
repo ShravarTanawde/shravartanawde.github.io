@@ -1,5 +1,5 @@
 /* ============================================================================
-   qubo.js — THE SHARED CORE.  Frozen contract; every other module depends on it.
+   qubo.js: THE SHARED CORE.  Frozen contract; every other module depends on it.
 
    One in-memory object describes a problem instance. Step 1 produces it; Steps
    2-4 and save.js only ever consume it. No other module may invent its own shape.
@@ -67,7 +67,7 @@ export function addLinear(Q, k, v) {
   return Q;
 }
 
-/** Q[min][max] += v — accepts the indices in either order, stays upper-triangular. */
+/** Q[min][max] += v. Accepts the indices in either order, stays upper-triangular. */
 export function addQuadratic(Q, k, l, v) {
   if (v === 0) return Q;
   if (k === l) { Q[k][k] += v; return Q; }   // y*y = y for bits, so it folds into linear
@@ -83,7 +83,7 @@ export function pairCoeff(Q, k, l) {
 }
 
 /**
- * Shape check only — no solving. Returns a list of problem strings (empty = fine).
+ * Shape check only, no solving. Returns a list of problem strings (empty = fine).
  * verify.js layers the problem-specific checks on top of this.
  */
 export function checkMatrixShape(Q, n) {
@@ -99,7 +99,7 @@ export function checkMatrixShape(Q, n) {
     }
     for (let j = 0; j < n; j++) {
       if (!Number.isFinite(Q[i][j])) problems.push('Q[' + i + '][' + j + '] is not a finite number.');
-      else if (j < i && Q[i][j] !== 0) problems.push('Q[' + i + '][' + j + '] is below the diagonal and non-zero — Q must be upper-triangular.');
+      else if (j < i && Q[i][j] !== 0) problems.push('Q[' + i + '][' + j + '] is below the diagonal and non-zero. Q must be upper-triangular.');
     }
   }
   return problems;
@@ -109,7 +109,7 @@ export function checkMatrixShape(Q, n) {
 
 /**
  * Derived counters. memoryBytes is what a dense statevector of this instance
- * would cost; it is the honest size signal. We never estimate a runtime — that
+ * would cost; it is the honest size signal. We never estimate a runtime; that
  * is machine-dependent and erodes trust.
  */
 export function computeMeta(variables) {
@@ -128,7 +128,7 @@ export function computeMeta(variables) {
 }
 
 /**
- * Build the canonical model. `meta` is always recomputed from `variables` — it
+ * Build the canonical model. `meta` is always recomputed from `variables`; it
  * is derived state and callers must not hand-author it.
  *
  * @param {object} spec {problemType, variables, Q, offset, penalty, meta?}
@@ -161,9 +161,9 @@ export function withinCap(model) {
  * Where an instance sits relative to the soft line. One function so the banner,
  * the size readout, verify.js, analysis.js and codegen.js cannot disagree about
  * what "over the cap" means.
- *   'ok'   — everything runs
- *   'warn' — still runs, but the next couple of variables will switch things off
- *   'over' — build + codegen only; no simulation, verification or landscape
+ *   'ok'     everything runs
+ *   'warn'   still runs, but the next couple of variables will switch things off
+ *   'over'   build + codegen only; no simulation, verification or landscape
  */
 export function capLevel(qubitCount) {
   if (qubitCount > QUBIT_CAP) return 'over';
@@ -200,7 +200,7 @@ export function energy(model, bits) {
 
 /* -------------------------------------------------------- bitstring indexing */
 
-/** bits[k] = (z >> (n-1-k)) & 1 — variable 0 is the most significant bit. */
+/** bits[k] = (z >> (n-1-k)) & 1, so variable 0 is the most significant bit. */
 export function bitsFromIndex(z, n) {
   const bits = new Uint8Array(n);
   for (let k = 0; k < n; k++) bits[k] = (z >>> (n - 1 - k)) & 1;
@@ -223,7 +223,7 @@ export function bitsToString(bits) {
 }
 
 /**
- * E(z) for every bitstring, as a dense Float64Array of length 2^n — the diagonal
+ * E(z) for every bitstring, as a dense Float64Array of length 2^n: the diagonal
  * cost vector the QAOA phase separator acts on, and the input to brute force.
  * Capped: this is the one allocation that can take the tab down.
  *
@@ -264,7 +264,7 @@ export function costVector(model) {
    declares a family like x[vertex, colour] and gets |V| * n of them, in a fixed
    order, with a way to find any one of them again.
 
-   Mixed-radix, last axis fastest — so a (vertex, colour) family runs
+   Mixed-radix, last axis fastest, so a (vertex, colour) family runs
    v0c0, v0c1, ... v0cn, v1c0, ... That keeps each vertex's colours contiguous,
    which is what makes the one-hot groups and the matrix picture readable.
                                                                               */
@@ -310,7 +310,7 @@ export function indexFamily(axes) {
 }
 
 /**
- * Every group of variables that differ only along `axisKey` — one group per
+ * Every group of variables that differ only along `axisKey`, one group per
  * combination of the other axes. For x[vertex, colour] along 'colour' that is
  * exactly "the colours available to vertex v", one group per vertex, which is
  * what an "exactly one" constraint gets applied to.
@@ -343,7 +343,7 @@ export function groupsAlong(family, axisKey) {
  * so each member takes -A on the diagonal, each pair takes +2A, and the leading
  * 1 becomes a constant.
  *
- * @returns {number} the constant this contributes — the CALLER must add it to
+ * @returns {number} the constant this contributes; the CALLER must add it to
  *   the model's offset. Returning it rather than hiding it is deliberate: a
  *   dropped offset is the bug this whole tool is built to avoid.
  */
@@ -358,7 +358,7 @@ export function addExactlyOne(Q, members, A) {
 /* ---------------------------------------------------------- integer encoding */
 
 /**
- * Appendix A — bounded integer -> binary, the "log trick" (Lucas §2.4).
+ * Appendix A: bounded integer -> binary, the "log trick" (Lucas §2.4).
  * Coefficients for representing every integer in [0, N] exactly once-coverable,
  * with the minimum number of bits.
  *   encodeRange(5) -> [1,2,2]   encodeRange(7) -> [1,2,4]
@@ -436,7 +436,7 @@ export function spinsToBits(spins) {
 
 /* -------------------------------------------------------------- presentation */
 
-/** "1.2 MB" / "16 GB" — for the memory readout next to the qubit count. */
+/** "1.2 MB" / "16 GB", for the memory readout next to the qubit count. */
 export function formatBytes(bytes) {
   const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB'];
   let i = 0, v = bytes;

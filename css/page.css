@@ -1,5 +1,5 @@
 /* ============================================================
-   page.css — inner pages only (projects / learn / tools)
+   page.css: inner pages only (projects / learn / tools)
    Nav row + centered content column.
    Load after global.css. Each page sets data-axis on <html>, which
    drives --ax; the home-anchor sphere now lives in the top bar

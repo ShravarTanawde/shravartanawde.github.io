@@ -1,5 +1,5 @@
 /* ============================================================================
-   charts.js — Step 3's drawing primitives, and the eight views built from them.
+   charts.js: Step 3's drawing primitives, and the eight views built from them.
    Inline SVG, no library.
 
    Three rules, applied to every chart here:
@@ -336,12 +336,12 @@ export function viewOptimizers(data) {
             ' did not. ') +
         'That is not a bug in the optimizers: the p=1 landscape has local minima, and a large flat ' +
         'region at γ = 0 where the circuit does nothing at all. Which start you pick decides which ' +
-        'of those you fall into — which is what section 5 is about.' })
+        'of those you fall into, which is what section 5 is about.' })
     ]));
   }
 
   children.push(el('ul', { class: 'wb-notes' }, data.runs.map((r) =>
-    el('li', null, [el('b', { text: r.label + ' — ' }), r.note]))));
+    el('li', null, [el('b', { text: r.label + ': ' }), r.note]))));
 
   return section(1, 'Optimizer comparison',
     'All four start from the same point and get the same budget, so the difference between the ' +
@@ -383,7 +383,7 @@ export function viewRatio(data) {
       el('p', { class: 'title', text: 'Deeper circuits are not drawn yet' }),
       el('p', { text:
         'p=1 has a closed form, so it is free at any size below the cap. Past p=1 every evaluation ' +
-        'needs the whole statevector, and that doubles with each qubit — at ' + data.qubitCount +
+        'needs the whole statevector, and that doubles with each qubit. At ' + data.qubitCount +
         ' qubits the curve is worth asking for rather than assuming.' }),
       el('div', { class: 'wb-actions' }, [
         el('button', { class: 'wb-btn', type: 'button', id: 'wbDeeperP', text: 'Compute p = 2 and 3 anyway' })
@@ -410,7 +410,7 @@ export function viewDistribution(data) {
       factRow([
         ['P(optimum)', pct(data.groundProbability)],
         ['Random guessing', pct(data.uniformGroundProbability)],
-        ['Improvement', Number.isFinite(lift) ? lift.toFixed(1) + '×' : '—'],
+        ['Improvement', Number.isFinite(lift) ? lift.toFixed(1) + '×' : '–'],
         ['Most likely single result', data.topBits + ' at ' + pct(data.topProbability)]
       ])
     ]);
@@ -420,7 +420,7 @@ export function viewDistribution(data) {
 
 export function viewLandscape(data) {
   return section(4, 'The p = 1 cost landscape',
-    'At p=1 there are exactly two parameters, so this is the whole landscape — nothing is projected ' +
+    'At p=1 there are exactly two parameters, so this is the whole landscape. Nothing is projected ' +
     'away and nothing is hidden. There is no honest picture like this at p>1, so the tool does not ' +
     'draw one.',
     [
@@ -493,7 +493,7 @@ export function viewSensitivity(data) {
       }),
       data.negativeDirections > 0
         ? el('p', { class: 'wb-muted', text:
-          'A negative eigenvalue means this point is not a minimum in that direction — the optimizer ' +
+          'A negative eigenvalue means this point is not a minimum in that direction: the optimizer ' +
           'stopped on a saddle, or simply ran out of iterations.' })
         : null
     ]);
@@ -510,7 +510,7 @@ export function viewFlatness(data) {
         values: data.G, cols: data.gammaSteps, rows: data.betaSteps,
         xMax: data.gammaMax, yMax: data.betaMax, xUnit: '2π', yUnit: 'π',
         xLabel: 'γ', yLabel: 'β',
-        lowLabel: 'flat — little to follow', highLabel: 'steep',
+        lowLabel: 'flat, little to follow', highLabel: 'steep',
         caption: '|∇⟨C⟩| over the same grid. ' + pct(data.flatFraction) +
           ' of the landscape has a gradient under 1% of the peak; the mean magnitude is ' +
           formatCoeff(data.mean, 3) + '.'
@@ -527,7 +527,7 @@ export function viewFlatness(data) {
       el('p', { class: 'wb-muted', text:
         'This is a map of one instance at one size, so it can say where the landscape is flat but ' +
         'not why. Showing that flatness grows with the number of qubits would take a sweep across ' +
-        'system sizes, which the tool does not do — so it says "flat region" and stops there.' })
+        'system sizes, which the tool does not do, so it says "flat region" and stops there.' })
     ]);
 }
 

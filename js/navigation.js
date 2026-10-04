@@ -1,4 +1,4 @@
-/* ============ contact modal (Web3Forms) — front page only ============ */
+/* ============ contact modal (Web3Forms), front page only ============ */
 (function () {
   var scrim = document.getElementById('contactScrim');
   if (!scrim) return;
@@ -21,10 +21,10 @@
     fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
       .then(function (r) { return r.json(); })
       .then(function (j) {
-        if (j.success) { status.className = 'status ok'; status.textContent = 'Sent — thank you. I’ll reply soon.'; form.reset(); }
+        if (j.success) { status.className = 'status ok'; status.textContent = 'Sent. Thank you, I’ll reply soon.'; form.reset(); }
         else { status.className = 'status err'; status.textContent = j.message || 'Something went wrong. Try again.'; }
         sendBtn.disabled = false;
       })
-      .catch(function () { status.className = 'status err'; status.textContent = 'Network error — please try again.'; sendBtn.disabled = false; });
+      .catch(function () { status.className = 'status err'; status.textContent = 'Network error. Please try again.'; sendBtn.disabled = false; });
   });
 })();

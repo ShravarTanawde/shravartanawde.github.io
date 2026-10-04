@@ -15,7 +15,7 @@
   if (!AXIS[axis]) return;
 
   // Two frames: the first paints the "from" orientation, the second starts the
-  // transition towards this page's. One frame is not always enough — the style
+  // transition towards this page's. One frame is not always enough: the style
   // change can get coalesced into the same recalc and the transition is skipped.
   requestAnimationFrame(function () {
     requestAnimationFrame(function () {

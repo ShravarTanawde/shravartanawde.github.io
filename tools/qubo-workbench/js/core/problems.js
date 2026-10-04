@@ -1,14 +1,14 @@
 /* ============================================================================
-   problems.js — the template registry.
+   problems.js: the template registry.
 
    One entry per problem type. Every entry implements the same four things, and
-   verify.js / codegen.js / the UI only ever talk to that interface — so adding
+   verify.js / codegen.js / the UI only ever talk to that interface, so adding
    a problem never means touching them:
 
      build(spec)          structured input -> the canonical model (qubo.js)
      decode(model, bits)  a bitstring -> what it means in the problem's own terms
      optimum(model)       the true answer, by exhaustive search over the PROBLEM's
-                          space (not the QUBO's) — the reference verify.js checks against
+                          space (not the QUBO's), the reference verify.js checks against
      bound(spec)          the closed-form safe penalty, per Appendix B
 
    A template is not ready to ship until BOTH build() and bound() exist. A build
@@ -48,7 +48,7 @@ function requireWholeNumber(x, label, field) {
   }
   if (!Number.isInteger(x)) {
     throw new BuildError(
-      label + ' has to be a whole number — the slack encoding counts in integers. ' +
+      label + ' has to be a whole number; the slack encoding counts in integers. ' +
       'If your figures have decimals, scale every weight and the capacity by the same ' +
       'power of ten.', field);
   }
@@ -56,8 +56,8 @@ function requireWholeNumber(x, label, field) {
 
 /**
  * The penalty the tool will actually use, and where it came from.
- * `requested` is null for "auto". An override is honoured — the user may want to
- * see what a too-small penalty does — but it is recorded as an override so the
+ * `requested` is null for "auto". An override is honoured (the user may want to
+ * see what a too-small penalty does), but it is recorded as an override so the
  * verdict panel can say so.
  */
 function resolvePenalty(bound, requested) {
@@ -89,7 +89,7 @@ function resolvePenalty(bound, requested) {
 function requireGraph(spec) {
   const vertices = spec.vertices || [];
   const edges = spec.edges || [];
-  if (!vertices.length) throw new BuildError('Describe a graph first — at least one vertex.', 'graph');
+  if (!vertices.length) throw new BuildError('Describe a graph first: at least one vertex.', 'graph');
 
   const seen = new Set();
   for (const e of edges) {
@@ -140,7 +140,7 @@ export function parseEdgeList(text) {
     const entry = entryRaw.trim();
     if (!entry) continue;
 
-    const parts = entry.split(/\s*(?:<->|->|--|[-–—:])\s*|\s+/).filter((x) => x !== '');
+    const parts = entry.split(/\s*(?:<->|->|--|[-\u2013\u2014:])\s*|\s+/).filter((x) => x !== '');
     if (!parts.length) continue;
 
     if (parts.length === 1) { idOf(parts[0]); continue; }     // an isolated vertex
@@ -150,7 +150,7 @@ export function parseEdgeList(text) {
       const u = idOf(parts[i]), v = idOf(parts[i + 1]);
       if (u === v) {
         throw new BuildError(
-          '"' + entry + '" joins ' + parts[i] + ' to itself. A self-loop has no meaning here — ' +
+          '"' + entry + '" joins ' + parts[i] + ' to itself. A self-loop has no meaning here; ' +
           'remove it, or write the vertex on its own to keep it in the graph.', 'graph');
       }
       const key = Math.min(u, v) + ':' + Math.max(u, v);
@@ -169,7 +169,7 @@ function degrees(vertices, edges) {
   return { deg, max: deg.length ? Math.max(...deg) : 0 };
 }
 
-/** Adjacency as bitmasks — what the exhaustive reference searches run on. */
+/** Adjacency as bitmasks: what the exhaustive reference searches run on. */
 function adjacencyMasks(vertices, edges) {
   const adj = new Array(vertices.length).fill(0);
   for (const [u, v] of edges) { adj[u] |= (1 << v); adj[v] |= (1 << u); }
@@ -198,7 +198,7 @@ function internalEdges(edges, chosen) {
   return edges.filter(([u, v]) => inSet.has(u) && inSet.has(v));
 }
 
-/** Edges with exactly one end inside the selection — the cut. */
+/** Edges with exactly one end inside the selection: the cut. */
 function cutEdges(edges, chosen) {
   const inSet = new Set(chosen);
   return edges.filter(([u, v]) => inSet.has(u) !== inSet.has(v));
@@ -258,7 +258,7 @@ function knapsackBuild(spec) {
     }
     if (it.value <= 0) {
       throw new BuildError(where + ' has a value of ' + it.value +
-        '. An item worth nothing is never taken — remove it instead.', 'value:' + i);
+        '. An item worth nothing is never taken. Remove it instead.', 'value:' + i);
     }
     requireWholeNumber(it.weight, where + "'s weight", 'weight:' + i);
     if (it.weight <= 0) throw new BuildError(where + ' needs a weight of at least 1.', 'weight:' + i);
@@ -384,7 +384,7 @@ function knapsackDecode(model, bits) {
 }
 
 /**
- * The true constrained optimum, found by enumerating item subsets — the
+ * The true constrained optimum, found by enumerating item subsets: the
  * problem's own space, 2^N, not the QUBO's 2^n. This is the reference the QUBO's
  * ground state is checked against, so it must not be computed from the QUBO.
  */
@@ -432,7 +432,7 @@ function knapsackOptimum(model) {
    so  Q[i][i] = 4A*(n_i^2 - S*n_i),  Q[i][j] = 8A*n_i*n_j,  offset = A*S^2.
    The energy is exactly A * (difference between the piles)^2.
 
-   There is no constraint here — every assignment is a legal partition — so any
+   There is no constraint here (every assignment is a legal partition), so any
    A > 0 is safe and the bound is 0. The scale only sets the units of the energy.
 
    Qubits: N. Lucas notes one variable can be fixed (the answer is symmetric
@@ -554,7 +554,7 @@ function numpartOptimum(model) {
    is minus its size.
 
    Safe penalty: A > B, i.e. lambda > 1. Taking a vertex gains 1 and, if it
-   conflicts with anything already taken, costs at least lambda — so a conflict
+   conflicts with anything already taken, costs at least lambda, so a conflict
    can never pay for itself.
 
    Qubits: |V|.
@@ -648,7 +648,7 @@ function misOptimum(model) {
        Q[v][v] = B - A*deg(v),  Q[u][v] = +A on each edge,  offset = A*|E|
 
    A valid cover leaves every edge term at zero, so its energy is exactly its
-   size. Safe penalty: A > B, i.e. lambda > 1 — dropping a vertex from the cover
+   size. Safe penalty: A > B, i.e. lambda > 1: dropping a vertex from the cover
    saves 1 but uncovers at least one edge at a cost of lambda.
 
    Qubits: |V|.
@@ -753,7 +753,7 @@ function vcOptimum(model) {
    Safe penalty: A/B >= min(2*Delta, N)/8 (Lucas eq. 10, Delta the largest
    degree). The bound is inclusive, not strict.
 
-   Qubits: |V|, and |V| must be even — with an odd number of vertices there is
+   Qubits: |V|, and |V| must be even. With an odd number of vertices there is
    no equal split, and the balance term could never reach zero.
 */
 
@@ -763,7 +763,7 @@ function partBuild(spec) {
   if (N % 2 !== 0) {
     throw new BuildError(
       'Graph partitioning splits the vertices into two equal halves, so it needs an even number ' +
-      'of them — this graph has ' + N + '. Add or remove a vertex.', 'graph');
+      'of them, and this graph has ' + N + '. Add or remove a vertex.', 'graph');
   }
   const penalty = resolvePenalty(partBound(spec), spec.lambda);
   const A = penalty.lambda, B = 1;
@@ -878,7 +878,7 @@ function partOptimum(model) {
 
    One consequence worth knowing: when the graph is NOT n-colourable the ground
    state can be degenerate between "one vertex left uncoloured" and "one edge
-   left conflicting" — both cost exactly A. That is the formulation behaving
+   left conflicting"; both cost exactly A. That is the formulation behaving
    correctly and telling you the instance is impossible, which is why verify.js
    treats a feasibility template's unsatisfiable case as an answer rather than a
    failure.
@@ -1077,7 +1077,7 @@ function colouringOptimum(model) {
    Like graph partitioning, the size term couples every pair, so Q is dense
    whatever the graph looks like.
 
-   Safe penalty: A > K*B. With B normalised to 1 that is lambda > K — dropping a
+   Safe penalty: A > K*B. With B normalised to 1 that is lambda > K: dropping a
    vertex from a K-set saves at most K missing-edge charges but costs A.
 
    Qubits: |V|. (Lucas's largest-clique variant adds a second family of
@@ -1172,7 +1172,7 @@ function cliqueOptimum(model) {
     sense: 'min',
     summary: '{' + sel.join(', ') + '}',
     detail: best === 0
-      ? 'all ' + need + ' internal edges present — a clique of ' + K
+      ? 'all ' + need + ' internal edges present, a clique of ' + K
       : 'the best ' + K + '-set is still missing ' + best + ' edge(s); there is no ' + K + '-clique here',
     selection: sel
   };
@@ -1203,7 +1203,7 @@ export const PROBLEMS = {
       : 'slack bit, weight coefficient ' + v.meta.coeff,
     previewText: (spec, qubits) => {
       const slack = Number.isInteger(spec.capacity) && spec.capacity > 0 ? qubits - spec.items.length : 0;
-      return qubits + ' qubits — ' + spec.items.length + ' for the items' +
+      return qubits + ' qubits: ' + spec.items.length + ' for the items' +
         (slack ? ' and ' + slack + ' slack bit' + (slack === 1 ? '' : 's') + ' for the capacity' : '') + '.';
     },
     input: {
@@ -1217,7 +1217,7 @@ export const PROBLEMS = {
       },
       fields: [{
         key: 'capacity', label: 'capacity', type: 'number', step: '1', min: '1',
-        note: 'Whole numbers only — the slack bits count in integers.'
+        note: 'Whole numbers only; the slack bits count in integers.'
       }],
       toRows: (d) => d.items.map((it) => ({ name: it.name, value: String(it.value), weight: String(it.weight) })),
       toSpec: (rows, fields) => ({
@@ -1241,7 +1241,7 @@ export const PROBLEMS = {
     title: 'Number partitioning',
     tagline: 'split a list into two equal piles',
     inputMode: 'set',
-    boundText: 'any λ > 0 works — there is no constraint to break',
+    boundText: 'any λ > 0 works, since there is no constraint to break',
     constraintText: 'none; the energy IS the squared gap between the two piles',
     build: numpartBuild,
     bound: numpartBound,
@@ -1249,8 +1249,8 @@ export const PROBLEMS = {
     decode: numpartDecode,
     optimum: numpartOptimum,
     referenceEnergy: numpartReferenceEnergy,
-    describeVar: (v) => 'the number ' + v.meta.n + ' — on if it goes in pile A',
-    previewText: (spec, qubits) => qubits + ' qubits — one per number.',
+    describeVar: (v) => 'the number ' + v.meta.n + ': on if it goes in pile A',
+    previewText: (spec, qubits) => qubits + ' qubits, one per number.',
     input: {
       rows: {
         noun: 'number', addLabel: '+ number',
@@ -1285,7 +1285,7 @@ export const PROBLEMS = {
     optimum: misOptimum,
     referenceEnergy: misReferenceEnergy,
     describeVar: (v) => 'vertex ' + v.meta.name + ', degree ' + v.meta.degree,
-    previewText: (spec, qubits) => qubits + ' qubits — one per vertex, ' +
+    previewText: (spec, qubits) => qubits + ' qubits, one per vertex, ' +
       (spec.edges || []).length + ' edge(s).',
     defaults: () => ({ ...parseEdgeList('0-1, 1-2, 2-3, 3-4, 4-0, 0-2'), lambda: null })
   },
@@ -1304,7 +1304,7 @@ export const PROBLEMS = {
     optimum: vcOptimum,
     referenceEnergy: vcReferenceEnergy,
     describeVar: (v) => 'vertex ' + v.meta.name + ', degree ' + v.meta.degree,
-    previewText: (spec, qubits) => qubits + ' qubits — one per vertex, ' +
+    previewText: (spec, qubits) => qubits + ' qubits, one per vertex, ' +
       (spec.edges || []).length + ' edge(s).',
     defaults: () => ({ ...parseEdgeList('0-1, 1-2, 2-3, 3-4, 4-0, 0-2'), lambda: null })
   },
@@ -1326,7 +1326,7 @@ export const PROBLEMS = {
     optimum: partOptimum,
     referenceEnergy: partReferenceEnergy,
     describeVar: (v) => 'vertex ' + v.meta.name + ', degree ' + v.meta.degree,
-    previewText: (spec, qubits) => qubits + ' qubits — one per vertex, ' +
+    previewText: (spec, qubits) => qubits + ' qubits, one per vertex, ' +
       (spec.edges || []).length + ' edge(s).',
     defaults: () => ({ ...parseEdgeList('0-1, 1-2, 2-3, 3-0, 0-2, 4-5, 5-0'), lambda: null })
   },
@@ -1336,7 +1336,7 @@ export const PROBLEMS = {
     title: 'Graph colouring',
     tagline: 'no edge joins two of the same colour',
     inputMode: 'graph',
-    boundText: 'any λ > 0 works — nothing is being traded off',
+    boundText: 'any λ > 0 works, since nothing is being traded off',
     constraintText: 'exactly one colour per vertex, and no edge may be monochromatic',
     feasibilityProblem: true,
     build: colouringBuild,
@@ -1346,12 +1346,12 @@ export const PROBLEMS = {
     optimum: colouringOptimum,
     referenceEnergy: colouringReferenceEnergy,
     describeVar: (v) => 'vertex ' + v.meta.vertexName + ' is ' + v.meta.colourName,
-    previewText: (spec, qubits) => qubits + ' qubits — ' + (spec.vertices || []).length +
+    previewText: (spec, qubits) => qubits + ' qubits: ' + (spec.vertices || []).length +
       ' vertices × ' + (spec.colours || 0) + ' colours. One variable per pairing.',
     input: {
       fields: [{
         key: 'colours', label: 'colours', type: 'number', step: '1', min: '1',
-        note: 'Every colour multiplies the qubit count — this is the expensive dial.'
+        note: 'Every colour multiplies the qubit count. This is the expensive dial.'
       }]
     },
     defaults: () => ({ ...parseEdgeList('0-1, 1-2, 2-0, 2-3'), colours: 3, lambda: null })
@@ -1372,7 +1372,7 @@ export const PROBLEMS = {
     optimum: cliqueOptimum,
     referenceEnergy: cliqueReferenceEnergy,
     describeVar: (v) => 'vertex ' + v.meta.name + ', degree ' + v.meta.degree,
-    previewText: (spec, qubits) => qubits + ' qubits — one per vertex, ' +
+    previewText: (spec, qubits) => qubits + ' qubits, one per vertex, ' +
       (spec.edges || []).length + ' edge(s), looking for a clique of ' + (spec.size || 0) + '.',
     input: {
       fields: [{

@@ -87,11 +87,11 @@
   <!-- ============================================================
        The work, twice: a circuit you can measure, and the stack that
        carries the words. The <details> stack below is the SINGLE SOURCE
-       OF TRUTH — js/circuit.js reads its data-* attributes to draw the
+       OF TRUTH: js/circuit.js reads its data-* attributes to draw the
        SVG and to wire selection, so the two views cannot desync and the
        page still works with JavaScript off. To add a project, add one
        <li class="proj-item"> to whichever group it belongs to, and give it
-       a data-order — the stack is grouped by kind, the circuit is ordered
+       a data-order. The stack is grouped by kind, the circuit is ordered
        by data-order (left to right by year). Nothing else to touch.
        ============================================================ -->
   <main class="proj-page" id="projMain">
@@ -100,8 +100,7 @@
       <p class="obs-eyebrow">Z basis · measured</p>
       <h1>Projects & Experience</h1>
       <p class="kets">|<b>Project</b>⟩ &nbsp;·&nbsp; |<b>Experience</b>⟩</p>
-      <p class="lead">Nine gates on three registers, read left to right by year. Measure one — click a gate — and
-        the rest of the circuit collapses out of the way, leaving that project alone and open below.</p>
+      <p class="lead">A quantum circuit explorer for my projects, work experience, and certificates. You can scroll down if you would like to see them all.</p>
     </header>
 
     <!-- Circuit view. Starts hidden and is revealed by js/circuit.js only once the SVG
@@ -110,7 +109,7 @@
       <div class="circuit-bar">
         <div class="circuit-bar-left">
           <h2 class="circuit-title" id="circuitTitle">The circuit</h2>
-          <p class="circuit-status" id="circuitStatus" role="status">Superposition — all nine on screen.</p>
+          <p class="circuit-status" id="circuitStatus" role="status">Superposition: all nine on screen.</p>
         </div>
         <button type="button" class="measure-again" id="measureAgain" disabled>Reset · measure again</button>
       </div>
@@ -120,7 +119,7 @@
       </div>
 
       <!-- ============================================================
-           The registers. Nothing here is drawn on the page — the wires label
+           The registers. Nothing here is drawn on the page; the wires label
            themselves in the diagram's left gutter, so spelling them out again
            underneath was only repetition. The list stays in the markup because
            js/circuit.js reads it, and only it, for how many wires there are,
@@ -427,7 +426,7 @@
             <summary>
               <span class="p-short" aria-hidden="true">Thermon</span>
               <span class="p-head">
-                <span class="p-title">Electrical Design Engineer — Thermon Pvt Inc</span>
+                <span class="p-title">Electrical Design Engineer, Thermon Pvt Inc</span>
                 <span class="p-meta">
                   <span class="p-year">Oct 2024 – Jul 2025</span>
                   <span class="p-wire">c · Engineering foundation</span>
@@ -470,7 +469,7 @@
             <summary>
               <span class="p-short" aria-hidden="true">QKD-Net</span>
               <span class="p-head">
-                <span class="p-title">Quantum Research Intern — Quantum AI Global</span>
+                <span class="p-title">Quantum Research Intern, Quantum AI Global</span>
                 <span class="p-meta">
                   <span class="p-year">Jun – Aug 2026</span>
                   <span class="p-wire">q1 · Algorithms &amp; Information</span>
@@ -514,7 +513,7 @@
             <summary>
               <span class="p-short" aria-hidden="true">QGSS</span>
               <span class="p-head">
-                <span class="p-title">Qiskit Global Summer School 2026 — Quantum Excellence</span>
+                <span class="p-title">Qiskit Global Summer School 2026: Quantum Excellence</span>
                 <span class="p-meta">
                   <span class="p-year">Aug 2026</span>
                   <span class="p-wire">q1 &middot; Algorithms &amp; Information</span>
@@ -651,7 +650,7 @@
        it only once the circuit has actually scrolled out of view, and leaves it
        hidden entirely if the circuit was never built. -->
   <button type="button" class="to-circuit" id="toCircuit"
-          aria-label="Back to the circuit" title="Back to the circuit — clears the measurement">
+          aria-label="Back to the circuit" title="Back to the circuit (clears the measurement)">
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M12 20V7"></path>
       <path d="M6 12.5L12 6.5l6 6"></path>
@@ -680,7 +679,7 @@
   </div>
 
   <script src="js/theme.js?v=4"></script>
-  <script src="js/accessibility.js?v=4"></script>
+  <script src="js/accessibility.js?v=5"></script>
   <script src="js/axis.js?v=4"></script>
   <script src="js/circuit.js?v=11"></script>
 </body>

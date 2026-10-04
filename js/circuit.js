@@ -3,7 +3,7 @@
 
    The stack IS the data. This file reads the data-* attributes off each
    <details class="proj"> to draw the SVG, and the hidden #registers list for
-   the wires and their order — so there is no second copy of the project list
+   the wires and their order, so there is no second copy of the project list
    to fall out of sync, and deleting this file leaves a page that still works.
 
    Nothing is shown until the SVG has actually been built: the section starts
@@ -19,7 +19,7 @@
    Nothing scrolls without a reason the reader gave, and where they gave it
    decides what happens (see reshape()). Act from the stack and the card they
    touched is pinned, so the collapse cannot move the page out from under them.
-   Act from the circuit — a question asked of the diagram — and the page travels
+   Act from the circuit (a question asked of the diagram) and the page travels
    down to the write-up that answers it. #toCircuit is the way back, and drops
    the measurement on the way. */
 (function () {
@@ -75,7 +75,7 @@
   /* ---- gates, read off the stack ----
      The stack is grouped by kind (projects / roles / misc), so DOM order is
      no longer chronological. data-order carries the circuit's left-to-right
-     ordering instead — an explicit integer, because data-year holds things
+     ordering instead: an explicit integer, because data-year holds things
      like "2024–25" and "Ongoing" that no date parser should be asked about. */
   var gates = [];
   Array.prototype.forEach.call(stack.querySelectorAll('details.proj'), function (d, i) {
@@ -128,7 +128,7 @@
       w.g = mk('g', { 'class': 'wire-group', 'data-wire': w.id }, wiresG);
       w.regText = mk('text', { 'class': 'wire-reg' }, w.g);
       w.regText.textContent = w.reg;
-      // a classical register is drawn as a double line — the standard notation,
+      // a classical register is drawn as a double line, the standard notation,
       // and an honest one: this work was never quantum
       var n = w.id === 'classical' ? 2 : 1;
       for (var i = 0; i < n; i++) w.lines.push(mk('line', { 'class': 'wire-line' }, w.g));
@@ -149,8 +149,8 @@
         it.dot  = mk('circle', { 'class': 'ctrl-dot', r: 5 }, it.g);
       }
 
-      /* A certificate is not an operation applied to the register — nothing about
-         the state changes when you earn one — so it is not drawn as a gate box.
+      /* A certificate is not an operation applied to the register (nothing about
+         the state changes when you earn one), so it is not drawn as a gate box.
          It gets a chamfered seal instead: a silhouette that reads as different
          at a glance and in greyscale, where outlined-vs-filled could only have
          said "some third thing". A <path>, because a rect cannot cut corners. */
@@ -163,7 +163,7 @@
       it.yearT.textContent = it.year;
       /* Outlined-vs-filled already carries project-vs-role. The strip above the
          box is the open channel for any further kind a gate belongs to, and it
-         takes more than one — a published job would read "ROLE · PUBLISHED". */
+         takes more than one; a published job would read "ROLE · PUBLISHED". */
       var tags = [];
       if (it.cert) tags.push('CERTIFICATE');
       if (it.role) tags.push('ROLE');
@@ -183,19 +183,19 @@
       if (it.d.id) b.setAttribute('aria-controls', it.d.id);
       var sr = document.createElement('span');
       sr.className = 'vh';
-      sr.textContent = it.short + ' — ' + it.title + '. ' + it.year + '. ' +
+      sr.textContent = it.short + ': ' + it.title + '. ' + it.year + '. ' +
         (it.cert ? 'Certificate' : it.role ? 'Role' : 'Project') + (it.pub ? ', published' : '') +
         ' on register ' + it.wire.reg +
         (it.ctrl ? ', controlled from register ' + it.ctrl.reg : '') + '.';
       b.appendChild(sr);
       /* Measuring from the circuit is a question asked of the diagram and
          answered in the stack, so the page travels down to the answer. Clicking
-         the same gate again only un-measures it — there is nothing to read, so
+         the same gate again only un-measures it. There is nothing to read, so
          the diagram the reader is looking at holds still instead. */
       b.addEventListener('click', function () {
         if (it.id === selected) { apply(null, section); return; }
         // the write-up is where the reader is headed, so send the keyboard too.
-        // The travel itself waits for the stack to settle — apply() runs it once
+        // The travel itself waits for the stack to settle; apply() runs it once
         // the shape is final, when there is a fixed number to scroll to.
         apply(it.id, null, it.li);
         var sum = it.d.querySelector('summary');
@@ -240,7 +240,7 @@
     });
 
     /* Click away to dismiss. Anywhere outside the open card counts, except the
-       controls that already answer for themselves — the circuit resets to its
+       controls that already answer for themselves: the circuit resets to its
        own diagram, the back-to-circuit button travels, the chrome is not part
        of this conversation at all.
 
@@ -278,14 +278,14 @@
   }
 
   /* Wired only from build(), so a page whose circuit never got drawn keeps the
-     button hidden — there would be nothing to scroll back to. */
+     button hidden, since there would be nothing to scroll back to. */
   function wireBackToCircuit() {
     var btn = document.getElementById('toCircuit');
     if (!btn) return;
 
     /* Going back to the circuit means going back to the question, so the
        measurement is dropped on the way: the stack returns to all nine as the
-       page returns to the diagram. Nothing anchors this one — the circuit sits
+       page returns to the diagram. Nothing anchors this one. The circuit sits
        above the whole stack, so the cards reopening below cannot move it, and
        the browser's own smooth scroll is left to do the travelling. */
     btn.addEventListener('click', function () {
@@ -324,13 +324,13 @@
      Beat two is the shape change, and it happens when the cards that are
      leaving have already faded to nothing. They come out of the flow, the ones
      arriving go back into it (still transparent), and the page is left in its
-     final shape — all inside one frame on which nothing visible moves, because
+     final shape, all inside one frame on which nothing visible moves, because
      everything that moved is invisible. Then the arrivals fade up.
 
      That is what makes the scroll correction a single jump. The old version
      chased the reader's card for 520ms because the layout was still changing
      under it every frame; here the layout is final the instant it changes, so
-     one measurement before and one after is exact — and the page is not being
+     one measurement before and one after is exact, and the page is not being
      scrolled (and therefore fully repainted) sixty times a second while eight
      cards animate. */
   var FADE_MS = 240;      // must match .proj-item's opacity transition in projects.css
@@ -380,7 +380,7 @@
       });
     }
 
-    /* Only a departure needs the first beat — there is nothing to wait for if
+    /* Only a departure needs the first beat. There is nothing to wait for if
        nothing is fading out, and a travel still has to be honoured either way. */
     if (out.length && !reduced()) fadeTimer = setTimeout(settle, FADE_MS);
     else settle();
@@ -388,7 +388,7 @@
 
   /* Bring el up to the reading position. The browser's own smooth scroll can
      do this now: by the time it is called the layout is settled, so the target
-     is a fixed number rather than something that has to be chased — and the
+     is a fixed number rather than something that has to be chased, and the
      browser runs it off the main thread, and lets the reader interrupt it. */
   function travelTo(el) {
     var top = el.getBoundingClientRect().top + (window.pageYOffset || 0) - LEAD;
@@ -488,8 +488,8 @@
      are optional, and the first call (before anything is on screen) passes
      neither, so the page is left exactly as the browser puts it.
 
-     The split matters: commit() is the state — instant, so the circuit answers
-     the click on the same frame — while reshape() is the choreography, which
+     The split matters: commit() is the state (instant, so the circuit answers
+     the click on the same frame), while reshape() is the choreography, which
      takes its time. */
   function select(id, anchor) { apply(id === selected ? null : id, anchor); }
 
@@ -523,16 +523,16 @@
     wires.forEach(function (w) {
       w.g.classList.toggle('is-live', !selected || !!live[w.id]);
     });
-    // a group whose entries have all collapsed goes with them — reshape() reads
+    // a group whose entries have all collapsed goes with them; reshape() reads
     // the is-selected flags this loop just set to work out which ones those are
 
     resetBtn.disabled = !selected;
     if (chosen) {
-      status.textContent = 'Measured ' + chosen.short + ' — ' + chosen.title +
+      status.textContent = 'Measured ' + chosen.short + ': ' + chosen.title +
         '. Showing 1 of ' + gates.length + '.';
       reveal(chosen);
     } else {
-      status.textContent = 'Superposition — all ' + gates.length + ' on screen.';
+      status.textContent = 'Superposition: all ' + gates.length + ' on screen.';
       priorOpen = null;
     }
   }
