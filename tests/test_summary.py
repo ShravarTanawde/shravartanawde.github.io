@@ -54,9 +54,8 @@ def tiny_radar():
     row = lambda i, n: [i, n, n, 1, 0.2, 0.1, 10, 2.5, "growing", [n]]
     view = {"window": {}, "totals": {"n": 10, "n_now": 10, "n_then": 10},
             "volume": {"labels": ["2026-09-07"], "counts": [10]},
-            "topics": [row("t001", 2), row("t002", 2)], "broad": [row("b01", 4)],
-            "terms": {"gaining": [], "losing": []}, "categories": {}}
-    return {"schema": 1, "meta": {}, "facets": ["Foundations"], "topic_cols": summary.TOPIC_COLS,
+            "topics": [row("t001", 2), row("t002", 2)], "broad": [row("b01", 4)], "categories": {}}
+    return {"schema": summary.SCHEMA, "meta": {}, "facets": ["Foundations"], "topic_cols": summary.TOPIC_COLS,
             "topics": [{"id": "t001", "facet": "Foundations", "parent": "b01"},
                        {"id": "t002", "facet": "Foundations", "parent": "b01"}],
             "broad": [{"id": "b01"}], "emerging": [],
@@ -68,7 +67,7 @@ def test_validate_accepts_a_good_file():
 
 
 @pytest.mark.parametrize("breakage, message", [
-    (lambda r: r.update(schema=2), "schema"),
+    (lambda r: r.update(schema=99), "schema"),
     (lambda r: r["views"]["1W"]["all"]["topics"][0].__setitem__(4, 1.2), "share outside"),
     (lambda r: [row.__setitem__(2, 6) for row in r["views"]["1M"]["cross"]["topics"]], "sum past 1"),
     (lambda r: r["views"]["5Y"]["primary"]["volume"].__setitem__("counts", [9]), "volume"),

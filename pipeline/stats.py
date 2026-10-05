@@ -13,19 +13,13 @@ Rules:
     not in volume. Its range is a 95% interval, widened by the overdispersion
     the data actually shows (quasi-Poisson), so a lumpy topic gets an honest,
     wider range instead of a confident one.
-  * Terms gaining and losing ground are ranked by a smoothed log2 ratio of
-    document shares, then folded so each idea appears once (three rules,
-    explained in fold_terms).
 """
 
 import math
-from collections import Counter
 
 import numpy as np
 
 MIN_COMBINED = {"1W": 15, "1M": 20, "3M": 30, "6M": 30, "1Y": 30, "5Y": 30}
-TERM_MIN = {"1W": 8, "1M": 15, "3M": 25, "6M": 40, "1Y": 60, "5Y": 100}
-TERM_TOP = 15
 Z_SIGNAL = 2.0
 
 
@@ -84,75 +78,3 @@ def poisson_trend(counts, totals, t_years, iters=50):
     se = math.sqrt(cov[1, 1] * phi)
     b = float(beta[1])
     return math.expm1(b), math.expm1(b - 1.96 * se), math.expm1(b + 1.96 * se)
-
-
-def term_scores(df_now, N_now, df_then, N_then, minimum):
-    """{term: (early_frac, late_frac, log2)} for terms with enough documents."""
-    out = {}
-    for term in set(df_now) | set(df_then):
-        a, b = df_then.get(term, 0), df_now.get(term, 0)
-        if a + b < minimum:
-            continue
-        score = math.log2(((b + 3) / (N_now + 3)) / ((a + 3) / (N_then + 3)))
-        out[term] = (a / max(N_then, 1), b / max(N_now, 1), score)
-    return out
-
-
-def fold_terms(scores, df_now, df_then, top=TERM_TOP):
-    """Pick the top terms each way so that each idea appears once.
-
-    1. Accidental pairings: a bigram used in < 25% of the papers that use its
-       rarer word is two words that happen to sit together, not a phrase.
-    2. Absorbed words: a word whose papers mostly (>= 50%) use one particular
-       bigram is shown as that bigram ("barren plateau", not "barren").
-    3. Passengers: a bigram that moved within 0.5 (log2) of one of its own
-       words, in the same direction, only rose or fell because that word did.
-
-    Returns {"gaining": [...], "losing": [...]}, each entry
-    (term, early_frac, late_frac, log2, folded) where folded is None for shown
-    terms. Folded terms met on the way to the top are kept for debugging."""
-    count = Counter()
-    for d in (df_now, df_then):
-        for k, v in d.items():
-            count[k] += v
-    bigrams = [t for t in scores if " " in t]
-    reason = {}
-    for bg in bigrams:
-        w1, w2 = bg.split(" ", 1)
-        rarer = min(count.get(w1, 0), count.get(w2, 0))
-        if rarer and count[bg] < 0.25 * rarer:
-            reason[bg] = "accidental pairing"
-    absorbed = set()
-    for bg in bigrams:
-        if bg in reason:
-            continue
-        for w in bg.split(" ", 1):
-            if count.get(w, 0) and count[bg] >= 0.5 * count[w]:
-                absorbed.add(w)
-                reason.setdefault(w, f"absorbed into '{bg}'")
-    for bg in bigrams:
-        if bg in reason:
-            continue
-        s = scores[bg][2]
-        for w in bg.split(" ", 1):
-            if w in scores and w not in absorbed:
-                sw = scores[w][2]
-                if s * sw > 0 and abs(s - sw) <= 0.5:
-                    reason[bg] = f"passenger of '{w}'"
-                    break
-
-    def pick(sign):
-        ranked = sorted((t for t in scores if sign * scores[t][2] > 0),
-                        key=lambda t: (-sign * scores[t][2], t))
-        out, shown = [], 0
-        for t in ranked:
-            e, l, s = scores[t]
-            r = reason.get(t)
-            out.append((t, e, l, s, r))
-            if r is None:
-                shown += 1
-                if shown == top:
-                    break
-        return out
-
-    return {"gaining": pick(1), "losing": pick(-1)}

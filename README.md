@@ -34,7 +34,7 @@ pipeline/                  the Python package, run as python -m pipeline.<step>
   label_prep.py            one review packet per broad topic, for naming
   labels.py                records labels (with checks) and writes REVIEW.md
   finalize.py              turns a reviewed fit into data/model/vN/ and the backfill
-  stats.py                 z-test, the 5-year trend fit, term folding
+  stats.py                 the z-test and the 5-year trend fit
   emerging.py              groups of unassigned papers ("Not yet a topic")
   summary.py               builds radar.json and details.json, and validates them
   weekly.py                the weekly update; the GitHub Action's entry point

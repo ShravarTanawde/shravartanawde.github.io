@@ -21,11 +21,6 @@ Rules:
     file small. Numbers are rounded to four significant figures.
   * Sparklines hold counts per bucket, not shares; the page divides by the
     view's volume counts, which keeps every row to small integers.
-  * Terms gaining and losing ground are drawn only from the topics' own terms
-    (each topic's top 20). Compared freely, the list fills with writing style:
-    "pivotal" and "showcasing" falling, "fixes" and "budgets" rising, across
-    every field at once. Restricting to terms that characterise some topic
-    keeps the section about what papers are on.
 """
 
 import argparse
@@ -40,10 +35,10 @@ import pyarrow.parquet as pq
 
 from . import config, emerging, stats, store
 from .arxiv import log
-from .terms import analyse
 from .windows import month_end
 
-SCHEMA = 1
+# 2: the per-view "terms" (gaining and losing ground) were dropped, October 2026.
+SCHEMA = 2
 RANGES = {"1W": 7, "1M": 28, "3M": 91, "6M": 182, "1Y": 364, "5Y": 1820}
 GRANULARITY = {"1W": "day", "1M": "day", "3M": "week", "6M": "week", "1Y": "week", "5Y": "month"}
 FILTERS = ("all", "primary", "cross")
@@ -177,19 +172,6 @@ def build(ctx):
     masks = {"all": np.ones(len(P), bool), "primary": primary, "cross": ~primary}
     K, B = len(fine), len(broad)
 
-    log("Reading terms from every abstract")
-    term_sets = [analyse(p["title"] + ". " + p["abstract"]) for p in P]
-    topical = {t for x in fine + broad for t in x["terms"]}
-    vocab = Counter(t for s in term_sets for t in s if t in topical)
-    vocab = {t: k for k, t in enumerate(sorted(t for t, c in vocab.items() if c >= stats.TERM_MIN["1W"]))}
-    names = sorted(vocab, key=vocab.get)
-    flat = np.fromiter((vocab[t] for s in term_sets for t in s if t in vocab), dtype=np.int32)
-    owner = np.repeat(np.arange(len(P)), [sum(1 for t in s if t in vocab) for s in term_sets])
-
-    def df(mask):
-        c = np.bincount(flat[mask[owner]], minlength=len(vocab))
-        return {names[k]: int(v) for k, v in zip(np.flatnonzero(c), c[c > 0])}
-
     def dmask(a: date, b: date):
         return (day >= (a - first).days) & (day <= (b - first).days)
 
@@ -222,8 +204,6 @@ def build(ctx):
                                 stats.signal(z, cn[c] + ct[c], stats.MIN_COMBINED[r]), sp[c].tolist()])
                 return out
 
-            scores = stats.term_scores(df(wn), Nn, df(wt), Nt, stats.TERM_MIN[r])
-            folded = stats.fold_terms(scores, df(wn), df(wt)) if scores else {"gaining": [], "losing": []}
             cats = Counter(c for p, keep in zip(P, w) if keep for c in set(p["categories"]) if c != "quant-ph")
             srcs = Counter(p["primary_category"] for p, keep in zip(P, w) if keep and not p["is_primary"])
             views[r][f] = {
@@ -237,8 +217,6 @@ def build(ctx):
                            "partial_first": partial_first, "partial_last": partial_last},
                 "topics": rows(topic, K, lambda c: fine[c]["id"]),
                 "broad": rows(btopic, B, lambda c: broad[c]["id"]),
-                "terms": {k: [[t, sig(100 * e), sig(100 * l), round(s, 3)] + ([why] if why else [])
-                              for t, e, l, s, why in v] for k, v in folded.items()},
                 "categories": {
                     "colisted": [[c, sig(100 * n / N)] for c, n in cats.most_common(CATEGORIES)] if N else [],
                     "cross_sources": [[c, sig(100 * n / N)] for c, n in srcs.most_common(CROSS_SOURCES)] if N else [],

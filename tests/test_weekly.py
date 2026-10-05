@@ -155,7 +155,7 @@ def test_a_shrinking_total_aborts(branch, monkeypatch):
     monkeypatch.setattr(weekly, "harvest_window", fake_harvest())
     out = branch["main"] / weekly.DATA_OUT
     out.mkdir(parents=True)
-    (out / "radar.json").write_text(json.dumps({"schema": 1, "meta": {"n_papers_total": 10 ** 6}}))
+    (out / "radar.json").write_text(json.dumps({"schema": summary.SCHEMA, "meta": {"n_papers_total": 10 ** 6}}))
     ok, run = weekly.run_week(END, branch["main"], client=FakeClient(), today=date(2026, 9, 29))
     assert not ok and "total papers fell" in run.lines[-1]
     assert json.loads((out / "radar.json").read_text())["meta"]["n_papers_total"] == 10 ** 6
