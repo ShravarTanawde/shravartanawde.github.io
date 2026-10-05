@@ -10,11 +10,11 @@
        whatever opened it.
    ============================================================================ */
 
-import { loadDetails, loadRadar, SchemaError } from './data.js?v=1';
+import { loadDetails, loadRadar, SchemaError } from './data.js?v=2';
 import {
   el, FILTER_LABEL, makeIndex, RANGE_LABEL, renderCategories, renderEmerging, renderFixed,
-  renderMoves, renderPanel, renderStats, renderTable, renderTerms, renderVolume,
-} from './render.js?v=1';
+  renderMoves, renderPanel, renderStats, renderTable, renderVolume,
+} from './render.js?v=2';
 import { FILTERS, RANGES, restore, save, state, writeURL } from './state.js?v=1';
 
 const status = document.getElementById('rdStatus');
@@ -37,7 +37,6 @@ function render() {
   renderEmerging(radar);
   renderTable(radar, idx, actions);
   renderVolume(radar);
-  renderTerms(radar);
   renderCategories(radar);
   if (panel.open && state.topic) draw(state.topic);
   writeURL();

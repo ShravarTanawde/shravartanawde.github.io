@@ -316,7 +316,8 @@ reachable on the site.
 
 ### Data contract
 
-Both files carry `"schema": 1`. `data.js` refuses a file with any other value,
+Both files carry `"schema": 2` (version 2 dropped the per-view terms gaining
+and losing ground). `data.js` refuses a file with any other value,
 because a page reading a file of the wrong shape would show wrong numbers with
 no sign that anything is off. Change the schema number whenever the shape
 changes, in `pipeline/summary.py` and `js/data.js` together.
@@ -338,10 +339,8 @@ Each view holds `window` (start, end, the comparison window, `granularity`),
 compared; `primary_share`; `unassigned_share`), `volume` (bucket labels and
 counts, and whether the first or last bucket is a partial month), `topics` and
 `broad` (rows in `topic_cols` order: `id, n, n_now, n_then, share_now,
-share_then, delta_pts, z, signal, spark`), `terms` (`gaining` and `losing`, each
-`[term, early %, late %, log2]`, with a fifth `folded` reason on terms kept only
-for debugging) and `categories` (`colisted`, and `cross_sources` for the
-cross-listed filter).
+share_then, delta_pts, z, signal, spark`) and `categories` (`colisted`, and
+`cross_sources` for the cross-listed filter).
 
 Sparklines are counts per bucket, not shares; the page divides by the view's
 volume counts. For every range but 5Y the comparison is the previous window of

@@ -37,7 +37,7 @@
 
 <link rel="stylesheet" href="../../css/global.css?v=5">
 <link rel="stylesheet" href="../../css/page.css?v=5">
-<link rel="stylesheet" href="css/radar.css?v=1">
+<link rel="stylesheet" href="css/radar.css?v=2">
 </head>
 <body>
 
@@ -156,15 +156,6 @@
         <p class="rd-summary" id="rdVolumeText"></p>
       </section>
 
-      <section class="rd-section" aria-labelledby="h-terms">
-        <h2 id="h-terms">Terms gaining and losing ground</h2>
-        <p class="rd-intro" id="rdTermsIntro"></p>
-        <div class="rd-cols">
-          <div><h3 class="rd-h3">Gaining</h3><div id="rdGaining"></div></div>
-          <div><h3 class="rd-h3">Losing</h3><div id="rdLosing"></div></div>
-        </div>
-      </section>
-
       <section class="rd-section" aria-labelledby="h-cats">
         <h2 id="h-cats">Where the papers come from</h2>
         <p class="rd-intro">quant-ph papers often carry other categories too. These are the most common, and, for cross-listed papers, the categories they are primarily filed under.</p>
@@ -172,16 +163,14 @@
       </section>
 
       <div class="rd-callouts">
-        <div class="wb-callout" data-level="note">
-          <span class="ico" aria-hidden="true">i</span>
-          <p class="title">How this works</p>
+        <details class="wb-callout rd-faq" data-level="note">
+          <summary><span class="ico" aria-hidden="true">i</span><span class="title">How this works</span></summary>
           <p>Every abstract is turned into a vector by a small language model that places papers about the same idea near each other, even when they use different words. Papers that cluster together form a topic: <span id="rdNFine">fine</span> topics of at least 30 papers each, grouped into <span id="rdNBroad">broad</span> broad topics. Each topic is named from its most typical papers. Claude drafted the names, and I checked and edited every one. The page counts how much of each period's output lands in each topic. New papers are assigned every week; the topics themselves are refitted every few months, and older papers are re-read with each refit so the history stays consistent.</p>
-        </div>
-        <div class="wb-callout" data-level="note">
-          <span class="ico" aria-hidden="true">i</span>
-          <p class="title">Where the limits are</p>
+        </details>
+        <details class="wb-callout rd-faq" data-level="note">
+          <summary><span class="ico" aria-hidden="true">i</span><span class="title">Where the limits are</span></summary>
           <p>Topics come from how papers are written, not from any official classification. Some are methods, some are platforms, and a paper can sit close to two. Short ranges are noisy: a week is a few hundred papers, so one popular paper and its follow-ups can move a topic, and most fine topics need a year or more before a change is larger than chance. A change is only marked when it is more than two standard errors from zero; otherwise the page says so. Dates are first-submission dates, so a paper revised later still counts in the week it first appeared. About 3% of papers wait two to eight weeks in arXiv's moderation queue, so the newest weeks start slightly short and fill in over the following updates. Last week, <span id="rdUnassigned">a share</span> of papers didn't fit any topic closely enough to be assigned.</p>
-        </div>
+        </details>
       </div>
 
     </div>
@@ -190,7 +179,6 @@
 
     <footer class="wb-foot">
       <p id="rdFootData">Data: arXiv quant-ph, primary and cross-listed. Paper metadata from arXiv.org, used under CC0 through the arXiv API. This tool is not affiliated with or endorsed by arXiv.</p>
-      <p>Everything on this page ran in your browser. Apart from the site's fonts, the only things it loaded were its own data files.</p>
     </footer>
 
   </main>
@@ -220,6 +208,6 @@
 
   <!-- ES modules, so the page has to be served over http(s), not opened from
        the filesystem. See README. -->
-  <script type="module" src="js/main.js?v=1"></script>
+  <script type="module" src="js/main.js?v=2"></script>
 </body>
 </html>

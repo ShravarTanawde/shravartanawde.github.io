@@ -278,6 +278,21 @@ html[data-theme="dark"] .rd-seg label:hover input:checked + span { color: #0a0e1
 
 .rd-callouts { margin: clamp(30px, 5vw, 46px) 0 0; }
 
+/* The two notes at the end start closed: a summary line each, opened on
+   demand. The open state is the browser's own <details>, so keyboard and
+   screen readers get it for free; the chevron is decoration. */
+.rd-faq { display: block; }
+.rd-faq + .rd-faq { margin-top: -8px; }
+.rd-faq summary {
+  display: flex; align-items: center; gap: 12px; cursor: pointer; list-style: none;
+}
+.rd-faq summary::-webkit-details-marker { display: none; }
+.rd-faq summary::after { content: "▸"; margin-left: auto; color: var(--muted); font-size: .8rem; }
+.rd-faq[open] summary::after { content: "▾"; }
+.rd-faq summary:focus-visible { outline: 3px solid var(--accent-weak); outline-offset: 4px; border-radius: 6px; }
+.rd-faq summary .ico { margin-top: 0; }
+.rd-faq > p { margin: 10px 0 0 34px; }
+
 /* ----------------------------------------------------------- the panel */
 
 .rd-panel {

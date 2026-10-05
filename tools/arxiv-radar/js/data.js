@@ -12,7 +12,7 @@
        with no sign anything is off.
    ============================================================================ */
 
-export const SCHEMA = 1;
+export const SCHEMA = 2;
 
 export class SchemaError extends Error {}
 

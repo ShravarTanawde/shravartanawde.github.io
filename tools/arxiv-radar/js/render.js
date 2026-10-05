@@ -390,28 +390,6 @@ export function renderVolume(radar) {
   fill('rdVolumeText', text);
 }
 
-/* ------------------------------------------------------------------ terms */
-
-export function renderTerms(radar) {
-  const v = currentView(radar);
-  fill('rdTermsIntro', state.range === '5Y'
-    ? 'Phrases whose share of abstracts changed most between the first and the last year of the range. A phrase that only rises because one of its words does is folded into that word.'
-    : `Phrases whose share of abstracts changed most against the previous ${PERIOD[state.range]}. A phrase that only rises because one of its words does is folded into that word.`);
-  const list = (id, entries) => {
-    const shown = entries.filter((e) => e.length === 4);
-    if (!shown.length) return fill(id, el('p', { class: 'rd-empty', text: 'Too few papers in this range to compare phrases.' }));
-    const max = Math.max(...shown.map((e) => Math.abs(e[3])));
-    fill(id, el('ol', { class: 'rd-hbars' }, shown.map(([term, early, late, l2]) => el('li', null, [
-      el('span', { class: 'rd-hbar-label', text: term }),
-      el('span', { class: 'rd-hbar-track', 'aria-hidden': 'true' },
-        el('span', { class: 'rd-hbar ' + (l2 > 0 ? 'up' : 'down'), style: `width:${(100 * Math.abs(l2) / max).toFixed(1)}%` })),
-      el('span', { class: 'rd-hbar-text', text: `${early.toFixed(1)}% → ${late.toFixed(1)}% of abstracts` }),
-    ]))));
-  };
-  list('rdGaining', v.terms.gaining);
-  list('rdLosing', v.terms.losing);
-}
-
 /* ------------------------------------------------------------- categories */
 
 export function renderCategories(radar) {
